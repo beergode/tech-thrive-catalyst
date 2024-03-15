@@ -1,34 +1,16 @@
-plugins {
-	id 'java'
-	id 'org.springframework.boot' version '3.2.3'
-	id 'io.spring.dependency-management' version '1.1.4'
+buildscript {
+	apply from: "$rootProject.projectDir/gradle/config/repositories.gradle", to: buildscript
+	apply from: "$rootProject.projectDir/gradle/config/dependencies-plugins.gradle", to: buildscript
 }
 
 group = 'com.beergode'
-version = '0.0.1-SNAPSHOT'
+apply from: "$rootProject.projectDir/gradle/config/version-checker.gradle"
+apply from: "$rootProject.projectDir/gradle/config/infra.gradle"
+apply from: "$rootProject.projectDir/gradle/config/gradle-lint.gradle"
 
-java {
-	sourceCompatibility = '21'
-}
-
-configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
-}
-
-repositories {
-	mavenCentral()
-}
-
-dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	compileOnly 'org.projectlombok:lombok'
-	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-}
-
-tasks.named('test') {
-	useJUnitPlatform()
+allprojects {
+	apply from: "$rootProject.projectDir/gradle/config/repositories.gradle"
+	apply from: "$rootProject.projectDir/gradle/config/java-config.gradle"
+	apply from: "$rootProject.projectDir/gradle/config/idea.gradle"
+	apply from: "$rootProject.projectDir/gradle/config/dependencies.gradle"
 }
