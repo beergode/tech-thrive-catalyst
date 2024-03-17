@@ -3,8 +3,8 @@ apply plugin: 'io.spring.dependency-management'
 ext {
     // ============ DEPENDENCIES ============
 
-    version_slf4j = '1.7.30'
-    version_logback = '1.2.3'
+    version_slf4j = '2.0.12'
+    version_logback = '1.4.14'
     version_junit5 = '5.6.0'
     version_junit5_suite = '1.6.0'
     version_assertJ = '3.10.0'
@@ -12,8 +12,8 @@ ext {
 
     // ============ DEPENDENCY MANAGEMENT ============
 
-    version_spring = '5.2.4.RELEASE'
-    version_springBoot = '2.2.5.RELEASE'
+    version_spring = '6.1.4'
+    version_springBoot = '3.2.3'
     version_springCloudKafka = '3.0.8.RELEASE'
     version_springCloudContract = '3.0.3-SNAPSHOT'
     version_springCloudDependencies = 'Hoxton.RELEASE'
@@ -25,12 +25,12 @@ ext {
     version_jaxbImpl = '2.3.0.1'
     version_jaxbCore = '2.3.0.1'
     version_activation = '1.1.1'
-    version_lombok = '1.18.12'
+    version_lombok = '1.18.30'
     version_jacksonDataFormatXml = '2.9.4'
     version_hikari = '3.2.0'
     version_wiremock = '2.26.0'
     version_javax_validation = '2.0.1.Final'
-    version_jackson = '2.10.2'
+    version_jackson = '2.15.4'
     version_commons_codec = '1.13'
     version_httpComponents = '4.5.6'
     version_jsr305 = '2.0.3'
@@ -43,7 +43,7 @@ ext {
     version_springfoxSwagger2 = '2.9.2'
     version_restAssured = '4.3.3'
     version_commonsPool = '2.9.0'
-    version_lettuce = '6.0.1.RELEASE'
+    version_lettuce = '6.3.1.RELEASE'
     version_kafka = '2.6.0'
     version_groovy = '3.0.8'
     version_cucumber = '6.10.4'

@@ -1,6 +1,5 @@
 rootProject.name = 'tech-thrive-catalyst'
 
-include ':decision-maker'
-include ':decision-maker:domain'
-include ':decision-maker:infra'
-
+include 'decision-maker'
+include 'decision-maker:domain'
+include 'decision-maker:infra'
