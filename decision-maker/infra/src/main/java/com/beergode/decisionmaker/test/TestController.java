@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin
 public class TestController {
 
-
     @GetMapping
     public ResponseEntity<String> test() {
         return ResponseEntity.ok("BASARILI!");
