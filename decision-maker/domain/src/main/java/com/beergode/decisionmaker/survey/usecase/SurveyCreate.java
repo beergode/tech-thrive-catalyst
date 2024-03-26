@@ -11,7 +11,7 @@ import lombok.Data;
 @Builder
 public class SurveyCreate implements UseCase {
 
-    private Long id;
+    private String id;
     private String content;
 
 }

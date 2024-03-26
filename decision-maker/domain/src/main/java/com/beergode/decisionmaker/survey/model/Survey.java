@@ -16,7 +16,7 @@ import lombok.With;
 @EqualsAndHashCode
 public class Survey {
 
-    private Long id;
+    private String id;
     private LocalDateTime createdAt;
     private String content;
     private Status status;

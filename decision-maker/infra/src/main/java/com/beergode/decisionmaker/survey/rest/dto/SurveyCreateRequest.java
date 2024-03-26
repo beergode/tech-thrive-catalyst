@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class SurveyCreateRequest {
 
-  private Long id;
+  private String id;
   private String content;
 
   public SurveyCreate toModel() {

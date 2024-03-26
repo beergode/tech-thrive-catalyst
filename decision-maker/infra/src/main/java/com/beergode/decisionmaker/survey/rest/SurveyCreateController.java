@@ -5,8 +5,6 @@ import com.beergode.decisionmaker.common.rest.Response;
 import com.beergode.decisionmaker.survey.model.Survey;
 import com.beergode.decisionmaker.survey.rest.dto.SurveyCreateRequest;
 import com.beergode.decisionmaker.survey.rest.dto.SurveyResponse;
-import java.util.HashMap;
-import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/decision-maker/surveys")
 @CrossOrigin
-public class SurveyController extends BaseController {
+public class SurveyCreateController extends BaseController {
 
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)

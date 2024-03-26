@@ -15,7 +15,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public abstract class AbstractEntity {
 
     @Id
-    private Long id;
+    private String id;
 
     @CreatedDate
     private Instant createdAt;

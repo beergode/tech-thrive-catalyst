@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class SurveyResponse {
 
-  private Long id;
+  private String id;
   private LocalDateTime createdAt;
   private String content;
   private Status status;

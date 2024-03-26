@@ -7,6 +7,6 @@ public interface SurveyPort {
 
     Survey create(SurveyCreate surveyCreate);
 
-    Survey retrieve(Long accountId);
+    Survey retrieve(String accountId);
 
 }

@@ -17,12 +17,13 @@ public class SurveyDataAdapter implements SurveyPort {
 
   // TODO: MongoDB repo to be implemented
 
-  private static final Map<Long, SurveyEntity> SURVEY_IN_DB = new HashMap<>();
+  private static final Map<String, SurveyEntity> SURVEY_IN_DB = new HashMap<>();
 
   @Override
   public Survey create(SurveyCreate surveyCreate) {
     var surveyEntity = new SurveyEntity();
     surveyEntity.setId(surveyCreate.getId());
+    surveyEntity.setContent(surveyCreate.getContent());
     surveyEntity.setStatus(Status.ACTIVE);
 
     SURVEY_IN_DB.put(surveyCreate.getId(), surveyEntity);
@@ -31,7 +32,7 @@ public class SurveyDataAdapter implements SurveyPort {
   }
 
   @Override
-  public Survey retrieve(Long id) {
+  public Survey retrieve(String id) {
     return toModel(SURVEY_IN_DB.get(id));
   }
 
@@ -42,4 +43,6 @@ public class SurveyDataAdapter implements SurveyPort {
         .content(surveyEntity.getContent())
         .build();
   }
+
+
 }

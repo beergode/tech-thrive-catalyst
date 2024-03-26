@@ -25,13 +25,6 @@ public class SurveyCreateUseCaseHandler extends ObservableUseCasePublisher
   @Override
   //  @Transactional
   public Survey handle(SurveyCreate useCase) {
-    Survey survey = null;
-    try {
-      survey = surveyPort.create(useCase);
-    } catch (Exception e) {
-      log.info("Error message {}", e.getMessage());
-      // TODO: Exception to be added
-    }
-    return survey;
+    return surveyPort.create(useCase);
   }
 }
