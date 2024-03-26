@@ -1,5 +1,6 @@
 package com.beergode.decisionmaker.survey.model;
 
+import com.beergode.decisionmaker.common.model.Status;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import lombok.Builder;
@@ -20,4 +21,5 @@ public class Survey {
     private Long accountId;
     private BigDecimal price;
     private String referenceCode;
+    private Status status;
 }
