@@ -1,5 +1,6 @@
 package com.beergode.decisionmaker.survey;
 
+import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,8 +21,13 @@ public class SurveyControllerOld {
     }
 
     @GetMapping("{id}")
-    public Survey getSurvey(@PathVariable String id) {
+    public Survey getSurvey(@PathVariable("id") String id) {
         return SURVEY_IN_DB.get(id);
+    }
+
+    @GetMapping
+    public List<Survey> listSurveys() {
+        return List.copyOf(SURVEY_IN_DB.values());
     }
 
     private static class Survey {
