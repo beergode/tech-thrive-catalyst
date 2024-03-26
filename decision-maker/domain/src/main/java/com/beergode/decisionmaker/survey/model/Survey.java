@@ -18,8 +18,6 @@ public class Survey {
 
     private Long id;
     private LocalDateTime createdAt;
-    private Long accountId;
-    private BigDecimal price;
-    private String referenceCode;
+    private String content;
     private Status status;
 }

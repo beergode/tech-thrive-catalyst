@@ -1,59 +1,37 @@
 package com.beergode.decisionmaker.survey;
 
-import com.hexagonaldemo.paymentapi.account.port.LockPort;
-import com.hexagonaldemo.paymentapi.balance.model.Balance;
-import com.hexagonaldemo.paymentapi.balance.model.BalanceTransactionType;
-import com.hexagonaldemo.paymentapi.balance.service.BalanceValidator;
-import com.hexagonaldemo.paymentapi.balance.usecase.BalanceRetrieve;
-import com.hexagonaldemo.paymentapi.balance.usecase.BalanceTransactionCreate;
-import com.hexagonaldemo.paymentapi.common.DomainComponent;
-import com.hexagonaldemo.paymentapi.common.usecase.ObservableUseCasePublisher;
-import com.hexagonaldemo.paymentapi.common.usecase.UseCaseHandler;
-import com.hexagonaldemo.paymentapi.payment.model.Payment;
-import com.hexagonaldemo.paymentapi.payment.port.PaymentPort;
-import com.hexagonaldemo.paymentapi.payment.usecase.PaymentCreate;
-import javax.transaction.Transactional;
+
+import com.beergode.decisionmaker.common.DomainComponent;
+import com.beergode.decisionmaker.common.usecase.ObservableUseCasePublisher;
+import com.beergode.decisionmaker.common.usecase.UseCaseHandler;
+import com.beergode.decisionmaker.survey.model.Survey;
+import com.beergode.decisionmaker.survey.port.SurveyPort;
+import com.beergode.decisionmaker.survey.usecase.SurveyCreate;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @DomainComponent
-public class SurveyCreateUseCaseHandler extends ObservableUseCasePublisher implements UseCaseHandler<Payment, PaymentCreate> {
+public class SurveyCreateUseCaseHandler extends ObservableUseCasePublisher
+    implements UseCaseHandler<Survey, SurveyCreate> {
 
-    private final LockPort lockPort;
-    private final PaymentPort paymentPort;
-    private final BalanceValidator balanceValidator;
 
-    public SurveyCreateUseCaseHandler(LockPort lockPort, PaymentPort paymentPort, BalanceValidator balanceValidator) {
-        this.lockPort = lockPort;
-        this.paymentPort = paymentPort;
-        this.balanceValidator = balanceValidator;
-        register(PaymentCreate.class, this);
+  private final SurveyPort surveyPort;
+
+  public SurveyCreateUseCaseHandler(SurveyPort surveyPort) {
+    this.surveyPort = surveyPort;
+    register(SurveyCreate.class, this);
+  }
+
+  @Override
+  //  @Transactional
+  public Survey handle(SurveyCreate useCase) {
+    Survey survey = null;
+    try {
+      survey = surveyPort.create(useCase);
+    } catch (Exception e) {
+      log.info("Error message {}", e.getMessage());
+      // TODO: Exception to be added
     }
-
-    @Override
-    @Transactional
-    public Payment handle(PaymentCreate useCase) {
-        lockPort.lock(useCase.getAccountId());
-        try {
-            var balanceTransactionCreate = buildBalanceTransactionCreate(useCase);
-            var balance = publish(Balance.class, BalanceRetrieve.from(useCase.getAccountId()));
-            balanceValidator.validate(balance, balanceTransactionCreate);
-
-            var payment = paymentPort.create(useCase);
-            publish(balanceTransactionCreate);
-
-            log.info("Total {} paid from {}", useCase.getPrice(), useCase.getAccountId());
-            return payment;
-        } finally {
-            lockPort.unlock(useCase.getAccountId());
-        }
-    }
-
-    private BalanceTransactionCreate buildBalanceTransactionCreate(PaymentCreate paymentCreate) {
-        return BalanceTransactionCreate.builder()
-                .amount(paymentCreate.getPrice())
-                .type(BalanceTransactionType.WITHDRAW)
-                .accountId(paymentCreate.getAccountId())
-                .build();
-    }
+    return survey;
+  }
 }

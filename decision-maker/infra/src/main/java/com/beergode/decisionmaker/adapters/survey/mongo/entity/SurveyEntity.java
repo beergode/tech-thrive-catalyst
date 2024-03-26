@@ -11,25 +11,17 @@ import org.springframework.data.mongodb.core.mapping.Field;
 
 @Getter
 @Setter
-@Document(collection = "payment")
+@Document(collection = "survey")
 public class SurveyEntity extends AbstractEntity {
 
-  @Field("account_id")
-  private Long accountId;
-
-  @Field("price")
-  private BigDecimal price;
-
-  @Field("reference_code")
-  private String referenceCode;
+  @Field("content")
+  private String content;
 
 
   public Survey toModel() {
     return Survey.builder()
         .id(super.getId())
-        .accountId(accountId)
-        .price(price)
-        .referenceCode(referenceCode)
+        .content(content)
         .status(super.getStatus())
         .build();
   }
