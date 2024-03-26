@@ -15,12 +15,12 @@ public class SurveyControllerOld {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void createSurvey(Survey createSurveyPayload) {
+    public void createSurveyOld(Survey createSurveyPayload) {
         SURVEY_IN_DB.put(createSurveyPayload.id, createSurveyPayload);
     }
 
     @GetMapping("{id}")
-    public Survey createSurvey(@PathVariable String id) {
+    public Survey getSurvey(@PathVariable String id) {
         return SURVEY_IN_DB.get(id);
     }
 
