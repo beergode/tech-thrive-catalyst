@@ -1,7 +1,8 @@
 package com.beergode.decisionmaker.survey.rest.dto;
 
+import com.beergode.decisionmaker.common.model.Status;
 import com.beergode.decisionmaker.survey.model.Survey;
-import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,17 +14,17 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class SurveyResponse {
 
-    private Long id;
-    private Long accountId;
-    private BigDecimal price;
-    private String referenceCode;
+  private Long id;
+  private LocalDateTime createdAt;
+  private String content;
+  private Status status;
 
-    public static SurveyResponse fromModel(Survey survey) {
-        return SurveyResponse.builder()
-                .id(survey.getId())
-                .price(survey.getPrice())
-                .accountId(survey.getAccountId())
-                .referenceCode(survey.getReferenceCode())
-                .build();
-    }
+  public static SurveyResponse fromModel(Survey survey) {
+    return SurveyResponse.builder()
+        .id(survey.getId())
+        .createdAt(survey.getCreatedAt())
+        .content(survey.getContent())
+        .status(survey.getStatus())
+        .build();
+  }
 }

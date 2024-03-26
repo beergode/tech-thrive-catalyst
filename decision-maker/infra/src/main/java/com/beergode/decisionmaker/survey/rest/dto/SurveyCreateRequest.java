@@ -13,17 +13,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class SurveyCreateRequest {
 
-    private Long accountId;
+  private Long id;
+  private String content;
 
-    private BigDecimal price;
-
-    private String referenceCode;
-
-    public SurveyCreate toModel() {
-        return SurveyCreate.builder()
-                .price(price)
-                .accountId(accountId)
-                .referenceCode(referenceCode)
-                .build();
-    }
+  public SurveyCreate toModel() {
+    return SurveyCreate.builder().id(id).content(content).build();
+  }
 }
