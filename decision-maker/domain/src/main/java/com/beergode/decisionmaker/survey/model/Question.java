@@ -4,14 +4,15 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Builder
-public class Survey {
+public class Question {
 
     private String id;
-    private String content;
+    private String text;
     private LocalDateTime createdAt;
 
-    private Question question;
+    private List<Answer> answerList;
 }

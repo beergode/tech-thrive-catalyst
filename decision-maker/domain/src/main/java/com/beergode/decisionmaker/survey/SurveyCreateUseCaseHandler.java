@@ -1,30 +1,21 @@
 package com.beergode.decisionmaker.survey;
 
-
 import com.beergode.decisionmaker.common.DomainComponent;
-import com.beergode.decisionmaker.common.usecase.ObservableUseCasePublisher;
 import com.beergode.decisionmaker.common.usecase.UseCaseHandler;
 import com.beergode.decisionmaker.survey.model.Survey;
-import com.beergode.decisionmaker.survey.port.SurveyPort;
+import com.beergode.decisionmaker.survey.port.SurveyCreatePort;
 import com.beergode.decisionmaker.survey.usecase.SurveyCreate;
-import lombok.extern.slf4j.Slf4j;
+import groovy.util.logging.Slf4j;
+import lombok.RequiredArgsConstructor;
 
 @Slf4j
 @DomainComponent
-public class SurveyCreateUseCaseHandler extends ObservableUseCasePublisher
-    implements UseCaseHandler<Survey, SurveyCreate> {
+@RequiredArgsConstructor
+public class SurveyCreateUseCaseHandler implements UseCaseHandler<Survey, SurveyCreate> {
 
-
-  private final SurveyPort surveyPort;
-
-  public SurveyCreateUseCaseHandler(SurveyPort surveyPort) {
-    this.surveyPort = surveyPort;
-    register(SurveyCreate.class, this);
-  }
-
-  @Override
-  //  @Transactional
-  public Survey handle(SurveyCreate useCase) {
-    return surveyPort.create(useCase);
-  }
+    private final SurveyCreatePort surveyCreatePort;
+    @Override
+    public Survey handle(SurveyCreate useCase) {
+        return surveyCreatePort.create(useCase);
+    }
 }

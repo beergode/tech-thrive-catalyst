@@ -24,6 +24,7 @@ public class DataResponse<T> {
         this.totalSize = totalSize;
     }
 
+
     public List<T> getItems() {
         return items;
     }

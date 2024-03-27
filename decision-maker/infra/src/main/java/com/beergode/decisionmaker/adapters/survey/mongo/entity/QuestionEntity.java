@@ -8,21 +8,24 @@ import lombok.NonNull;
 import lombok.Setter;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Getter
 @Setter
-@Document(collection = "survey")
-public class SurveyEntity extends AbstractEntity {
-
+@Document(collection = "question")
+public class QuestionEntity extends AbstractEntity {
     @NonNull
-    private String content;
-    @NonNull
-    private QuestionEntity question;
+    private String text;
+    private List<AnswerEntity> answers;
 
-    public Survey toModel() {
-        return Survey.builder()
+    public Question toModel() {
+        return Question.builder()
                 .id(super.getId())
-                .content(content)
-                //.question(question.toModel())
+                .text(text)
+                .answerList(answers.stream()
+                        .map(AnswerEntity::toModel)
+                        .toList())
                 .build();
     }
 }

@@ -1,27 +1,24 @@
 package com.beergode.decisionmaker.common.entity;
 
-import com.beergode.decisionmaker.common.model.Status;
-import java.time.Instant;
+import lombok.Generated;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
-@Document
 public abstract class AbstractEntity {
 
     @Id
-    private String id;
+    public String id;
 
     @CreatedDate
-    private Instant createdAt;
+    protected LocalDateTime createdAt;
 
     @LastModifiedDate
-    private Instant updatedAt;
-
-    private Status status;
+    protected LocalDateTime updatedAt;
 }

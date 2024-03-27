@@ -1,3 +1,12 @@
 spring:
   application:
     name: DecisionMaker
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/thrive
+      username: test
+      password: test
+      authentication-database: admin
+      field-naming-strategy: org.springframework.data.mapping.model.SnakeCaseFieldNamingStrategy
+
+

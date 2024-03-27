@@ -7,11 +7,11 @@ import java.time.LocalDateTime;
 
 @Data
 @Builder
-public class Survey {
-
+public class Answer {
     private String id;
-    private String content;
-    private LocalDateTime createdAt;
+    private String text;
 
-    private Question question;
+    private Long voteCount;
+
+    private LocalDateTime createdAt;
 }
