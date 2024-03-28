@@ -13,7 +13,7 @@ ext {
     // ============ DEPENDENCY MANAGEMENT ============
 
     version_spring = '6.1.4'
-    version_springBoot = '3.2.3'
+    version_springBoot = '3.2.4'
     version_springCloudKafka = '3.0.8.RELEASE'
     version_springCloudContract = '3.0.3-SNAPSHOT'
     version_springCloudDependencies = 'Hoxton.RELEASE'

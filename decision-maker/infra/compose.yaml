@@ -6,4 +6,4 @@ services:
       - 'MONGO_INITDB_ROOT_PASSWORD=test'
       - 'MONGO_INITDB_ROOT_USERNAME=test'
     ports:
-      - '27017'
+      - '27017:27017'
