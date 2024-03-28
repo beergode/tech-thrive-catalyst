@@ -36,10 +36,10 @@ public class SurveyController extends BaseController {
 
     @GetMapping
     public Response<DataResponse<SurveyResponse>> paginate(Pageable pageable) {
-        SurveyPaginate build = SurveyPaginate.builder()
+        var surveyRequest = SurveyPaginate.builder()
                 .page(Page.of(pageable.getPageNumber(), pageable.getPageSize()))
                 .build();
-        var surveyPage = surveyPaginateUseCaseHandler.handle(build);
+        var surveyPage = surveyPaginateUseCaseHandler.handle(surveyRequest);
         return respond(toResponse(surveyPage.getItems()),
                 surveyPage.getPageNumber(),
                 surveyPage.getSize(),

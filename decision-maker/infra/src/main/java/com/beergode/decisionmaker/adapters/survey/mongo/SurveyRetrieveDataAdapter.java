@@ -10,9 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 @Service
 @RequiredArgsConstructor
 public class SurveyRetrieveDataAdapter implements SurveyRetrievePort {
@@ -26,9 +23,9 @@ public class SurveyRetrieveDataAdapter implements SurveyRetrievePort {
 
     @Override
     public Page<Survey> paginate(SurveyPaginate surveyPaginate) {
-        PageRequest pageRequest = PageRequest.of(surveyPaginate.getPage().getPageNumber(),surveyPaginate.getPage().getSize());
-        org.springframework.data.domain.Page<SurveyEntity> surveyPage = surveyMongoRepository.findAll(pageRequest);
-        List<Survey> surveys = surveyPage.stream().map(SurveyEntity::toModel).toList();
+        var pageRequest = PageRequest.of(surveyPaginate.getPage().getPageNumber(),surveyPaginate.getPage().getSize());
+        var surveyPage = surveyMongoRepository.findAll(pageRequest);
+        var surveys = surveyPage.stream().map(SurveyEntity::toModel).toList();
         return Page.of(surveys, surveyPage.getNumber(), surveyPage.getSize(), surveyPage.getTotalElements());
     }
 }

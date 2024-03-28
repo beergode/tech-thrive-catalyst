@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 public class SurveyCreateUseCaseHandler implements UseCaseHandler<Survey, SurveyCreate> {
 
     private final SurveyCreatePort surveyCreatePort;
+
     @Override
     public Survey handle(SurveyCreate useCase) {
         return surveyCreatePort.create(useCase);

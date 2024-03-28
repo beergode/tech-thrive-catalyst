@@ -1,7 +1,6 @@
 package com.beergode.decisionmaker.adapters.survey.mongo.entity;
 
 import com.beergode.decisionmaker.common.entity.AbstractEntity;
-import com.beergode.decisionmaker.survey.model.Question;
 import com.beergode.decisionmaker.survey.model.Survey;
 import lombok.Getter;
 import lombok.NonNull;
@@ -18,11 +17,23 @@ public class SurveyEntity extends AbstractEntity {
     @NonNull
     private QuestionEntity question;
 
+    public static SurveyEntity of(String content, QuestionEntity question) {
+        return new SurveyEntity(content, question);
+    }
+
     public Survey toModel() {
         return Survey.builder()
                 .id(super.getId())
                 .content(content)
                 //.question(question.toModel())
                 .build();
+    }
+
+    private SurveyEntity() {
+    }
+
+    private SurveyEntity(@NonNull String content, @NonNull QuestionEntity question) {
+        this.content = content;
+        this.question = question;
     }
 }
