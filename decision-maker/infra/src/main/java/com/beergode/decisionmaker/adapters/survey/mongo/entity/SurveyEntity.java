@@ -4,11 +4,9 @@ import com.beergode.decisionmaker.common.entity.AbstractEntity;
 import com.beergode.decisionmaker.survey.model.Survey;
 import lombok.Getter;
 import lombok.NonNull;
-import lombok.Setter;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Getter
-@Setter
 @Document(collection = "survey")
 public class SurveyEntity extends AbstractEntity {
 
@@ -29,8 +27,7 @@ public class SurveyEntity extends AbstractEntity {
                 .build();
     }
 
-    private SurveyEntity() {
-    }
+    private SurveyEntity() {}
 
     private SurveyEntity(@NonNull String content, QuestionEntity question) {
         this.content = content;

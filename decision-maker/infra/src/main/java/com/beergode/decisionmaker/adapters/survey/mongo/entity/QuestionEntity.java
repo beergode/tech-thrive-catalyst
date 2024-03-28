@@ -5,11 +5,9 @@ import com.beergode.decisionmaker.survey.model.Question;
 import java.util.List;
 import lombok.Getter;
 import lombok.NonNull;
-import lombok.Setter;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Getter
-@Setter
 @Document(collection = "question")
 public class QuestionEntity extends AbstractEntity {
     @NonNull
