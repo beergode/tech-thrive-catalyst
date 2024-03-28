@@ -12,11 +12,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class AnswerCreateRequest {
 
-    private String answerText;
+    private String text;
 
     public AnswerCreate toUseCase() {
         return AnswerCreate.builder()
-                .text(answerText)
+                .text(text)
                 .build();
     }
 }

@@ -3,6 +3,6 @@ spring:
     name: DecisionMaker
   data:
     mongodb:
-      uri: mongodb://localhost:27017/thrive
+      uri: mongodb://localhost:27018/thrive
       auto-index-creation: true
 

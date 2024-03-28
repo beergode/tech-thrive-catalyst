@@ -1,5 +1,7 @@
 package com.beergode.decisionmaker.adapters.survey.mongo;
 
+import com.beergode.decisionmaker.adapters.survey.mongo.entity.AnswerEntity;
+import com.beergode.decisionmaker.adapters.survey.mongo.entity.QuestionEntity;
 import com.beergode.decisionmaker.adapters.survey.mongo.entity.SurveyEntity;
 import com.beergode.decisionmaker.adapters.survey.mongo.repository.SurveyMongoRepository;
 import com.beergode.decisionmaker.survey.model.Survey;
@@ -16,13 +18,13 @@ public class SurveyCreateDataAdapter implements SurveyCreatePort {
 
     @Override
     public Survey create(SurveyCreate surveyCreate) {
-//        var question = surveyCreate.getQuestion();
-//        var answers = question.getAnswerList()
-//                .stream()
-//                .map(answerCreate -> AnswerEntity.of(answerCreate.getText()))
-//                .toList();
-//        var questionEntity = QuestionEntity.of(question.getText(), answers);
-        var surveyEntity = SurveyEntity.of(surveyCreate.getContent(), /*questionEntity*/ null);
+        var question = surveyCreate.getQuestion();
+        var answers = question.getAnswers()
+                .stream()
+                .map(answerCreate -> AnswerEntity.of(answerCreate.getText()))
+                .toList();
+        var questionEntity = QuestionEntity.of(question.getText(), answers);
+        var surveyEntity = SurveyEntity.of(surveyCreate.getContent(), questionEntity);
 
         return surveyMongoRepository.save(surveyEntity)
                 .toModel();

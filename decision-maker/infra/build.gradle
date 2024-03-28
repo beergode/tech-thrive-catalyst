@@ -1,3 +1,6 @@
+configurations {
+	developmentOnly
+}
 dependencies {
 	implementation project.parent.project("domain")
 	annotationProcessor group: 'org.springframework.boot', name:'spring-boot-configuration-processor'
@@ -19,7 +22,7 @@ dependencies {
 	implementation group: 'org.springframework.integration', name: 'spring-integration-redis'
 	implementation group: 'io.lettuce', name: 'lettuce-core'
 
-//	developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
+	developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
 
 	compileOnly("org.projectlombok:lombok")
 

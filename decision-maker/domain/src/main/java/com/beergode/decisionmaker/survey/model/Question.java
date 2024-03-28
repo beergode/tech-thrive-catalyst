@@ -14,5 +14,5 @@ public class Question {
     private String text;
     private LocalDateTime createdAt;
 
-    private List<Answer> answerList;
+    private List<Answer> answers;
 }

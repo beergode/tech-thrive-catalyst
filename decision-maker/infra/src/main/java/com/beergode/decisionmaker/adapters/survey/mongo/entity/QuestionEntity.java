@@ -24,7 +24,7 @@ public class QuestionEntity extends AbstractEntity {
         return Question.builder()
                 .id(super.getId())
                 .text(text)
-                .answerList(answers.stream()
+                .answers(answers.stream()
                         .map(AnswerEntity::toModel)
                         .toList())
                 .build();

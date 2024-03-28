@@ -1,7 +1,6 @@
 package com.beergode.decisionmaker.adapters.survey.rest.dto;
 
 import com.beergode.decisionmaker.survey.usecase.QuestionCreate;
-import com.beergode.decisionmaker.survey.usecase.SurveyCreate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,13 +15,13 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class QuestionCreateRequest {
 
-    private String questionText;
-    private List<AnswerCreateRequest> answerList;
+    private String text;
+    private List<AnswerCreateRequest> answers;
 
     public QuestionCreate toUseCase() {
         return QuestionCreate.builder()
-                .text(questionText)
-                .answerList(answerList.stream()
+                .text(text)
+                .answers(answers.stream()
                         .map(AnswerCreateRequest::toUseCase)
                         .collect(Collectors.toList()))
                 .build();

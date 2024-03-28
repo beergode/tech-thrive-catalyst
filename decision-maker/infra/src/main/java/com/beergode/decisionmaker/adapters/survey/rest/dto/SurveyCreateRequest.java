@@ -21,7 +21,7 @@ public class SurveyCreateRequest {
     public SurveyCreate toUseCase() {
         return SurveyCreate.builder()
                 .content(content)
-                //.question(question.toUseCase())
+                .question(question.toUseCase())
                 .build();
     }
 }

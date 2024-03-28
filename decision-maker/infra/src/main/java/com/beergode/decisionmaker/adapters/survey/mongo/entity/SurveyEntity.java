@@ -25,7 +25,7 @@ public class SurveyEntity extends AbstractEntity {
         return Survey.builder()
                 .id(super.getId())
                 .content(content)
-                //.question(question.toModel())
+                .question(question.toModel())
                 .build();
     }
 

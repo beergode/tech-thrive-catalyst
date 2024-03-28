@@ -1,6 +1,5 @@
 package com.beergode.decisionmaker.adapters.survey.rest.dto;
 
-import com.beergode.decisionmaker.survey.model.Answer;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,6 +13,6 @@ import java.util.List;
 @AllArgsConstructor
 public class QuestionResponse {
 
-    private String questionText;
-    private List<AnswerResponse> answerList;
+    private String text;
+    private List<AnswerResponse> answers;
 }
