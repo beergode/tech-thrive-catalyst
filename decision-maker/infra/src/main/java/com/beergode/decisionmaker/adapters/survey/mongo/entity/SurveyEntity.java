@@ -32,7 +32,7 @@ public class SurveyEntity extends AbstractEntity {
     private SurveyEntity() {
     }
 
-    private SurveyEntity(@NonNull String content, @NonNull QuestionEntity question) {
+    private SurveyEntity(@NonNull String content, QuestionEntity question) {
         this.content = content;
         this.question = question;
     }
