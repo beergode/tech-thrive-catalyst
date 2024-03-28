@@ -1,9 +1,8 @@
 package com.beergode.decisionmaker.survey.port;
 
-import com.beergode.decisionmaker.survey.model.Survey;
-import com.beergode.decisionmaker.survey.usecase.SurveyCreate;
+import com.beergode.decisionmaker.survey.usecase.VoteCountUpdate;
 
-public interface SurveyCreatePort {
+public interface VoteCountUpdatePort {
 
-    Survey create(SurveyCreate surveyCreate);
+    void voteCountUpdate(VoteCountUpdate voteCountUpdate);
 }

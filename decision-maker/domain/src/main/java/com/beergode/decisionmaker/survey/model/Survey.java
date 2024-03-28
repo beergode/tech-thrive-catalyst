@@ -1,5 +1,6 @@
 package com.beergode.decisionmaker.survey.model;
 
+import com.beergode.decisionmaker.survey.usecase.SurveyCreate;
 import lombok.Builder;
 import lombok.Data;
 

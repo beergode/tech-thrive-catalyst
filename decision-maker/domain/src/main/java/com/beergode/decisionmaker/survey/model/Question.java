@@ -1,5 +1,7 @@
 package com.beergode.decisionmaker.survey.model;
 
+import com.beergode.decisionmaker.survey.usecase.QuestionCreate;
+import java.util.stream.Collectors;
 import lombok.Builder;
 import lombok.Data;
 
@@ -15,4 +17,13 @@ public class Question {
     private LocalDateTime createdAt;
 
     private List<Answer> answers;
+
+    public QuestionCreate toUseCase() {
+        return QuestionCreate.builder()
+            .text(text)
+            .answers(answers.stream()
+                .map(Answer::toUseCase)
+                .collect(Collectors.toList()))
+            .build();
+    }
 }
