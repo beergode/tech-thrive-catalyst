@@ -1,14 +1,14 @@
 package com.beergode.decisionmaker.survey.model;
 
 import com.beergode.decisionmaker.survey.usecase.update.SurveyUpdate;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
-import java.util.List;
-import java.util.UUID;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+
+import java.time.Instant;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.UUID;
 
 @Getter
 @EqualsAndHashCode
@@ -18,7 +18,7 @@ public class Survey {
     private UUID id;
     private String content;
     private Instant createdAt;
-    private OffsetDateTime closedAt;
+    private LocalDate closedAt;
 
     private Question question;
 
@@ -26,6 +26,7 @@ public class Survey {
         this.id = builder.id;
         this.content = builder.content;
         this.question = builder.question;
+        this.closedAt = builder.closedAt;
     }
 
     public static Builder survey() {
@@ -54,6 +55,7 @@ public class Survey {
                 .id(this.id)
                 .content(this.content)
                 .question(this.question.toUpdate())
+                .closedAt(this.closedAt)
                 .build();
     }
 
@@ -61,5 +63,8 @@ public class Survey {
         return createdAt == null ? null : createdAt.toEpochMilli();
     }
 
+    public void close() {
+       this.closedAt = LocalDate.now();
+    }
 
 }

@@ -2,6 +2,8 @@ package com.beergode.decisionmaker.survey.usecase.create;
 
 import java.util.Optional;
 import java.util.UUID;
+
+import com.beergode.decisionmaker.common.model.UseCase;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -10,7 +12,7 @@ import lombok.Getter;
 @Getter
 @EqualsAndHashCode
 @Builder(builderMethodName = "answerCreate", builderClassName = "Builder")
-public class AnswerCreate {
+public class AnswerCreate implements UseCase {
 
     private UUID id;
     private String text;

@@ -9,7 +9,7 @@ import com.beergode.decisionmaker.survey.usecase.update.SurveyUpdate;
 public interface SurveyPort {
 
     Survey create(SurveyCreate surveyCreate);
-    void update(SurveyUpdate surveyUpdate);
+    Survey update(SurveyUpdate surveyUpdate);
     Survey retrieve(String id);
     Page<Survey> paginate(SurveyPaginate surveyPaginate);
 }

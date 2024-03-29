@@ -35,7 +35,7 @@ public class SurveyDataAdapter implements SurveyPort {
     }
 
     @Override
-    public void update(SurveyUpdate surveyUpdate) {
+    public Survey update(SurveyUpdate surveyUpdate) {
         var question = surveyUpdate.getQuestion();
         var answers = question.getAnswers()
                 .stream()
@@ -44,9 +44,9 @@ public class SurveyDataAdapter implements SurveyPort {
                                 answerUpdate.getVoteCount()))
                 .toList();
         var questionEntity = QuestionEntity.of(question.getStringId(), question.getText(), answers);
-        var surveyEntity = SurveyEntity.of(surveyUpdate.getStringId(), surveyUpdate.getContent(), questionEntity);
+        var surveyEntity = SurveyEntity.of(surveyUpdate.getStringId(), surveyUpdate.getContent(), questionEntity, surveyUpdate.getClosedAt());
 
-        surveyMongoRepository.save(surveyEntity);
+        return surveyMongoRepository.save(surveyEntity).toModel();
     }
 
     @Override

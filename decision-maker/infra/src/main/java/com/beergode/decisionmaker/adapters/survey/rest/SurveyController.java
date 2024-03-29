@@ -10,6 +10,7 @@ import com.beergode.decisionmaker.common.rest.Response;
 import com.beergode.decisionmaker.common.usecase.UseCaseHandler;
 import com.beergode.decisionmaker.common.usecase.VoidUseCaseHandler;
 import com.beergode.decisionmaker.survey.model.Survey;
+import com.beergode.decisionmaker.survey.usecase.FinalizeSurvey;
 import com.beergode.decisionmaker.survey.usecase.create.SurveyCreate;
 import com.beergode.decisionmaker.survey.usecase.SurveyGet;
 import com.beergode.decisionmaker.survey.usecase.SurveyPaginate;
@@ -28,6 +29,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import static com.beergode.decisionmaker.survey.usecase.FinalizeSurvey.end;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/decision-maker/surveys")
@@ -38,6 +41,7 @@ public class SurveyController extends BaseController {
     private final UseCaseHandler<Survey, SurveyCreate> surveyCreateUseCaseHandler;
     private final UseCaseHandler<Page<Survey>, SurveyPaginate> surveyPaginateUseCaseHandler;
     private final VoidUseCaseHandler<VoteCountUpdate> voteCountUpdateUseCaseHandler;
+    private final UseCaseHandler<Survey, FinalizeSurvey> surveyFinalizeSurveyUseCaseHandler;
 
     @GetMapping("/{id}")
     public Response<SurveyResponse> retrieve(
@@ -77,9 +81,16 @@ public class SurveyController extends BaseController {
         return null;
     }
 
+    @PostMapping("/{id}/finalize")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Response<SurveyResponse> finalize(@PathVariable("id") String id) {
+        FinalizeSurvey finalizeSurvey = end().surveyId(id).build();
+        var survey = surveyFinalizeSurveyUseCaseHandler.handle(finalizeSurvey);
+        return respond(SurveyResponse.from(survey));
+    }
+
     private List<SurveyResponse> toResponse(List<Survey> surveys) {
         return surveys.stream().map(SurveyResponse::from).toList();
     }
-
 
 }

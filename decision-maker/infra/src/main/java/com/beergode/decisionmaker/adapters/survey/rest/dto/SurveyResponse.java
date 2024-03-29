@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -21,12 +22,15 @@ public class SurveyResponse {
 
     private Question question;
 
+    private LocalDate closedAt;
+
     public static SurveyResponse from(Survey survey) {
         return SurveyResponse.builder()
                 .id(survey.getId().toString())
                 .content(survey.getContent())
                 .createdAt(survey.getCreatedLong())
                 .question(survey.getQuestion())
+                .closedAt(survey.getClosedAt())
                 .build();
     }
 }

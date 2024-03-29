@@ -1,10 +1,12 @@
 package com.beergode.decisionmaker.survey.usecase.update;
 
 import com.beergode.decisionmaker.common.model.UseCase;
-import java.util.UUID;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+
+import java.time.LocalDate;
+import java.util.UUID;
 
 @Getter
 @EqualsAndHashCode
@@ -13,11 +15,13 @@ public class SurveyUpdate implements UseCase {
     private UUID id;
     private String content;
     private QuestionUpdate question;
+    private LocalDate closedAt;
 
     private SurveyUpdate(Builder builder) {
         this.id = builder.id;
         this.content = builder.content;
         this.question = builder.question;
+        this.closedAt = builder.closedAt;
     }
 
     public static Builder surveyUpdate() {
