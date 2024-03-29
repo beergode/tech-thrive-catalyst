@@ -16,7 +16,11 @@ public class AnswerEntity extends AbstractEntity {
     private Long voteCount;
 
     public static AnswerEntity of(String id, String text) {
-        return new AnswerEntity(id, text, null);
+        return of(id, text, null);
+    }
+
+    public static AnswerEntity of(String id, String text, Long voteCount) {
+        return new AnswerEntity(id, text, voteCount);
     }
 
     public Answer toModel(boolean isSurveyClosed) {
@@ -26,7 +30,9 @@ public class AnswerEntity extends AbstractEntity {
                 .voteCount(voteCount)
                 .build(isSurveyClosed);
     }
+
     private AnswerEntity() { /*Hide No Args Constructor*/}
+
     private AnswerEntity(String id, String text, Long voteCount) {
         this.id = id;
         this.text = text;

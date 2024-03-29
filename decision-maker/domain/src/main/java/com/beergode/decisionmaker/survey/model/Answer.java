@@ -59,6 +59,10 @@ public class Answer {
                 .build();
     }
 
+    public String getStringId() {
+        return this.id.toString();
+    }
+
     private Long checkSurveyClosed(Long voteCount, boolean isSurveyClosed) {
         return isSurveyClosed ? voteCount : 0L;
     }

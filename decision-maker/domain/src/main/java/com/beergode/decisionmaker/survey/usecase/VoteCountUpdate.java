@@ -8,8 +8,7 @@ import lombok.Data;
 @Builder
 public class VoteCountUpdate implements UseCase {
 
-  private String id;
+  private String surveyId;
   private String questionId;
   private String answerId;
-
 }

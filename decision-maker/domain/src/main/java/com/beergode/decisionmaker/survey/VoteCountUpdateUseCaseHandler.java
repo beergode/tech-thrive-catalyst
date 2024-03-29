@@ -4,11 +4,8 @@ import com.beergode.decisionmaker.common.DomainComponent;
 import com.beergode.decisionmaker.common.usecase.VoidUseCaseHandler;
 import com.beergode.decisionmaker.survey.port.SurveyPort;
 import com.beergode.decisionmaker.survey.usecase.VoteCountUpdate;
-import com.beergode.decisionmaker.survey.usecase.update.SurveyUpdate;
 import groovy.util.logging.Slf4j;
 import lombok.RequiredArgsConstructor;
-
-import static com.beergode.decisionmaker.survey.usecase.update.SurveyUpdate.surveyUpdate;
 
 @Slf4j
 @DomainComponent
@@ -20,10 +17,10 @@ public class VoteCountUpdateUseCaseHandler implements VoidUseCaseHandler<VoteCou
     @Override
     public void handle(VoteCountUpdate useCase) {
 
-        var survey = surveyPort.retrieve(useCase.getId());
+        var survey = surveyPort.retrieve(useCase.getSurveyId());
         survey.getAnswers()
                 .stream()
-                .filter(answer -> answer.getId().equals(useCase.getAnswerId()))
+                .filter(answer -> answer.getStringId().equals(useCase.getAnswerId()))
                 .findFirst()
                 .map(answer -> {
                     answer.incrementVoteCount();

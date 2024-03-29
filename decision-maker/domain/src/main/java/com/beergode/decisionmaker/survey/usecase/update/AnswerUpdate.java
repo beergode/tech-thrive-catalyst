@@ -16,9 +16,9 @@ public class AnswerUpdate {
     private Long voteCount;
 
     private AnswerUpdate(Builder builder) {
-        this.id = UUID.randomUUID();
+        this.id = builder.id;
         this.text = builder.text;
-        this.voteCount = 0L;
+        this.voteCount = builder.voteCount;
     }
 
     public static Builder answerUpdate() {

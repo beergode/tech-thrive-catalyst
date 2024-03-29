@@ -15,7 +15,11 @@ public class VoteCountUpdateRequest {
   private String questionId;
   private String answerId;
 
-  public VoteCountUpdate toUseCase() {
-    return VoteCountUpdate.builder().questionId(questionId).answerId(answerId).build();
+  public VoteCountUpdate toUseCase(String surveyId) {
+    return VoteCountUpdate.builder()
+            .surveyId(surveyId)
+            .questionId(questionId)
+            .answerId(answerId)
+            .build();
   }
 }

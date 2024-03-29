@@ -39,7 +39,9 @@ public class SurveyDataAdapter implements SurveyPort {
         var question = surveyUpdate.getQuestion();
         var answers = question.getAnswers()
                 .stream()
-                .map(answerCreate -> AnswerEntity.of(answerCreate.getStringId(), answerCreate.getText()))
+                .map(answerUpdate ->
+                        AnswerEntity.of(answerUpdate.getStringId(), answerUpdate.getText(),
+                                answerUpdate.getVoteCount()))
                 .toList();
         var questionEntity = QuestionEntity.of(question.getStringId(), question.getText(), answers);
         var surveyEntity = SurveyEntity.of(surveyUpdate.getStringId(), surveyUpdate.getContent(), questionEntity);
@@ -54,7 +56,7 @@ public class SurveyDataAdapter implements SurveyPort {
 
     @Override
     public Page<Survey> paginate(SurveyPaginate surveyPaginate) {
-        var pageRequest = PageRequest.of(surveyPaginate.getPage().getPageNumber(),surveyPaginate.getPage().getSize());
+        var pageRequest = PageRequest.of(surveyPaginate.getPage().getPageNumber(), surveyPaginate.getPage().getSize());
         var surveyPage = surveyMongoRepository.findAll(pageRequest);
         var surveys = surveyPage.stream().map(SurveyEntity::toModel).toList();
         return Page.of(surveys, surveyPage.getNumber(), surveyPage.getSize(), surveyPage.getTotalElements());
