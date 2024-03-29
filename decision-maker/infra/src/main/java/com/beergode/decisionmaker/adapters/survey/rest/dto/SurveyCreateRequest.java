@@ -1,12 +1,13 @@
 package com.beergode.decisionmaker.adapters.survey.rest.dto;
 
-import com.beergode.decisionmaker.survey.model.Question;
-import com.beergode.decisionmaker.survey.usecase.SurveyCreate;
+import com.beergode.decisionmaker.survey.usecase.create.SurveyCreate;
 import groovyjarjarantlr4.v4.runtime.misc.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import static com.beergode.decisionmaker.survey.usecase.create.SurveyCreate.surveyCreate;
 
 @Data
 @Builder
@@ -19,7 +20,7 @@ public class SurveyCreateRequest {
     private QuestionCreateRequest question;
 
     public SurveyCreate toUseCase() {
-        return SurveyCreate.builder()
+        return surveyCreate()
                 .content(content)
                 .question(question.toUseCase())
                 .build();

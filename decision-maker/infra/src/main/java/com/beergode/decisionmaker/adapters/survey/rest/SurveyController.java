@@ -10,7 +10,7 @@ import com.beergode.decisionmaker.common.rest.Response;
 import com.beergode.decisionmaker.common.usecase.UseCaseHandler;
 import com.beergode.decisionmaker.common.usecase.VoidUseCaseHandler;
 import com.beergode.decisionmaker.survey.model.Survey;
-import com.beergode.decisionmaker.survey.usecase.SurveyCreate;
+import com.beergode.decisionmaker.survey.usecase.create.SurveyCreate;
 import com.beergode.decisionmaker.survey.usecase.SurveyGet;
 import com.beergode.decisionmaker.survey.usecase.SurveyPaginate;
 import com.beergode.decisionmaker.survey.usecase.VoteCountUpdate;

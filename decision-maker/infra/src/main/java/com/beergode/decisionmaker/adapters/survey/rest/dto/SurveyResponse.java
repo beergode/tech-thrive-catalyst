@@ -17,15 +17,15 @@ public class SurveyResponse {
     private String id;
     private String content;
 
-    private LocalDateTime createdAt;
+    private Long createdAt;
 
     private Question question;
 
     public static SurveyResponse from(Survey survey) {
         return SurveyResponse.builder()
-                .id(survey.getId())
+                .id(survey.getId().toString())
                 .content(survey.getContent())
-                .createdAt(survey.getCreatedAt())
+                .createdAt(survey.getCreatedLong())
                 .question(survey.getQuestion())
                 .build();
     }

@@ -1,6 +1,5 @@
 package com.beergode.decisionmaker.adapters.survey.rest.dto;
 
-import com.beergode.decisionmaker.survey.usecase.SurveyCreate;
 import com.beergode.decisionmaker.survey.usecase.SurveyGet;
 import groovyjarjarantlr4.v4.runtime.misc.NotNull;
 import lombok.AllArgsConstructor;

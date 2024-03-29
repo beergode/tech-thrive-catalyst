@@ -1,29 +1,64 @@
 package com.beergode.decisionmaker.survey.model;
 
-import com.beergode.decisionmaker.survey.usecase.QuestionCreate;
-import java.util.stream.Collectors;
-import lombok.Builder;
-import lombok.Data;
-
+import com.beergode.decisionmaker.survey.usecase.create.QuestionCreate;
+import com.beergode.decisionmaker.survey.usecase.update.QuestionUpdate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
-@Data
-@Builder
+import static com.beergode.decisionmaker.survey.usecase.create.QuestionCreate.questionCreate;
+import static com.beergode.decisionmaker.survey.usecase.update.QuestionUpdate.questionUpdate;
+
+@Getter
+@EqualsAndHashCode
+@Builder(builderMethodName = "question", builderClassName = "Builder")
 public class Question {
 
-    private String id;
+    private UUID id;
     private String text;
     private LocalDateTime createdAt;
 
     private List<Answer> answers;
 
+    private Question(Builder builder) {
+        this.id = builder.id;
+        this.text = builder.text;
+        this.answers = builder.answers;
+    }
+
+    public static Builder question() {
+        return new Builder();
+    }
+
+    public static final class Builder {
+
+        private Builder() {
+        }
+
+        public Question build() {
+            return new Question(this);
+        }
+    }
+
     public QuestionCreate toUseCase() {
-        return QuestionCreate.builder()
-            .text(text)
-            .answers(answers.stream()
-                .map(Answer::toUseCase)
-                .collect(Collectors.toList()))
-            .build();
+        return questionCreate()
+                .text(text)
+                .answers(answers.stream()
+                        .map(Answer::toUseCase)
+                        .toList())
+                .build();
+    }
+
+    public QuestionUpdate toUpdate() {
+        return questionUpdate()
+                .id(this.id)
+                .text(this.text)
+                .answers(this.answers.stream()
+                        .map(Answer::toUpdate)
+                        .toList())
+                .build();
     }
 }
