@@ -47,7 +47,7 @@ jobs:
     uses: beergode/shared-pipeline-templates/.github/workflows/.deployDO.yml@main
     with:
       repository_name: ${{ github.repository }}
-      repository_username: ${{ github.repository_owner }}
+      registry_username: ${{ github.repository_owner }}
     secrets:
       registry_password: ${{ secrets.GITHUB_TOKEN }}
       DO_ACCESS_TOKEN: ${{ secrets.DO_ACCESS_TOKEN }}
