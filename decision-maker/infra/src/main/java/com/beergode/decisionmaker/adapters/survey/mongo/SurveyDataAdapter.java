@@ -73,6 +73,7 @@ public class SurveyDataAdapter implements SurveyPort {
         var pageRequest = PageRequest.of(surveyPaginate.getPage().getPageNumber(), surveyPaginate.getPage().getSize());
         var surveyPage = surveyMongoRepository.findAll(pageRequest);
         var surveys = surveyPage.stream().map(SurveyEntity::toModel).toList();
+
         return Page.of(surveys, surveyPage.getNumber(), surveyPage.getSize(), surveyPage.getTotalElements());
     }
 }
