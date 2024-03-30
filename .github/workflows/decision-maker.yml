@@ -11,9 +11,10 @@ on:
 
 jobs:
   build:
-    uses: beergode/shared-pipeline-templates/.github/workflows/.buildGradle.yml@main
+    uses: beergode/shared-pipeline-templates/.github/workflows/build/.gradle.yml@main
     with:
       repository_name: ${{ github.repository }}
+      module_name: decision-maker
 
   semverDryRun:
     uses: beergode/shared-pipeline-templates/.github/workflows/.semver.yml@main
@@ -22,13 +23,13 @@ jobs:
 
   buildAndPublishImage:
     if: ${{ github.ref == 'refs/heads/main' }}
-    uses: beergode/shared-pipeline-templates/.github/workflows/.buildAndPublishImage.yml@main
+    uses: beergode/shared-pipeline-templates/.github/workflows/buildAndPublishImage/.gradle.yml@main
     with:
       image_name: ${{ github.repository }}/decision-maker
       tag: ${{ needs.semver.outputs.newTag }}
       repository_name: ${{ github.repository }}
     secrets:
-      registry_username: ${{ github.repository_owner
+      registry_username: ${{ github.repository_owner }}
       registry_password: ${{ secrets.GITHUB_TOKEN }}
     needs: [build, semverDryRun]
 
@@ -42,7 +43,7 @@ jobs:
 
   deploymentTrigger:
     if: ${{ github.ref == 'refs/heads/main' }}
-    uses: beergode/shared-pipeline-templates/.github/workflows/.deployDO.yml@main
+    uses: beergode/shared-pipeline-templates/.github/workflows/deploy/.DO.yml@main
     with:
       repository_name: ${{ github.repository }}
       repository_username: ${{ github.repository_owner }}
