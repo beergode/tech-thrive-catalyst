@@ -1,6 +1,5 @@
 name: tech-thrive-catalyst
 
-
 on:
   push:
     paths:
@@ -20,6 +19,7 @@ jobs:
   semverDryRun:
     uses: beergode/shared-pipeline-templates/.github/workflows/.semver.yml@main
     with:
+      dry_run: true
       repository_name: ${{ github.repository }}
 
   buildAndPublishImage:
