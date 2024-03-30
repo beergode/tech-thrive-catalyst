@@ -1,27 +1,23 @@
 package com.beergode.decisionmaker.survey.usecase;
 
 import com.beergode.decisionmaker.common.model.UseCase;
-import com.beergode.decisionmaker.survey.usecase.create.AnswerCreate;
 import lombok.Builder;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-
-import java.util.UUID;
 
 @Getter
 @EqualsAndHashCode
 @Builder(builderMethodName = "end", builderClassName = "Builder")
-public class FinalizeSurvey implements UseCase {
+public class SurveyFinalize implements UseCase {
 
     private String surveyId;
 
-    private FinalizeSurvey(FinalizeSurvey.Builder builder) {
+    private SurveyFinalize(SurveyFinalize.Builder builder) {
         this.surveyId = builder.surveyId;
     }
 
-    public static FinalizeSurvey.Builder end() {
-        return new FinalizeSurvey.Builder();
+    public static SurveyFinalize.Builder end() {
+        return new SurveyFinalize.Builder();
     }
 
     public static final class Builder {
@@ -29,8 +25,8 @@ public class FinalizeSurvey implements UseCase {
         private Builder() {
         }
 
-        public FinalizeSurvey build() {
-            return new FinalizeSurvey(this);
+        public SurveyFinalize build() {
+            return new SurveyFinalize(this);
         }
     }
 

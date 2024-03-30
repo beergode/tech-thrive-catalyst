@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class VoteCountUpdate implements UseCase {
+public class SurveyVote implements UseCase {
 
   private String surveyId;
   private String questionId;

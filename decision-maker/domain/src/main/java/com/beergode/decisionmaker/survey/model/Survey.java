@@ -67,4 +67,8 @@ public class Survey {
        this.closedAt = LocalDate.now();
     }
 
+    public boolean isClosed() {
+       return this.closedAt != null;
+    }
+
 }
