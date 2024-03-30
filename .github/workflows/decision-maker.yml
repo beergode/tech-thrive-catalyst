@@ -1,5 +1,6 @@
 name: tech-thrive-catalyst
 
+
 on:
   push:
     paths:
