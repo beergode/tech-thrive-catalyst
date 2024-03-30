@@ -1,4 +1,4 @@
-package com.beergode.decisionmaker.adapters;
+package com.beergode.decisionmaker.survey.adapters;
 
 import com.beergode.decisionmaker.common.model.Page;
 import com.beergode.decisionmaker.survey.model.Survey;
