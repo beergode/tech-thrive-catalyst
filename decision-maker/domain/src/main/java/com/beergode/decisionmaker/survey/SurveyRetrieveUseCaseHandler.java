@@ -17,7 +17,11 @@ public class SurveyRetrieveUseCaseHandler implements UseCaseHandler<Survey, Surv
 
     @Override
     public Survey handle(SurveyGet surveyGet) {
-        return surveyPort.retrieve(surveyGet.getId());
+        Survey survey = surveyPort.retrieve(surveyGet.getId());
+        if (!survey.isClosed()) {
+            survey.hideVoteCounts();
+        }
+        return survey;
     }
 
 }

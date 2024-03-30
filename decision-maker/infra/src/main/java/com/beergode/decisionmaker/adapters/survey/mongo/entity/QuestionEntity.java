@@ -21,12 +21,12 @@ public class QuestionEntity extends AbstractEntity {
         return new QuestionEntity(id, text, answers);
     }
 
-    public Question toModel(boolean isClosed) {
+    public Question toModel() {
         return question()
                 .id(UUID.fromString(super.getId()))
                 .text(text)
                 .answers(answers.stream()
-                        .map(answer -> answer.toModel(isClosed))
+                        .map(AnswerEntity::toModel)
                         .toList())
                 .build();
     }

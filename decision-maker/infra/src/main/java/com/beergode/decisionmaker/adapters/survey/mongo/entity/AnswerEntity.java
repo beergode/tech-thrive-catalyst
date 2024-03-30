@@ -23,12 +23,12 @@ public class AnswerEntity extends AbstractEntity {
         return new AnswerEntity(id, text, voteCount);
     }
 
-    public Answer toModel(boolean isSurveyClosed) {
+    public Answer toModel() {
         return answer()
                 .id(UUID.fromString(super.getId()))
                 .text(text)
                 .voteCount(voteCount)
-                .build(isSurveyClosed);
+                .build();
     }
 
     private AnswerEntity() { /*Hide No Args Constructor*/}

@@ -21,10 +21,10 @@ public class Answer {
 
     private LocalDateTime createdAt;
 
-    private Answer(Builder builder, boolean isSurveyClosed) {
+    private Answer(Builder builder) {
         this.id = builder.id;
         this.text = builder.text;
-        this.voteCount = checkSurveyClosed(builder.voteCount, isSurveyClosed);
+        this.voteCount = builder.voteCount;
     }
 
     public static Builder answer() {
@@ -36,13 +36,21 @@ public class Answer {
         private Builder() {
         }
 
-        public Answer build(boolean isSurveyClosed) {
-            return new Answer(this, isSurveyClosed);
+        public Answer build() {
+            return new Answer(this);
         }
     }
 
+    public void hideVoteCounts() {
+        this.voteCount = 0L;
+    }
+
     public void incrementVoteCount() {
-        this.voteCount++;
+        if (this.voteCount != null) {
+            this.voteCount++;
+        } else {
+            this.voteCount = 1L;
+        }
     }
 
     public AnswerCreate toUseCase() {
@@ -61,9 +69,5 @@ public class Answer {
 
     public String getStringId() {
         return this.id.toString();
-    }
-
-    private Long checkSurveyClosed(Long voteCount, boolean isSurveyClosed) {
-        return isSurveyClosed ? voteCount : 0L;
     }
 }

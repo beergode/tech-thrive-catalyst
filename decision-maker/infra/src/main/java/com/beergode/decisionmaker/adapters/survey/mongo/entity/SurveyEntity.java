@@ -33,7 +33,7 @@ public class SurveyEntity extends AbstractEntity {
         return survey()
                 .id(UUID.fromString(super.getId()))
                 .content(content)
-                .question(question.toModel(isClosed()))
+                .question(question.toModel())
                 .closedAt(closedAt)
                 .build();
     }
@@ -47,7 +47,4 @@ public class SurveyEntity extends AbstractEntity {
         this.closedAt = closedAt;
     }
 
-    private boolean isClosed() {
-        return closedAt != null;
-    }
 }

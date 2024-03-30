@@ -33,6 +33,10 @@ public class Survey {
         return new Builder();
     }
 
+    public void hideVoteCounts() {
+        this.getAnswers().forEach(Answer::hideVoteCounts);
+    }
+
     public static final class Builder {
 
         private Builder() {
