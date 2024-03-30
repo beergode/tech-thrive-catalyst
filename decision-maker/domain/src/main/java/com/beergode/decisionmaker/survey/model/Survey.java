@@ -1,15 +1,18 @@
 package com.beergode.decisionmaker.survey.model;
 
+import com.beergode.decisionmaker.survey.usecase.SurveyVote;
 import com.beergode.decisionmaker.survey.usecase.update.SurveyUpdate;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
+@Slf4j
 @Getter
 @EqualsAndHashCode
 @Builder(builderMethodName = "survey", builderClassName = "Builder")
@@ -19,14 +22,17 @@ public class Survey {
     private String content;
     private Instant createdAt;
     private LocalDate closedAt;
-
     private Question question;
+    private SurveySetting setting;
+    private Integer participantCount;
 
     private Survey(Builder builder) {
         this.id = builder.id;
         this.content = builder.content;
         this.question = builder.question;
         this.closedAt = builder.closedAt;
+        this.setting = builder.setting;
+        this.participantCount = builder.participantCount;
     }
 
     public static Builder survey() {
@@ -60,6 +66,10 @@ public class Survey {
                 .content(this.content)
                 .question(this.question.toUpdate())
                 .closedAt(this.closedAt)
+                .setting(this.setting == null
+                        ? null
+                        : this.setting.toUpdate())
+                .participantCount(this.participantCount)
                 .build();
     }
 
@@ -73,6 +83,39 @@ public class Survey {
 
     public boolean isClosed() {
        return this.closedAt != null;
+    }
+
+    private void incrementParticipantCount() {
+        if (this.participantCount != null) {
+            this.participantCount ++;
+        } else {
+            this.participantCount = 1;
+        }
+    }
+
+    private boolean isReachedToParticipantLimit() {
+        if (this.participantCount != null && this.setting != null && this.setting.getParticipantLimit() != null) {
+            return this.participantCount >= this.setting.getParticipantLimit();
+        } else {
+            return false;
+        }
+    }
+
+    public void incrementVoteCount(SurveyVote useCase) {
+        this.incrementParticipantCount();
+        this.getAnswers()
+                .stream()
+                .filter(answer -> answer.getStringId().equals(useCase.getAnswerId()))
+                .findFirst()
+                .map(answer -> {
+                    answer.incrementVoteCount();
+                    return answer;
+                });
+
+        if (this.isReachedToParticipantLimit()) {
+            log.info("Reached to maximum participant count for id {}. Survey is closed", this.getId());
+            this.close();
+        }
     }
 
 }

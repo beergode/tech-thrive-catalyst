@@ -20,31 +20,40 @@ public class SurveyEntity extends AbstractEntity {
     @NonNull
     private QuestionEntity question;
     private LocalDate closedAt;
+    private SurveySettingEntity setting;
+    private Integer participantCount;
 
-    public static SurveyEntity of(String  id, String content, QuestionEntity question) {
-        return of(id, content, question, null);
+    public static SurveyEntity of(String  id, String content, QuestionEntity question, SurveySettingEntity setting) {
+        return of(id, content, question, null, setting, null);
     }
 
-    public static SurveyEntity of(String  id, String content, QuestionEntity question, LocalDate closedAt) {
-        return new SurveyEntity(id, content, question, closedAt);
+    public static SurveyEntity of(String  id, String content, QuestionEntity question, LocalDate closedAt, SurveySettingEntity setting, Integer participantCount) {
+        return new SurveyEntity(id, content, question, closedAt, setting, participantCount);
     }
 
     public Survey toModel() {
-        return survey()
+        Survey.Builder builder =  survey()
                 .id(UUID.fromString(super.getId()))
                 .content(content)
                 .question(question.toModel())
                 .closedAt(closedAt)
-                .build();
+                .participantCount(participantCount);
+        if (setting != null) {
+            builder.setting(setting.toModel());
+        }
+
+        return builder.build();
     }
 
     private SurveyEntity() {}
 
-    private SurveyEntity(String id, @NonNull String content, QuestionEntity question, LocalDate closedAt) {
+    private SurveyEntity(String id, @NonNull String content, QuestionEntity question, LocalDate closedAt, SurveySettingEntity setting, Integer participantCount) {
         this.id = id;
         this.content = content;
         this.question = question;
         this.closedAt = closedAt;
+        this.setting = setting;
+        this.participantCount = participantCount;
     }
 
 }

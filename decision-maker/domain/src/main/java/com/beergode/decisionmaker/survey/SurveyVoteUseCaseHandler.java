@@ -22,14 +22,8 @@ public class SurveyVoteUseCaseHandler implements VoidUseCaseHandler<SurveyVote> 
             log.error("Voting is closed for Survey {}", survey.getId());
             throw new IllegalStateException("Survey is closed");
         }
-        survey.getAnswers()
-                .stream()
-                .filter(answer -> answer.getStringId().equals(useCase.getAnswerId()))
-                .findFirst()
-                .map(answer -> {
-                    answer.incrementVoteCount();
-                    return answer;
-                });
+
+        survey.incrementVoteCount(useCase);
 
         surveyPort.update(survey.toUpdate());
     }

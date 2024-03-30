@@ -3,6 +3,7 @@ package com.beergode.decisionmaker.adapters.survey.mongo;
 import com.beergode.decisionmaker.adapters.survey.mongo.entity.AnswerEntity;
 import com.beergode.decisionmaker.adapters.survey.mongo.entity.QuestionEntity;
 import com.beergode.decisionmaker.adapters.survey.mongo.entity.SurveyEntity;
+import com.beergode.decisionmaker.adapters.survey.mongo.entity.SurveySettingEntity;
 import com.beergode.decisionmaker.adapters.survey.mongo.repository.SurveyMongoRepository;
 import com.beergode.decisionmaker.common.model.Page;
 import com.beergode.decisionmaker.survey.model.Survey;
@@ -23,12 +24,16 @@ public class SurveyDataAdapter implements SurveyPort {
     @Override
     public Survey create(SurveyCreate surveyCreate) {
         var question = surveyCreate.getQuestion();
+        var surveySetting = surveyCreate.getSetting();
         var answers = question.getAnswers()
                 .stream()
                 .map(answerCreate -> AnswerEntity.of(answerCreate.getStringId(), answerCreate.getText()))
                 .toList();
         var questionEntity = QuestionEntity.of(question.getStringId(), question.getText(), answers);
-        var surveyEntity = SurveyEntity.of(surveyCreate.getStringId(), surveyCreate.getContent(), questionEntity);
+        var surveySettingEntity = surveySetting == null
+                ? null
+                : SurveySettingEntity.of(surveySetting.getParticipantLimit());
+        var surveyEntity = SurveyEntity.of(surveyCreate.getStringId(), surveyCreate.getContent(), questionEntity, surveySettingEntity);
 
         return surveyMongoRepository.save(surveyEntity)
                 .toModel();
@@ -37,6 +42,7 @@ public class SurveyDataAdapter implements SurveyPort {
     @Override
     public Survey update(SurveyUpdate surveyUpdate) {
         var question = surveyUpdate.getQuestion();
+        var surveySetting = surveyUpdate.getSetting();
         var answers = question.getAnswers()
                 .stream()
                 .map(answerUpdate ->
@@ -44,7 +50,15 @@ public class SurveyDataAdapter implements SurveyPort {
                                 answerUpdate.getVoteCount()))
                 .toList();
         var questionEntity = QuestionEntity.of(question.getStringId(), question.getText(), answers);
-        var surveyEntity = SurveyEntity.of(surveyUpdate.getStringId(), surveyUpdate.getContent(), questionEntity, surveyUpdate.getClosedAt());
+        var surveySettingEntity = SurveySettingEntity.of(surveySetting == null
+                ? null
+                : surveySetting.getParticipantLimit());
+        var surveyEntity = SurveyEntity.of(surveyUpdate.getStringId(),
+                surveyUpdate.getContent(),
+                questionEntity,
+                surveyUpdate.getClosedAt(),
+                surveySettingEntity,
+                surveyUpdate.getParticipantCount());
 
         return surveyMongoRepository.save(surveyEntity).toModel();
     }

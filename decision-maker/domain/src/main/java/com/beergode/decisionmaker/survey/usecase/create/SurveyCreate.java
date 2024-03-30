@@ -14,11 +14,13 @@ public class SurveyCreate implements UseCase {
     private UUID id;
     private String content;
     private QuestionCreate question;
+    private SurveySettingCreate setting;
 
     private SurveyCreate(Builder builder) {
         this.id = UUID.randomUUID();
         this.content = builder.content;
         this.question = builder.question;
+        this.setting = builder.setting;
     }
 
     public static Builder surveyCreate() {

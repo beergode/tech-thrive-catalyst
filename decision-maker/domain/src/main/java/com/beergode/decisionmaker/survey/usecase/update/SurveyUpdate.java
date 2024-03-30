@@ -16,12 +16,16 @@ public class SurveyUpdate implements UseCase {
     private String content;
     private QuestionUpdate question;
     private LocalDate closedAt;
+    private SurveySettingUpdate setting;
+    private Integer participantCount;
 
     private SurveyUpdate(Builder builder) {
         this.id = builder.id;
         this.content = builder.content;
         this.question = builder.question;
         this.closedAt = builder.closedAt;
+        this.setting = builder.setting;
+        this.participantCount = builder.participantCount;
     }
 
     public static Builder surveyUpdate() {

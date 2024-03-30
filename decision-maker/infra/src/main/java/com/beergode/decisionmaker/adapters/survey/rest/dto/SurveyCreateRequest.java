@@ -18,11 +18,15 @@ public class SurveyCreateRequest {
     private String content;
     @NotNull
     private QuestionCreateRequest question;
+    private SurveySettingRequest setting;
 
     public SurveyCreate toUseCase() {
-        return surveyCreate()
+        SurveyCreate.Builder builder = surveyCreate()
                 .content(content)
-                .question(question.toUseCase())
-                .build();
-    }
+                .question(question.toUseCase());
+        if (setting != null) {
+            builder.setting(setting.toUseCase());
+        }
+
+        return builder.build();    }
 }
