@@ -12,12 +12,14 @@ import lombok.Getter;
 public class SurveyCreate implements UseCase {
 
     private UUID id;
+    private String handlingKey;
     private String content;
     private QuestionCreate question;
     private SurveySettingCreate setting;
 
     private SurveyCreate(Builder builder) {
         this.id = UUID.randomUUID();
+        this.handlingKey = UUID.randomUUID().toString();
         this.content = builder.content;
         this.question = builder.question;
         this.setting = builder.setting;
@@ -39,5 +41,9 @@ public class SurveyCreate implements UseCase {
 
     public String getStringId(){
         return this.id.toString();
+    }
+
+    public String getStringHandlingKey(){
+        return this.handlingKey.toString();
     }
 }

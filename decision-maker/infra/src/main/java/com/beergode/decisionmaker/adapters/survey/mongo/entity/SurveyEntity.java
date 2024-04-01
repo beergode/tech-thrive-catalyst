@@ -15,6 +15,8 @@ import static com.beergode.decisionmaker.survey.model.Survey.survey;
 @Document(collection = "survey")
 public class SurveyEntity extends AbstractEntity {
 
+
+    private String handlingKey;
     @NonNull
     private String content;
     @NonNull
@@ -23,17 +25,18 @@ public class SurveyEntity extends AbstractEntity {
     private SurveySettingEntity setting;
     private Integer participantCount;
 
-    public static SurveyEntity of(String  id, String content, QuestionEntity question, SurveySettingEntity setting) {
-        return of(id, content, question, null, setting, null);
+    public static SurveyEntity of(String  id, String content, QuestionEntity question, SurveySettingEntity setting, String handlingKey) {
+        return of(id, content, question, null, setting, null, handlingKey);
     }
 
-    public static SurveyEntity of(String  id, String content, QuestionEntity question, LocalDate closedAt, SurveySettingEntity setting, Integer participantCount) {
-        return new SurveyEntity(id, content, question, closedAt, setting, participantCount);
+    public static SurveyEntity of(String  id, String content, QuestionEntity question, LocalDate closedAt, SurveySettingEntity setting, Integer participantCount, String handlingKey) {
+        return new SurveyEntity(id, content, question, closedAt, setting, participantCount, handlingKey);
     }
 
     public Survey toModel() {
         Survey.Builder builder =  survey()
                 .id(UUID.fromString(super.getId()))
+                .handlingKey(handlingKey)
                 .content(content)
                 .question(question.toModel())
                 .closedAt(closedAt)
@@ -47,8 +50,9 @@ public class SurveyEntity extends AbstractEntity {
 
     private SurveyEntity() {}
 
-    private SurveyEntity(String id, @NonNull String content, QuestionEntity question, LocalDate closedAt, SurveySettingEntity setting, Integer participantCount) {
+    private SurveyEntity(String id, @NonNull String content, QuestionEntity question, LocalDate closedAt, SurveySettingEntity setting, Integer participantCount, String handlingKey) {
         this.id = id;
+        this.handlingKey = handlingKey;
         this.content = content;
         this.question = question;
         this.closedAt = closedAt;

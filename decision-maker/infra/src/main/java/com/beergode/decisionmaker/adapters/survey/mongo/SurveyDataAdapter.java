@@ -33,7 +33,11 @@ public class SurveyDataAdapter implements SurveyPort {
         var surveySettingEntity = surveySetting == null
                 ? null
                 : SurveySettingEntity.of(surveySetting.getParticipantLimit());
-        var surveyEntity = SurveyEntity.of(surveyCreate.getStringId(), surveyCreate.getContent(), questionEntity, surveySettingEntity);
+        var surveyEntity = SurveyEntity.of(surveyCreate.getStringId(),
+                surveyCreate.getContent(),
+                questionEntity,
+                surveySettingEntity,
+                surveyCreate.getStringHandlingKey());
 
         return surveyMongoRepository.save(surveyEntity)
                 .toModel();
@@ -58,7 +62,8 @@ public class SurveyDataAdapter implements SurveyPort {
                 questionEntity,
                 surveyUpdate.getClosedAt(),
                 surveySettingEntity,
-                surveyUpdate.getParticipantCount());
+                surveyUpdate.getParticipantCount(),
+                surveyUpdate.getHandlingKey());
 
         return surveyMongoRepository.save(surveyEntity).toModel();
     }
@@ -66,6 +71,10 @@ public class SurveyDataAdapter implements SurveyPort {
     @Override
     public Survey retrieve(String id) {
         return surveyMongoRepository.findById(id).orElseThrow(null).toModel();
+    }
+
+    public Survey retrieveByHandlingId(String handlingId) {
+        return surveyMongoRepository.findByHandlingKey(handlingId).orElseThrow(null).toModel();
     }
 
     @Override

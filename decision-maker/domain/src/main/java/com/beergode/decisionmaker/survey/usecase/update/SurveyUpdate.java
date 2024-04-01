@@ -13,6 +13,7 @@ import java.util.UUID;
 @Builder(builderMethodName = "surveyUpdate", builderClassName = "Builder")
 public class SurveyUpdate implements UseCase {
     private UUID id;
+    private String handlingKey;
     private String content;
     private QuestionUpdate question;
     private LocalDate closedAt;
@@ -21,6 +22,7 @@ public class SurveyUpdate implements UseCase {
 
     private SurveyUpdate(Builder builder) {
         this.id = builder.id;
+        this.handlingKey = builder.handlingKey;
         this.content = builder.content;
         this.question = builder.question;
         this.closedAt = builder.closedAt;

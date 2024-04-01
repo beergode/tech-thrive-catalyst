@@ -84,6 +84,15 @@ public class SurveyController extends BaseController {
     return respond(SurveyResponse.from(survey));
   }
 
+  @GetMapping("/handlingKey={handlingKey}")
+  public Response<SurveyResponse> retrieveByHandlingKey(
+          @PathVariable("handlingKey")
+          String handlingKey) {
+    var survey = publish(Survey.class, SurveyGet.fromHandlingId(handlingKey));
+    log.info("Survey is retrieved for handlingKey {}", handlingKey);
+    return respond(SurveyResponse.from(survey));
+  }
+
   private List<SurveyResponse> toResponse(List<Survey> surveys) {
     return surveys.stream().map(SurveyResponse::from).toList();
   }

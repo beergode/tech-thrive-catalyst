@@ -16,6 +16,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class SurveyResponse {
     private String id;
+    private String handlingKey;
     private String content;
 
     private Long createdAt;
@@ -29,6 +30,7 @@ public class SurveyResponse {
     public static SurveyResponse from(Survey survey) {
         return SurveyResponse.builder()
                 .id(survey.getId().toString())
+                .handlingKey(survey.getHandlingKey())
                 .content(survey.getContent())
                 .createdAt(survey.getCreatedLong())
                 .question(survey.getQuestion())

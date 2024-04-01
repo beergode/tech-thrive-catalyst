@@ -19,6 +19,7 @@ import java.util.UUID;
 public class Survey {
 
     private UUID id;
+    private String handlingKey;
     private String content;
     private Instant createdAt;
     private LocalDate closedAt;
@@ -28,6 +29,7 @@ public class Survey {
 
     private Survey(Builder builder) {
         this.id = builder.id;
+        this.handlingKey = builder.handlingKey;
         this.content = builder.content;
         this.question = builder.question;
         this.closedAt = builder.closedAt;
