@@ -46,13 +46,16 @@ public class SurveyController extends BaseController {
   }
 
   @GetMapping
+  @SuppressWarnings("unchecked")
   public Response<DataResponse<SurveyResponse>> paginate(Pageable pageable) {
     var surveyRequest = SurveyPaginate.builder()
-        .page(Page.of(pageable.getPageNumber(), pageable.getPageSize()))
-        .build();
-    var surveyPage = surveyPaginateUseCaseHandler.handle(surveyRequest);
-    return respond(toResponse(surveyPage.getItems()), surveyPage.getPageNumber(),
-        surveyPage.getSize(), surveyPage.getTotalSize());
+            .page(Page.of(pageable.getPageNumber(), pageable.getPageSize()))
+            .build();
+    var surveyPage = publish(Page.class, surveyRequest);
+    var surveyResponses = toResponse(surveyPage.getItems());
+
+    return respond(surveyResponses, surveyPage.getPageNumber(),
+            surveyPage.getSize(), surveyPage.getTotalSize());
   }
 
   @PostMapping
