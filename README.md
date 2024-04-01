@@ -17,5 +17,12 @@ To get started with Tech Thrive Catalyst, clone the repository and set up the en
 
 ```bash
 git clone https://github.com/beergode/tech-thrive-catalyst.git
+```
+```bash
 cd tech-thrive-catalyst
+```
+```bash
 ./gradlew build
+```
+## Contributing
+We welcome contributions to the Tech Thrive Catalyst project. If you have suggestions or improvements, please fork the repository and submit a pull request.
