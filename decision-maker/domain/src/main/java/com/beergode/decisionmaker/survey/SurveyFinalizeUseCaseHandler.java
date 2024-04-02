@@ -12,7 +12,6 @@ import groovy.util.logging.Slf4j;
 @DomainComponent
 public class SurveyFinalizeUseCaseHandler extends ObservableUseCasePublisher
     implements UseCaseHandler<Survey, SurveyFinalize> {
-
   private final SurveyPort surveyPort;
 
   public SurveyFinalizeUseCaseHandler(SurveyPort surveyPort) {
