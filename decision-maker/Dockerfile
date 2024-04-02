@@ -1,7 +1,7 @@
 FROM gcr.io/distroless/java21-debian12
 LABEL maintainer=tech-thrive-catalyst
 
-COPY build/libs/decision-maker.jar lib/decision-maker.jar
+COPY build/libs/decision-maker.jar /lib/decision-maker.jar
 
 EXPOSE 8875
 
