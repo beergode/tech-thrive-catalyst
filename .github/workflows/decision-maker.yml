@@ -27,7 +27,7 @@ jobs:
     uses: beergode/shared-pipeline-templates/.github/workflows/.buildAndPublishImageGradle.yml@main
     with:
       image_name: ${{ github.repository }}/decision-maker
-      tag: ${{ needs.semver.outputs.newTag }}
+      tag: ${{ needs.semverDryRun.outputs.newTag }}
       repository_name: ${{ github.repository }}
     secrets:
       registry_username: ${{ github.repository_owner }}
