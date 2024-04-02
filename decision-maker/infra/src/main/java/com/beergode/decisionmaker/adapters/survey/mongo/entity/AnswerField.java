@@ -9,7 +9,6 @@ import static com.beergode.decisionmaker.survey.model.Answer.answer;
 
 @Getter
 public class AnswerField extends AbstractType {
-
     private String text;
     private Long voteCount;
 
