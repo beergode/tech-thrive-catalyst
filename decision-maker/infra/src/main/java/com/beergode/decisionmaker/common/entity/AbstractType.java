@@ -10,7 +10,6 @@ import org.springframework.data.annotation.LastModifiedDate;
 @Getter
 @Setter
 public abstract class AbstractType {
-
     @Id
     public String id;
 
