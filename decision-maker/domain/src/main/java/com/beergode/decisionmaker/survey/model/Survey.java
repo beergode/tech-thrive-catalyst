@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.List;
@@ -17,7 +16,6 @@ import java.util.UUID;
 @EqualsAndHashCode
 @Builder(builderMethodName = "survey", builderClassName = "Builder")
 public class Survey {
-
     private UUID id;
     private String handlingKey;
     private String content;
@@ -41,10 +39,6 @@ public class Survey {
         return new Builder();
     }
 
-    public void hideVoteCounts() {
-        this.getAnswers().forEach(Answer::hideVoteCounts);
-    }
-
     public static final class Builder {
 
         private Builder() {
@@ -53,6 +47,10 @@ public class Survey {
         public Survey build() {
             return new Survey(this);
         }
+    }
+
+    public void hideVoteCounts() {
+        this.getAnswers().forEach(Answer::hideVoteCounts);
     }
 
     public List<Answer> getAnswers() {
@@ -88,22 +86,6 @@ public class Survey {
        return this.closedAt != null;
     }
 
-    private void incrementParticipantCount() {
-        if (this.participantCount != null) {
-            this.participantCount ++;
-        } else {
-            this.participantCount = 1;
-        }
-    }
-
-    private boolean isReachedToParticipantLimit() {
-        if (this.participantCount != null && this.setting != null && this.setting.getParticipantLimit() != null) {
-            return this.participantCount >= this.setting.getParticipantLimit();
-        } else {
-            return false;
-        }
-    }
-
     public void incrementVoteCount(SurveyVote useCase) {
         this.incrementParticipantCount();
         this.getAnswers()
@@ -118,6 +100,22 @@ public class Survey {
         if (this.isReachedToParticipantLimit()) {
             log.info("Reached to maximum participant count for id {}. Survey is closed", this.getId());
             this.close();
+        }
+    }
+
+    private void incrementParticipantCount() {
+        if (this.participantCount != null) {
+            this.participantCount ++;
+        } else {
+            this.participantCount = 1;
+        }
+    }
+
+    private boolean isReachedToParticipantLimit() {
+        if (this.participantCount != null && this.setting != null && this.setting.getParticipantLimit() != null) {
+            return this.participantCount >= this.setting.getParticipantLimit();
+        } else {
+            return false;
         }
     }
 

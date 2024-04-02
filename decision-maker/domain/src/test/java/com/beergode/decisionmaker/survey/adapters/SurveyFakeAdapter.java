@@ -6,6 +6,7 @@ import com.beergode.decisionmaker.survey.port.SurveyPort;
 import com.beergode.decisionmaker.survey.usecase.SurveyPaginate;
 import com.beergode.decisionmaker.survey.usecase.create.SurveyCreate;
 import com.beergode.decisionmaker.survey.usecase.update.SurveyUpdate;
+import org.apache.commons.lang3.NotImplementedException;
 
 public class SurveyFakeAdapter implements SurveyPort {
 
@@ -34,4 +35,10 @@ public class SurveyFakeAdapter implements SurveyPort {
     public Page<Survey> paginate(SurveyPaginate surveyPaginate) {
         return null;
     }
+
+    @Override
+    public Survey retrieveByHandlingKey(String handlingKey) {
+        throw new NotImplementedException();
+    }
+
 }

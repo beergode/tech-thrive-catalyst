@@ -1,6 +1,6 @@
 package com.beergode.decisionmaker.adapters.survey.mongo.entity;
 
-import com.beergode.decisionmaker.common.entity.AbstractEntity;
+import com.beergode.decisionmaker.common.entity.AbstractType;
 import com.beergode.decisionmaker.survey.model.Survey;
 import lombok.Getter;
 import lombok.NonNull;
@@ -8,29 +8,31 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
 import java.util.UUID;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import static com.beergode.decisionmaker.survey.model.Survey.survey;
 
 @Getter
 @Document(collection = "survey")
-public class SurveyEntity extends AbstractEntity {
+public class SurveyDocument extends AbstractType {
 
 
     private String handlingKey;
     @NonNull
     private String content;
     @NonNull
-    private QuestionEntity question;
+    @Field("question")
+    private QuestionField question;
     private LocalDate closedAt;
     private SurveySettingEntity setting;
     private Integer participantCount;
 
-    public static SurveyEntity of(String  id, String content, QuestionEntity question, SurveySettingEntity setting, String handlingKey) {
+    public static SurveyDocument of(String  id, String content, QuestionField question, SurveySettingEntity setting, String handlingKey) {
         return of(id, content, question, null, setting, null, handlingKey);
     }
 
-    public static SurveyEntity of(String  id, String content, QuestionEntity question, LocalDate closedAt, SurveySettingEntity setting, Integer participantCount, String handlingKey) {
-        return new SurveyEntity(id, content, question, closedAt, setting, participantCount, handlingKey);
+    public static SurveyDocument of(String  id, String content, QuestionField question, LocalDate closedAt, SurveySettingEntity setting, Integer participantCount, String handlingKey) {
+        return new SurveyDocument(id, content, question, closedAt, setting, participantCount, handlingKey);
     }
 
     public Survey toModel() {
@@ -48,9 +50,9 @@ public class SurveyEntity extends AbstractEntity {
         return builder.build();
     }
 
-    private SurveyEntity() {}
+    private SurveyDocument() {}
 
-    private SurveyEntity(String id, @NonNull String content, QuestionEntity question, LocalDate closedAt, SurveySettingEntity setting, Integer participantCount, String handlingKey) {
+    private SurveyDocument(String id, @NonNull String content, QuestionField question, LocalDate closedAt, SurveySettingEntity setting, Integer participantCount, String handlingKey) {
         this.id = id;
         this.handlingKey = handlingKey;
         this.content = content;

@@ -1,24 +1,24 @@
 package com.beergode.decisionmaker.adapters.survey.mongo.entity;
 
-import com.beergode.decisionmaker.common.entity.AbstractEntity;
+import com.beergode.decisionmaker.common.entity.AbstractType;
 import com.beergode.decisionmaker.survey.model.Question;
 import java.util.List;
 import java.util.UUID;
 import lombok.Getter;
 import lombok.NonNull;
-import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import static com.beergode.decisionmaker.survey.model.Question.question;
 
 @Getter
-@Document(collection = "question")
-public class QuestionEntity extends AbstractEntity {
+public class QuestionField extends AbstractType {
     @NonNull
     private String text;
-    private List<AnswerEntity> answers;
+    @Field("answers")
+    private List<AnswerField> answers;
 
-    public static QuestionEntity of(String id, String text, List<AnswerEntity> answers) {
-        return new QuestionEntity(id, text, answers);
+    public static QuestionField of(String id, String text, List<AnswerField> answers) {
+        return new QuestionField(id, text, answers);
     }
 
     public Question toModel() {
@@ -26,12 +26,12 @@ public class QuestionEntity extends AbstractEntity {
                 .id(UUID.fromString(super.getId()))
                 .text(text)
                 .answers(answers.stream()
-                        .map(AnswerEntity::toModel)
+                        .map(AnswerField::toModel)
                         .toList())
                 .build();
     }
-    private QuestionEntity() { /*Hide No Args Constructor*/}
-    private QuestionEntity(String id, String text, List<AnswerEntity> answers) {
+    private QuestionField() { /*Hide No Args Constructor*/}
+    private QuestionField(String id, String text, List<AnswerField> answers) {
         this.id = id;
         this.text = text;
         this.answers = answers;

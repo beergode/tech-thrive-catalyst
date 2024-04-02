@@ -21,15 +21,12 @@ public class SurveyVoteUseCaseHandler extends ObservableUseCasePublisher
 
   @Override
   public void handle(SurveyVote useCase) {
-
     var survey = surveyPort.retrieve(useCase.getSurveyId());
     if (survey.isClosed()) {
       log.error("Voting is closed for Survey {}", survey.getId());
       throw new IllegalStateException("Survey is closed");
     }
-
     survey.incrementVoteCount(useCase);
-
     surveyPort.update(survey.toUpdate());
   }
 }

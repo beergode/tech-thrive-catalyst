@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
 import static com.beergode.decisionmaker.survey.usecase.SurveyFinalize.end;
 
 @RestController
@@ -61,27 +62,22 @@ public class SurveyController extends BaseController {
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
   public Response<SurveyResponse> createSurvey(
-      @RequestBody
-      SurveyCreateRequest surveyCreateRequest) {
+      @RequestBody SurveyCreateRequest surveyCreateRequest) {
     var survey = publish(Survey.class, surveyCreateRequest.toUseCase());
     return respond(SurveyResponse.from(survey));
   }
 
   @PutMapping("/{id}")
   public Response<Void> voteCountUpdate(
-      @PathVariable("id")
-      String id,
-      @RequestBody
-      VoteCountUpdateRequest voteCountUpdateRequest) {
+      @PathVariable("id") String id,
+      @RequestBody VoteCountUpdateRequest voteCountUpdateRequest) {
     publish(voteCountUpdateRequest.toUseCase(id));
     return null;
   }
 
   @PostMapping("/{id}/finalize")
   @ResponseStatus(HttpStatus.CREATED)
-  public Response<SurveyResponse> finalize(
-      @PathVariable("id")
-      String id) {
+  public Response<SurveyResponse> finalize(@PathVariable("id") String id) {
     SurveyFinalize surveyFinalize = end().surveyId(id).build();
     var survey = publish(Survey.class, surveyFinalize);
     return respond(SurveyResponse.from(survey));

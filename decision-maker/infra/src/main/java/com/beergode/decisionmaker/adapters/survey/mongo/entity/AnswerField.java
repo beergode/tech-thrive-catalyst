@@ -1,26 +1,24 @@
 package com.beergode.decisionmaker.adapters.survey.mongo.entity;
 
-import com.beergode.decisionmaker.common.entity.AbstractEntity;
+import com.beergode.decisionmaker.common.entity.AbstractType;
 import com.beergode.decisionmaker.survey.model.Answer;
 import java.util.UUID;
 import lombok.Getter;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import static com.beergode.decisionmaker.survey.model.Answer.answer;
 
 @Getter
-@Document(collection = "answer")
-public class AnswerEntity extends AbstractEntity {
+public class AnswerField extends AbstractType {
 
     private String text;
     private Long voteCount;
 
-    public static AnswerEntity of(String id, String text) {
+    public static AnswerField of(String id, String text) {
         return of(id, text, null);
     }
 
-    public static AnswerEntity of(String id, String text, Long voteCount) {
-        return new AnswerEntity(id, text, voteCount);
+    public static AnswerField of(String id, String text, Long voteCount) {
+        return new AnswerField(id, text, voteCount);
     }
 
     public Answer toModel() {
@@ -31,9 +29,9 @@ public class AnswerEntity extends AbstractEntity {
                 .build();
     }
 
-    private AnswerEntity() { /*Hide No Args Constructor*/}
+    private AnswerField() { /*Hide No Args Constructor*/}
 
-    private AnswerEntity(String id, String text, Long voteCount) {
+    private AnswerField(String id, String text, Long voteCount) {
         this.id = id;
         this.text = text;
         this.voteCount = voteCount;

@@ -1,8 +1,8 @@
 package com.beergode.decisionmaker.adapters.survey.mongo;
 
-import com.beergode.decisionmaker.adapters.survey.mongo.entity.AnswerEntity;
-import com.beergode.decisionmaker.adapters.survey.mongo.entity.QuestionEntity;
-import com.beergode.decisionmaker.adapters.survey.mongo.entity.SurveyEntity;
+import com.beergode.decisionmaker.adapters.survey.mongo.entity.AnswerField;
+import com.beergode.decisionmaker.adapters.survey.mongo.entity.QuestionField;
+import com.beergode.decisionmaker.adapters.survey.mongo.entity.SurveyDocument;
 import com.beergode.decisionmaker.adapters.survey.mongo.entity.SurveySettingEntity;
 import com.beergode.decisionmaker.adapters.survey.mongo.repository.SurveyMongoRepository;
 import com.beergode.decisionmaker.common.model.Page;
@@ -27,13 +27,13 @@ public class SurveyDataAdapter implements SurveyPort {
         var surveySetting = surveyCreate.getSetting();
         var answers = question.getAnswers()
                 .stream()
-                .map(answerCreate -> AnswerEntity.of(answerCreate.getStringId(), answerCreate.getText()))
+                .map(answerCreate -> AnswerField.of(answerCreate.getStringId(), answerCreate.getText()))
                 .toList();
-        var questionEntity = QuestionEntity.of(question.getStringId(), question.getText(), answers);
+        var questionEntity = QuestionField.of(question.getStringId(), question.getText(), answers);
         var surveySettingEntity = surveySetting == null
                 ? null
                 : SurveySettingEntity.of(surveySetting.getParticipantLimit());
-        var surveyEntity = SurveyEntity.of(surveyCreate.getStringId(),
+        var surveyEntity = SurveyDocument.of(surveyCreate.getStringId(),
                 surveyCreate.getContent(),
                 questionEntity,
                 surveySettingEntity,
@@ -50,14 +50,14 @@ public class SurveyDataAdapter implements SurveyPort {
         var answers = question.getAnswers()
                 .stream()
                 .map(answerUpdate ->
-                        AnswerEntity.of(answerUpdate.getStringId(), answerUpdate.getText(),
+                        AnswerField.of(answerUpdate.getStringId(), answerUpdate.getText(),
                                 answerUpdate.getVoteCount()))
                 .toList();
-        var questionEntity = QuestionEntity.of(question.getStringId(), question.getText(), answers);
+        var questionEntity = QuestionField.of(question.getStringId(), question.getText(), answers);
         var surveySettingEntity = SurveySettingEntity.of(surveySetting == null
                 ? null
                 : surveySetting.getParticipantLimit());
-        var surveyEntity = SurveyEntity.of(surveyUpdate.getStringId(),
+        var surveyEntity = SurveyDocument.of(surveyUpdate.getStringId(),
                 surveyUpdate.getContent(),
                 questionEntity,
                 surveyUpdate.getClosedAt(),
@@ -77,7 +77,7 @@ public class SurveyDataAdapter implements SurveyPort {
     public Page<Survey> paginate(SurveyPaginate surveyPaginate) {
         var pageRequest = PageRequest.of(surveyPaginate.getPage().getPageNumber(), surveyPaginate.getPage().getSize());
         var surveyPage = surveyMongoRepository.findAll(pageRequest);
-        var surveys = surveyPage.stream().map(SurveyEntity::toModel).toList();
+        var surveys = surveyPage.stream().map(SurveyDocument::toModel).toList();
 
         return Page.of(surveys, surveyPage.getNumber(), surveyPage.getSize(), surveyPage.getTotalElements());
     }
