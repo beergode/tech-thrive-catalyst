@@ -29,6 +29,7 @@ jobs:
       image_name: ${{ github.repository }}/decision-maker
       tag: ${{ needs.semverDryRun.outputs.newTag }}
       repository_name: ${{ github.repository }}
+      module_name: decision-maker
     secrets:
       registry_username: ${{ github.repository_owner }}
       registry_password: ${{ secrets.GITHUB_TOKEN }}
