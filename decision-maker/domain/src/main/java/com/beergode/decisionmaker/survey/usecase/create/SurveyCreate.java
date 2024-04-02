@@ -17,6 +17,7 @@ public class SurveyCreate implements UseCase {
     private static final int KEY_LENGTH = 10;
     private static final Random random = new SecureRandom();
 
+
     private UUID id;
     private String handlingKey;
     private String content;
