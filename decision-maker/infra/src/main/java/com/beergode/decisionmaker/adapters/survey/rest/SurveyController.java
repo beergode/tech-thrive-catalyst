@@ -39,8 +39,7 @@ public class SurveyController extends BaseController {
 
   @GetMapping("/{handlingKey}")
   public Response<SurveyResponse> retrieve(
-      @PathVariable("handlingKey")
-      String handlingKey) {
+      @PathVariable("handlingKey") String handlingKey) {
     var survey = publish(Survey.class, SurveyGet.from(handlingKey));
     log.debug("Survey is retrieved for handlingKey {}", handlingKey);
     return respond(SurveyResponse.from(survey));
