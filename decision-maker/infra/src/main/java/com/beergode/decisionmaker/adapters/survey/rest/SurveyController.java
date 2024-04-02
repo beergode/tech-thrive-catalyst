@@ -36,12 +36,12 @@ import static com.beergode.decisionmaker.survey.usecase.SurveyFinalize.end;
 public class SurveyController extends BaseController {
   private final UseCaseHandler<Page<Survey>, SurveyPaginate> surveyPaginateUseCaseHandler;
 
-  @GetMapping("/{id}")
+  @GetMapping("/{handlingKey}")
   public Response<SurveyResponse> retrieve(
-      @PathVariable("id")
-      String id) {
-    var survey = publish(Survey.class, SurveyGet.from(id));
-    log.info("Survey is retrieved for id {}", id);
+      @PathVariable("handlingKey")
+      String handlingKey) {
+    var survey = publish(Survey.class, SurveyGet.from(handlingKey));
+    log.debug("Survey is retrieved for handlingKey {}", handlingKey);
     return respond(SurveyResponse.from(survey));
   }
 
@@ -84,15 +84,6 @@ public class SurveyController extends BaseController {
       String id) {
     SurveyFinalize surveyFinalize = end().surveyId(id).build();
     var survey = publish(Survey.class, surveyFinalize);
-    return respond(SurveyResponse.from(survey));
-  }
-
-  @GetMapping("/handlingKey={handlingKey}")
-  public Response<SurveyResponse> retrieveByHandlingKey(
-          @PathVariable("handlingKey")
-          String handlingKey) {
-    var survey = publish(Survey.class, SurveyGet.fromHandlingId(handlingKey));
-    log.info("Survey is retrieved for handlingKey {}", handlingKey);
     return respond(SurveyResponse.from(survey));
   }
 

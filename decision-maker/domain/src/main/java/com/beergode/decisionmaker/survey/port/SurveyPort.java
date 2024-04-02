@@ -12,5 +12,5 @@ public interface SurveyPort {
     Survey update(SurveyUpdate surveyUpdate);
     Survey retrieve(String id);
     Page<Survey> paginate(SurveyPaginate surveyPaginate);
-    Survey retrieveByHandlingId(String handlingId);
+    Survey retrieveByHandlingKey(String handlingKey);
 }

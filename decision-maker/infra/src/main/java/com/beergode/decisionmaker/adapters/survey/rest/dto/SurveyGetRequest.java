@@ -14,11 +14,11 @@ import lombok.NoArgsConstructor;
 public class SurveyGetRequest {
 
     @NotNull
-    private String id;
+    private String handlingKey;
 
     public SurveyGet toUseCase() {
         return SurveyGet.builder()
-                .id(id)
+                .handlingKey(handlingKey)
                 .build();
     }
 }

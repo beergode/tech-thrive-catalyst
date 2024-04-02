@@ -8,18 +8,12 @@ import lombok.Data;
 @Builder
 public class SurveyGet  implements UseCase {
 
-    private String id;
-    private String handlingId;
+    private String handlingKey;
 
-    public static SurveyGet from(String id) {
+    public static SurveyGet from(String handlingKey) {
         return SurveyGet.builder()
-                .id(id)
+                .handlingKey(handlingKey)
                 .build();
     }
 
-    public static SurveyGet fromHandlingId(String handlingId) {
-        return SurveyGet.builder()
-                .handlingId(handlingId)
-                .build();
-    }
 }

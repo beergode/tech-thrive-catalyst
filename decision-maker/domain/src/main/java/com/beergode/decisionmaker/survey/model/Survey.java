@@ -65,6 +65,7 @@ public class Survey {
     public SurveyUpdate toUpdate(){
         return SurveyUpdate.surveyUpdate()
                 .id(this.id)
+                .handlingKey(this.handlingKey)
                 .content(this.content)
                 .question(this.question.toUpdate())
                 .closedAt(this.closedAt)

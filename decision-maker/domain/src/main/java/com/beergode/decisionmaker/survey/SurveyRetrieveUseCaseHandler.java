@@ -22,10 +22,7 @@ public class SurveyRetrieveUseCaseHandler extends ObservableUseCasePublisher
 
   @Override
   public Survey handle(SurveyGet surveyGet) {
-    Survey survey = surveyGet.getId() != null ? surveyPort.retrieve(surveyGet.getId()) : null;
-    if (survey == null) {
-      survey = surveyPort.retrieveByHandlingId(surveyGet.getHandlingId());
-    }
+    var  survey = surveyPort.retrieveByHandlingKey(surveyGet.getHandlingKey());
     if (!survey.isClosed()) {
       survey.hideVoteCounts();
     }

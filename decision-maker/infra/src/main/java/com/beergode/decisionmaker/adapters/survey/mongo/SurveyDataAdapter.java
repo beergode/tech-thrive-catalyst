@@ -73,10 +73,6 @@ public class SurveyDataAdapter implements SurveyPort {
         return surveyMongoRepository.findById(id).orElseThrow(null).toModel();
     }
 
-    public Survey retrieveByHandlingId(String handlingId) {
-        return surveyMongoRepository.findByHandlingKey(handlingId).orElseThrow(null).toModel();
-    }
-
     @Override
     public Page<Survey> paginate(SurveyPaginate surveyPaginate) {
         var pageRequest = PageRequest.of(surveyPaginate.getPage().getPageNumber(), surveyPaginate.getPage().getSize());
@@ -85,4 +81,10 @@ public class SurveyDataAdapter implements SurveyPort {
 
         return Page.of(surveys, surveyPage.getNumber(), surveyPage.getSize(), surveyPage.getTotalElements());
     }
+
+    @Override
+    public Survey retrieveByHandlingKey(String handlingKey) {
+        return surveyMongoRepository.findByHandlingKey(handlingKey).orElseThrow(null).toModel();
+    }
+
 }

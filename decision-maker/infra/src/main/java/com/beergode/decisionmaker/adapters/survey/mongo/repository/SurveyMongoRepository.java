@@ -6,5 +6,5 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import java.util.Optional;
 
 public interface SurveyMongoRepository extends MongoRepository<SurveyEntity, String> {
-    Optional<SurveyEntity> findByHandlingKey(String handlingId);
+    Optional<SurveyEntity> findByHandlingKey(String handlingKey);
 }
