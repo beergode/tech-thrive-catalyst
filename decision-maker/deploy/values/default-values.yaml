@@ -1,0 +1,16 @@
+#default values for all environments, that can / will be overwritten by environment specific files
+replicaCount: 2
+
+decisionmaker:
+  port: 8080
+  db:
+    uri: omnisystem.c4ikv8ugm1u8.eu-central-1.rds.amazonaws.com
+
+namespace: default
+
+containerRegistry:
+  registry: ghcr.io
+
+imagePullSecrets:
+  - name: github-registry
+

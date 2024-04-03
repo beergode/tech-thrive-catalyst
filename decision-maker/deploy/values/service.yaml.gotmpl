@@ -1,0 +1,20 @@
+replicaCount: {{ .Environment.Values | getOrNil "replicaCount" }}
+
+decisionmaker:
+  port: {{ .Environment.Values | getOrNil "decisionmaker.port" }}
+  springProfile: {{ .Environment.Values | getOrNil "decisionmaker.springProfile" | default "dev" }}
+  dev:
+    enabled: {{ .Environment.Values | getOrNil "decisionmaker.dev.enabled" | default "false" | quote }}
+  db:
+    uri: ref+awssecrets://decision-maker/public-dev/db-credentials#/host
+
+namespace: {{ .Environment.Values | get "namespace" }}
+image:
+  tag: {{ requiredEnv "NEW_TAG" | quote }}
+containerRegistry:
+  username: {{ requiredEnv "CONTAINER_REGISTRY_USERNAME" | quote }}
+  password: {{ requiredEnv "CONTAINER_REGISTRY_PASSWORD" | quote }}
+  registry: ghcr.io
+
+
+

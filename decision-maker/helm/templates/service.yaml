@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "chart-template.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "chart-template.name" . }}
+    helm.sh/chart: {{ include "chart-template.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 8080
+  selector:
+    app.kubernetes.io/name: {{ include "chart-template.name" . }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}

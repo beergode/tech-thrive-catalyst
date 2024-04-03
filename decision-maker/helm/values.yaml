@@ -1,0 +1,118 @@
+#Default values for chart-template
+#This is a YAML-formatted file.
+#Declare variables to be passed into your templates.
+
+image:
+  repository: ghcr.io/beergode/tech-thrive-catalyst/decision-maker
+  tag: "" # not used - see deployment.yaml
+  pullPolicy: IfNotPresent
+
+replicaCount:
+
+management: { }
+
+#podAnnotations:
+#  prometheus.io.path: "/manage/prometheus"
+#  prometheus.io/scrape: "true"
+#  prometheus.io/port: "8002"
+
+service:
+  type: ClusterIP
+  port: 8080
+
+
+ingress:
+  enabled: false
+  annotations: { }
+  tls: [ ]
+  hosts: [ ]
+
+
+resources:
+  limits:
+    cpu: 2
+    memory: 1536M
+  requests:
+    cpu: 100m
+    memory: 128M
+
+nodeSelector: { }
+
+tolerations: [ ]
+
+affinity: { }
+
+
+livenessProbe:
+  enabled: false
+  initialDelaySeconds: 10
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 6
+  successThreshold: 1
+
+readinessProbe:
+  enabled: true
+  initialDelaySeconds: 15
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 6
+  successThreshold: 1
+
+podSecurityContext:
+#  fsGroup: 2000
+  runAsNonRoot: true
+  runAsGroup: 2000
+  runAsUser: 2000
+
+
+containerSecurityContext:
+  #TODO handle tmp dir and re-enable
+  readOnlyRootFilesystem: false
+  allowPrivilegeEscalation: false
+#  capabilities:
+#    drop:
+#      - ALL
+#  runAsRoot: true
+#  runAsUser: 1000
+
+serviceAuthentication:
+  authorizationToken:
+
+env: { }
+
+decisionmaker:
+  name: decision-maker
+  port:
+  auth:
+    key:
+  dev:
+    enabled:
+  db:
+    uri:
+    username:
+    password:
+    database:
+
+mongodb:
+  version: 5.0.17
+
+  springProfile:
+
+namespace:
+
+imagePullSecrets: []
+
+containerRegistry:
+  username:
+  password:
+  registry:
+
+catchAllIngressRoute:
+  enabled: false
+  entryPoints:
+    - web
+  middlewares: []
+  priority: 3000
+
+

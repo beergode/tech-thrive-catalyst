@@ -1,0 +1,11 @@
+bases:
+  - values/helmfile-defaults.yaml
+
+---
+releases:
+  - name: decision-maker
+    namespace: {{ .Environment.Values.namespace }}
+    chart: ../helm
+    values:
+      - values/service.yaml.gotmpl
+      - values/mongodb.yaml.gotmpl
