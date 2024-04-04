@@ -9,12 +9,15 @@ on:
       - main
   workflow_dispatch:
 
+env:
+  MODULE_NAME: decision-maker
+
 jobs:
   build:
     uses: beergode/shared-pipeline-templates/.github/workflows/.buildGradle.yml@main
     with:
       repository_name: ${{ github.repository }}
-      module_name: decision-maker
+      module_name: ${{ env.MODULE_NAME }}
 
   semverDryRun:
     uses: beergode/shared-pipeline-templates/.github/workflows/.semver.yml@main
@@ -26,10 +29,10 @@ jobs:
     if: ${{ github.ref == 'refs/heads/main' }}
     uses: beergode/shared-pipeline-templates/.github/workflows/.buildAndPublishImageGradle.yml@main
     with:
-      image_name: ${{ github.repository }}/decision-maker
+      image_name: ${{ github.repository }}/${{ env.MODULE_NAME }}
       tag: ${{ needs.semverDryRun.outputs.newTag }}
       repository_name: ${{ github.repository }}
-      module_name: decision-maker
+      module_name: ${{ env.MODULE_NAME }}
     secrets:
       registry_username: ${{ github.repository_owner }}
       registry_password: ${{ secrets.GITHUB_TOKEN }}
@@ -49,7 +52,7 @@ jobs:
     with:
       repository_name: ${{ github.repository }}
       registry_username: ${{ github.repository_owner }}
-      module_name: decision-maker
+      module_name: ${{ env.MODULE_NAME }}
     secrets:
       registry_password: ${{ secrets.GITHUB_TOKEN }}
       DO_ACCESS_TOKEN: ${{ secrets.DO_ACCESS_TOKEN }}
