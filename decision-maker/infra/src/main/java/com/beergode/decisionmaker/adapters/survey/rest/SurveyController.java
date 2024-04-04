@@ -61,7 +61,7 @@ public class SurveyController extends BaseController {
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
   public Response<SurveyResponse> createSurvey(
-      @RequestBody SurveyCreateRequest surveyCreateRequest) {
+      @RequestBody SurveyCreateRequest surveyCreateRequest {
     var survey = publish(Survey.class, surveyCreateRequest.toUseCase());
     return respond(SurveyResponse.from(survey));
   }

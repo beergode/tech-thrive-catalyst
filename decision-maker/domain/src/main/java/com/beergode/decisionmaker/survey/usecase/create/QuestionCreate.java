@@ -1,6 +1,7 @@
 package com.beergode.decisionmaker.survey.usecase.create;
 
 import com.beergode.decisionmaker.common.model.UseCase;
+import groovyjarjarantlr4.v4.runtime.misc.NotNull;
 import java.util.UUID;
 import lombok.Builder;
 import lombok.Data;
@@ -8,6 +9,7 @@ import lombok.Data;
 import java.util.List;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NonNull;
 
 import static java.util.Optional.ofNullable;
 
@@ -22,7 +24,15 @@ public class QuestionCreate implements UseCase {
     private QuestionCreate(Builder builder) {
         this.id = UUID.randomUUID();
         this.text = builder.text;
-        this.answers = builder.answers;
+        this.answers = validateAnswers(builder);
+    }
+
+    private static List<AnswerCreate> validateAnswers(Builder builder) {
+        var surveyAnswers = builder.answers;
+        if (surveyAnswers == null || surveyAnswers.isEmpty()) {
+            throw new IllegalArgumentException("Answers cannot be null! or empty");
+        }
+        return surveyAnswers;
     }
 
     public static Builder questionCreate() {

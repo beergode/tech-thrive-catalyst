@@ -6,7 +6,7 @@ ext {
     version_slf4j = '2.0.12'
     version_logback = '1.4.14'
     version_junit5 = '5.6.0'
-    version_junit5_suite = '1.6.0'
+    version_junit5_suite = '1.10.2'
     version_assertJ = '3.10.0'
     version_mockito = '2.21.0'
 

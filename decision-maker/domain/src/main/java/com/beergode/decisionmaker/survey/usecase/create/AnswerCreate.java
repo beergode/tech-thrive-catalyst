@@ -20,8 +20,16 @@ public class AnswerCreate implements UseCase {
 
     private AnswerCreate(Builder builder) {
         this.id = UUID.randomUUID();
-        this.text = builder.text;
+        this.text = validateText(builder);
         this.voteCount = 0L;
+    }
+
+    private static String validateText(Builder builder) {
+        String answerText = builder.text;
+        if (answerText == null){
+            throw new IllegalArgumentException("Answer text cannot be null");
+        }
+        return answerText;
     }
 
     public static Builder answerCreate() {
