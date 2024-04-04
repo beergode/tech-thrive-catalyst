@@ -49,6 +49,7 @@ jobs:
     with:
       repository_name: ${{ github.repository }}
       registry_username: ${{ github.repository_owner }}
+      module_name: decision-maker
     secrets:
       registry_password: ${{ secrets.GITHUB_TOKEN }}
       DO_ACCESS_TOKEN: ${{ secrets.DO_ACCESS_TOKEN }}
