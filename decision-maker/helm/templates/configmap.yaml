@@ -11,5 +11,5 @@ data:
   SPRING_PROFILES_ACTIVE: {{ default "dev" .Values.decisionmaker.springProfile | quote }}
   dev-features.enabled: {{ .Values.decisionmaker.dev.enabled | quote }}
   SERVER_PORT: {{ .Values.decisionmaker.port | quote}}
-  MONGO_USERNAME: {{ .Values.decisionmaker.db.username | quote }}
-  MONGO_DATABASE: {{ .Values.decisionmaker.db.database | quote }}
+  MONGODB_USERNAME: {{ .Values.decisionmaker.db.username | quote }}
+  MONGODB_DATABASE: {{ .Values.decisionmaker.db.database | quote }}
