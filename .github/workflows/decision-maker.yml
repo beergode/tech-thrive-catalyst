@@ -32,7 +32,7 @@ jobs:
       image_name: ${{ github.repository }}/${{ env.MODULE_NAME }}
       tag: ${{ needs.semverDryRun.outputs.newTag }}
       repository_name: ${{ github.repository }}
-      module_name: ${{ env.MODULE_NAME }}
+      module_name: decision-maker
     secrets:
       registry_username: ${{ github.repository_owner }}
       registry_password: ${{ secrets.GITHUB_TOKEN }}
@@ -52,7 +52,7 @@ jobs:
     with:
       repository_name: ${{ github.repository }}
       registry_username: ${{ github.repository_owner }}
-      module_name: ${{ env.MODULE_NAME }}
+      module_name: decision-maker
     secrets:
       registry_password: ${{ secrets.GITHUB_TOKEN }}
       DO_ACCESS_TOKEN: ${{ secrets.DO_ACCESS_TOKEN }}
