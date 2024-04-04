@@ -20,7 +20,6 @@ public class QuestionCreate implements UseCase {
     private UUID id;
     private String text;
     private List<AnswerCreate> answers;
-
     private QuestionCreate(Builder builder) {
         this.id = UUID.randomUUID();
         this.text = builder.text;
