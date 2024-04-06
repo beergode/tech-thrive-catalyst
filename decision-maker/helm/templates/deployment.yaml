@@ -36,11 +36,27 @@ spec:
             - configMapRef:
                 name: {{ $fullName }}
           env:
+            - name: MONGODB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $fullName }}
+                  key: db_username
+            - name: MONGODB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $fullName }}
+                  key: db_password
+            - name: MONGODB_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $fullName }}
+                  key: db_name
             - name: SPRING_DATA_MONGODB_URI
               valueFrom:
                 secretKeyRef:
                   name: {{ $fullName }}
                   key: userConnectionUri
+
           ports:
             - name: http
               containerPort: 8080

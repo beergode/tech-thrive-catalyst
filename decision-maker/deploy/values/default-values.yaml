@@ -3,10 +3,6 @@ replicaCount: 2
 
 decisionmaker:
   port: 8080
-  db:
-    uri:
-    username: decision-maker
-    database: decision-maker
 
 namespace: default
 
