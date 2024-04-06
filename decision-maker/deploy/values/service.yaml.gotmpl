@@ -5,6 +5,11 @@ decisionmaker:
   springProfile: {{ .Environment.Values | getOrNil "decisionmaker.springProfile" | default "dev" }}
   dev:
     enabled: {{ .Environment.Values | getOrNil "decisionmaker.dev.enabled" | default "false" | quote }}
+  db:
+    uri: mongodb+srv://{{ requiredEnv "MONGODB_USERNAME" | quote }}:{{ requiredEnv "MONGODB_PASSWORD" | quote }}@decision-maker-mongodb-svc.{{ .Environment.Values | get "namespace" }}.svc.cluster.local/{{ requiredEnv "MONGODB_DATABASE" | quote }}?replicaSet=decision-maker-mongodb&tls=false&ssl=false&authSource=admin
+    username: {{ requiredEnv "MONGODB_USERNAME" | quote }}
+    password: {{ requiredEnv "MONGODB_PASSWORD" | quote }}
+    database: {{ requiredEnv "MONGODB_DATABASE" | quote }}
 namespace: {{ .Environment.Values | get "namespace" }}
 image:
   tag: {{ requiredEnv "NEW_TAG" | quote }}

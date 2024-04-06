@@ -6,7 +6,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class DecisionMakerBusinessException extends RuntimeException {
-
     private final String key;
     private final String[] args;
 
