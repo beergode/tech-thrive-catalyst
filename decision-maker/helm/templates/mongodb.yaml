@@ -10,14 +10,14 @@ spec:
     authentication:
       modes: ["SCRAM"]
   users:
-    - name: {{ required "Mongo user name is required" .Values.decisionmaker.db.username }}
-      db: {{ required "Mongodb name is required" .Values.decisionmaker.db.database }}
+    - name: {{ include "chart-template.fullname" . }}
+      db: {{ include "chart-template.fullname" . }}
       passwordSecretRef: # a reference to the secret that will be used to generate the user's password
-        name: {{ include "chart-template.fullname" . }}
-        key: "MONGODB_PASSWORD"
+        name: {{ include "chart-template.fullname" . }}-mongodb-generated
+        key: "userPassword"
       roles:
         - name: readWrite
-          db: {{ required "Mongodb name is required" .Values.decisionmaker.db.database }}
+          db: {{ include "chart-template.fullname" . }}
       scramCredentialsSecretName: {{ include "chart-template.fullname" . }}-mongodb-scram-user
   statefulSet:
     spec:
