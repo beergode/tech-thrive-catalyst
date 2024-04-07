@@ -35,17 +35,6 @@ spec:
                 name: {{ $fullName }}
             - configMapRef:
                 name: {{ $fullName }}
-          env:
-            - name: SPRING_DATA_MONGODB_URI
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "chart-template.fullname" . }}-mongodb-generated
-                  key: userConnectionUri
-            - name: MONGODB_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "chart-template.fullname" . }}-{{ include "chart-template.fullname" . }}-{{ include "chart-template.fullname" . }}
-                  key: password
 
           ports:
             - name: http
