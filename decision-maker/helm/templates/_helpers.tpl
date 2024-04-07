@@ -30,19 +30,16 @@ Create chart name and version as used by the chart label.
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
-{{- define "decision-maker.labels" -}}
-helm.sh/chart: {{ include "decision-maker.chart" . }}
-{{ include "decision-maker.selectorLabels" . }}
+{{- define "chart-template.labels" -}}
+helm.sh/chart: {{ include "chart-template.chart" . }}
+{{ include "chart-template.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
-{{- with .Values.customLabels }}
-{{ toYaml . }}
-{{- end }}
 {{- end }}
 
-{{- define "decision-maker.selectorLabels" -}}
+{{- define "chart-template.selectorLabels" -}}
 app.kubernetes.io/name: {{ include "chart-template.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}

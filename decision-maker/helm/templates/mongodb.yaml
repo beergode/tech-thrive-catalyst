@@ -19,6 +19,13 @@ spec:
         - name: readWrite
           db: {{ include "chart-template.fullname" . }}
       scramCredentialsSecretName: {{ include "chart-template.fullname" . }}-mongodb-scram-user
+    - name: {{ include "chart-template.fullname" . }}-admin
+      db: admin
+      passwordSecretRef: # a reference
+      roles:
+        - name: root
+          db: admin
+      scramCredentialsSecretName: {{ include "chart-template.fullname" . }}-mongodb-scram-admin
   statefulSet:
     spec:
       template:
@@ -32,3 +39,4 @@ spec:
                 limits:
                   memory: 1024Mi
                   cpu: 2
+          serviceAccountName: mongodb-database
