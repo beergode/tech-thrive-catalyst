@@ -18,7 +18,7 @@ releases:
   - name: decision-maker-mongodb
     namespace: {{ .Environment.Values.namespace }}
     chart: bitnami/mongodb
-    version: 7.0.8
+    version: 15.1.2
     values:
       - mongodbRootPassword:
           existingSecret: mongodb
