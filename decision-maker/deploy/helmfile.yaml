@@ -2,6 +2,12 @@ bases:
   - values/helmfile-defaults.yaml
 
 ---
+repositories:
+  - name: bitnami
+    url: https://charts.bitnami.com/bitnami
+
+
+
 releases:
   - name: decision-maker
     namespace: {{ .Environment.Values.namespace }}
@@ -9,3 +15,11 @@ releases:
     values:
       - values/service.yaml.gotmpl
       - values/mongodb.yaml.gotmpl
+  - name: decision-maker-mongodb
+    namespace: {{ .Environment.Values.namespace }}
+    chart: bitnami/mongodb
+    version: 6.14.10
+    values:
+      - mongodbRootPassword:
+          existingSecret: mongodb
+          key: mongodb-root-password
