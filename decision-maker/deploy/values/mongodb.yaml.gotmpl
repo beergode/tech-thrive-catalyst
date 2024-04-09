@@ -1,6 +1,0 @@
-mongodb:
-  version: {{ .Environment.Values | getOrNil "mongodb.version" | default "5.0.17" }}
-  members: {{ .Environment.Values | getOrNil "mongodb.members" | default 3 }}
-
-
-
