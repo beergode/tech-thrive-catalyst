@@ -14,7 +14,6 @@ releases:
     chart: ../helm
     values:
       - values/service.yaml.gotmpl
-      - values/mongodb.yaml.gotmpl
   - name: decision-maker-mongodb
     namespace: {{ .Environment.Values.namespace }}
     chart: bitnami/mongodb
