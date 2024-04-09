@@ -14,6 +14,7 @@ import org.springframework.context.annotation.FilterType;
 )
 public class DecisionMakerApplication {
 
+
 	public static void main(String[] args) {
 		SpringApplication.run(DecisionMakerApplication.class, args);
 	}
