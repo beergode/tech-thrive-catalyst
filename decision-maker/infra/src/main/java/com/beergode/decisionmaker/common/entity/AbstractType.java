@@ -12,7 +12,6 @@ import org.springframework.data.annotation.LastModifiedDate;
 public abstract class AbstractType {
     @Id
     public String id;
-
     @CreatedDate
     protected LocalDateTime createdAt;
 
