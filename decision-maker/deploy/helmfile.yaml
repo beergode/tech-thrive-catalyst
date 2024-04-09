@@ -20,6 +20,3 @@ releases:
     chart: bitnami/mongodb
     version: 15.1.2
     values:
-      - mongodbRootPassword:
-          existingSecret: mongodb
-          key: mongodb-root-password
