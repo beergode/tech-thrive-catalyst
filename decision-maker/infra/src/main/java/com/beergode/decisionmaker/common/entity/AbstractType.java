@@ -14,7 +14,6 @@ public abstract class AbstractType {
     public String id;
     @CreatedDate
     protected LocalDateTime createdAt;
-
     @LastModifiedDate
     protected LocalDateTime updatedAt;
 }
