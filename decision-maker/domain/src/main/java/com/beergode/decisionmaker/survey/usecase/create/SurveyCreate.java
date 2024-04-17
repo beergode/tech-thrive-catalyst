@@ -17,16 +17,17 @@ public class SurveyCreate implements UseCase {
     private static final int KEY_LENGTH = 10;
     private static final Random random = new SecureRandom();
 
-
     private UUID id;
     private String handlingKey;
     private String content;
+    private String note;
     private QuestionCreate question;
     private SurveySettingCreate setting;
 
     private SurveyCreate(Builder builder) {
         this.id = UUID.randomUUID();
         this.handlingKey = generateKey();
+        this.note = builder.note;
         this.content = builder.content;
         this.question = builder.question;
         this.setting = builder.setting;

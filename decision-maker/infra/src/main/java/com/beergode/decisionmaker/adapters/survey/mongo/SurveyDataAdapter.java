@@ -34,6 +34,7 @@ public class SurveyDataAdapter implements SurveyPort {
                 : SurveySettingEntity.of(surveySetting.getParticipantLimit());
         var surveyEntity = SurveyDocument.of(surveyCreate.getStringId(),
                 surveyCreate.getContent(),
+                surveyCreate.getNote(),
                 questionEntity,
                 surveySettingEntity,
                 surveyCreate.getStringHandlingKey());
@@ -58,6 +59,7 @@ public class SurveyDataAdapter implements SurveyPort {
                 : surveySetting.getParticipantLimit());
         var surveyEntity = SurveyDocument.of(surveyUpdate.getStringId(),
                 surveyUpdate.getContent(),
+                surveyUpdate.getNote(),
                 questionEntity,
                 surveyUpdate.getClosedAt(),
                 surveySettingEntity,

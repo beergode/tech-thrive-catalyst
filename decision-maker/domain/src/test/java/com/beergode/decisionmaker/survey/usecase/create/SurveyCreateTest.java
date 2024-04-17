@@ -60,4 +60,20 @@ class SurveyCreateTest {
                                 .build()))
                 .withMessage("Answer text cannot be null");
     }
+
+    @Test
+    void should_allow_adding_note_when_creating_survey() {
+        //given
+        var surveyCreate = surveyCreate()
+            .note("Test note")
+            .question(questionCreate()
+                .answers(List.of(answerCreate()
+                    .text("Test text")
+                    .build()))
+                .build())
+            .build();
+
+        //then
+        assertThat(surveyCreate).isNotNull();
+    }
 }

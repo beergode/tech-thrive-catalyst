@@ -16,12 +16,14 @@ import static com.beergode.decisionmaker.survey.usecase.create.SurveyCreate.surv
 public class SurveyCreateRequest {
     @NotNull
     private String content;
+    private String note;
     @NotNull
     private QuestionCreateRequest question;
     private SurveySettingRequest setting;
 
     public SurveyCreate toUseCase() {
         SurveyCreate.Builder builder = surveyCreate()
+                .note(note)
                 .content(content)
                 .question(question.toUseCase());
         if (setting != null) {
