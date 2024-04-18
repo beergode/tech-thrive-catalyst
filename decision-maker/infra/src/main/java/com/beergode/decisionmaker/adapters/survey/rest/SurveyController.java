@@ -81,6 +81,11 @@ public class SurveyController extends BaseController {
     return respond(SurveyResponse.from(survey));
   }
 
+  @GetMapping("/test")
+  public String test() {
+    return "Test Successful!";
+  }
+
   private List<SurveyResponse> toResponse(List<Survey> surveys) {
     return surveys.stream().map(SurveyResponse::from).toList();
   }
