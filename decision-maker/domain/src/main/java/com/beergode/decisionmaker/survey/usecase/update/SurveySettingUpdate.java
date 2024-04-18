@@ -9,9 +9,12 @@ import lombok.Getter;
 @Builder(builderMethodName = "surveySettingCreate", builderClassName = "Builder")
 public class SurveySettingUpdate {
     private Integer participantLimit;
+    private String passcode;
+
 
     private SurveySettingUpdate(SurveySettingUpdate.Builder builder) {
         this.participantLimit = builder.participantLimit;
+        this.passcode = builder.passcode;
     }
 
     public static SurveySettingUpdate.Builder surveySettingUpdate() {

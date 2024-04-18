@@ -22,17 +22,18 @@ public class SurveyDocument extends AbstractType {
   @Field("question")
   private QuestionField question;
   private LocalDate closedAt;
-  private SurveySettingEntity setting;
+  @Field("setting")
+  private SurveySettingField setting;
   private Integer participantCount;
 
   public static SurveyDocument of(String id, String content, String note,
-      QuestionField question, SurveySettingEntity setting, String handlingKey) {
+      QuestionField question, SurveySettingField setting, String handlingKey) {
     return of(id, content, note, question, null, setting, null, handlingKey);
   }
 
   public static SurveyDocument of(String id, String content,
       String note, QuestionField question,
-      LocalDate closedAt, SurveySettingEntity setting, Integer participantCount,
+      LocalDate closedAt, SurveySettingField setting, Integer participantCount,
       String handlingKey) {
     return new SurveyDocument(id, content, note, question, closedAt, setting, participantCount,
         handlingKey);
@@ -57,7 +58,7 @@ public class SurveyDocument extends AbstractType {
 
   private SurveyDocument(String id, @NonNull String content, String note,
       QuestionField question,
-      LocalDate closedAt, SurveySettingEntity setting, Integer participantCount,
+      LocalDate closedAt, SurveySettingField setting, Integer participantCount,
       String handlingKey) {
     this.id = id;
     this.handlingKey = handlingKey;

@@ -3,7 +3,7 @@ package com.beergode.decisionmaker.adapters.survey.mongo;
 import com.beergode.decisionmaker.adapters.survey.mongo.entity.AnswerField;
 import com.beergode.decisionmaker.adapters.survey.mongo.entity.QuestionField;
 import com.beergode.decisionmaker.adapters.survey.mongo.entity.SurveyDocument;
-import com.beergode.decisionmaker.adapters.survey.mongo.entity.SurveySettingEntity;
+import com.beergode.decisionmaker.adapters.survey.mongo.entity.SurveySettingField;
 import com.beergode.decisionmaker.adapters.survey.mongo.repository.SurveyMongoRepository;
 import com.beergode.decisionmaker.common.model.Page;
 import com.beergode.decisionmaker.survey.model.Survey;
@@ -31,7 +31,7 @@ public class SurveyDataAdapter implements SurveyPort {
         var questionEntity = QuestionField.of(question.getStringId(), question.getText(), answers);
         var surveySettingEntity = surveySetting == null
                 ? null
-                : SurveySettingEntity.of(surveySetting.getParticipantLimit());
+                : SurveySettingField.of(surveySetting.getParticipantLimit(), surveySetting.getPasscode());
         var surveyEntity = SurveyDocument.of(surveyCreate.getStringId(),
                 surveyCreate.getContent(),
                 surveyCreate.getNote(),
@@ -54,9 +54,9 @@ public class SurveyDataAdapter implements SurveyPort {
                                 answerUpdate.getVoteCount()))
                 .toList();
         var questionEntity = QuestionField.of(question.getStringId(), question.getText(), answers);
-        var surveySettingEntity = SurveySettingEntity.of(surveySetting == null
+        var surveySettingEntity = SurveySettingField.of(surveySetting == null
                 ? null
-                : surveySetting.getParticipantLimit());
+                : surveySetting.getParticipantLimit(), surveySetting.getPasscode());
         var surveyEntity = SurveyDocument.of(surveyUpdate.getStringId(),
                 surveyUpdate.getContent(),
                 surveyUpdate.getNote(),

@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import static com.beergode.decisionmaker.survey.usecase.create.AnswerCreate.answerCreate;
 import static com.beergode.decisionmaker.survey.usecase.create.QuestionCreate.questionCreate;
 import static com.beergode.decisionmaker.survey.usecase.create.SurveyCreate.surveyCreate;
+import static com.beergode.decisionmaker.survey.usecase.create.SurveySettingCreate.surveySettingCreate;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
@@ -18,7 +19,7 @@ class SurveyCreateTest {
         var surveyCreate = surveyCreate()
                 .question(questionCreate()
                         .answers(List.of(answerCreate()
-                                        .text("Test text")
+                                .text("Test text")
                                 .build()))
                         .build())
                 .build();
@@ -52,7 +53,7 @@ class SurveyCreateTest {
     @Test
     void should_not_allow_creating_survey_answer_without_text() {
         assertThatIllegalArgumentException()
-                .isThrownBy( () -> surveyCreate()
+                .isThrownBy(() -> surveyCreate()
                         .question(questionCreate()
                                 .answers(List.of(answerCreate()
                                         .text(null)
@@ -65,15 +66,34 @@ class SurveyCreateTest {
     void should_allow_adding_note_when_creating_survey() {
         //given
         var surveyCreate = surveyCreate()
-            .note("Test note")
-            .question(questionCreate()
-                .answers(List.of(answerCreate()
-                    .text("Test text")
-                    .build()))
-                .build())
-            .build();
+                .note("Test note")
+                .question(questionCreate()
+                        .answers(List.of(answerCreate()
+                                .text("Test text")
+                                .build()))
+                        .build())
+                .build();
 
         //then
         assertThat(surveyCreate).isNotNull();
     }
+
+    @Test
+    void should_allow_adding_passcode_creating_survey() {
+        //given
+        var surveyCreate = surveyCreate()
+                .question(questionCreate()
+                        .answers(List.of(answerCreate()
+                                .text("Test text")
+                                .build()))
+                        .build())
+                .setting(surveySettingCreate().passcode("passcode")
+                        .build())
+                .build();
+
+        //then
+        assertThat(surveyCreate).isNotNull();
+    }
+
+
 }
