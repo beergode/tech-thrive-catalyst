@@ -13,18 +13,14 @@ import static com.beergode.decisionmaker.survey.usecase.update.SurveySettingUpda
 public class SurveySetting {
 
     private Integer participantLimit;
-    private String passcode;
 
     public SurveySettingUpdate toUpdate() {
         return surveySettingUpdate()
                 .participantLimit(this.participantLimit)
                 .build();
     }
-
     private SurveySetting(SurveySetting.Builder builder) {
-
         this.participantLimit = builder.participantLimit;
-        this.passcode = builder.passcode;
     }
 
     public static SurveySetting.Builder surveySetting() {

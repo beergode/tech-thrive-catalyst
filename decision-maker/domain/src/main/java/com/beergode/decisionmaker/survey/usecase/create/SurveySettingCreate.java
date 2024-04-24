@@ -10,11 +10,9 @@ import lombok.Getter;
 public class SurveySettingCreate {
 
     private Integer participantLimit;
-    private String passcode;
 
     private SurveySettingCreate(SurveySettingCreate.Builder builder) {
         this.participantLimit = builder.participantLimit;
-        this.passcode = builder.passcode;
     }
 
     public static SurveySettingCreate.Builder surveySettingCreate() {
