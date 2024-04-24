@@ -35,7 +35,6 @@ import static com.beergode.decisionmaker.survey.usecase.SurveyFinalize.end;
 @CrossOrigin
 @Slf4j
 public class SurveyController extends BaseController {
-  private final UseCaseHandler<Page<Survey>, SurveyPaginate> surveyPaginateUseCaseHandler;
 
   @GetMapping("/{handlingKey}")
   public Response<SurveyResponse> retrieve(
@@ -80,6 +79,11 @@ public class SurveyController extends BaseController {
     SurveyFinalize surveyFinalize = end().surveyId(id).build();
     var survey = publish(Survey.class, surveyFinalize);
     return respond(SurveyResponse.from(survey));
+  }
+
+  @GetMapping("/test")
+  public String test() {
+    return "Test Successful!";
   }
 
   private List<SurveyResponse> toResponse(List<Survey> surveys) {

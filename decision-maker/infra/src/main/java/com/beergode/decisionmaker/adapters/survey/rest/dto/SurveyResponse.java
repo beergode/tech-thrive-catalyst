@@ -18,6 +18,7 @@ public class SurveyResponse {
     private String id;
     private String handlingKey;
     private String content;
+    private String note;
 
     private Long createdAt;
 
@@ -32,6 +33,7 @@ public class SurveyResponse {
                 .id(survey.getId().toString())
                 .handlingKey(survey.getHandlingKey())
                 .content(survey.getContent())
+                .note(survey.getNote())
                 .createdAt(survey.getCreatedLong())
                 .question(survey.getQuestion())
                 .closedAt(survey.getClosedAt())

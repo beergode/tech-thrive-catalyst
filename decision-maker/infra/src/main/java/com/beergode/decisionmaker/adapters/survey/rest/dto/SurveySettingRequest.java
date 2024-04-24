@@ -15,10 +15,12 @@ import static com.beergode.decisionmaker.survey.usecase.create.SurveySettingCrea
 public class SurveySettingRequest {
 
     private Integer participantLimit;
+    private String passcode;
 
     public SurveySettingCreate toUseCase() {
         return surveySettingCreate()
                 .participantLimit(participantLimit)
+                .passcode(passcode)
                 .build();
     }
 }

@@ -1,19 +1,21 @@
 bases:
   - values/helmfile-defaults.yaml
 
----
+
 repositories:
   - name: bitnami
     url: https://charts.bitnami.com/bitnami
+  - name: ingress-nginx
+    url: https://kubernetes.github.io/ingress-nginx
 
-
-
+---
 releases:
   - name: decision-maker
     namespace: {{ .Environment.Values.namespace }}
     chart: ../helm
     values:
       - values/service.yaml.gotmpl
+
   - name: decision-maker-mongodb
     namespace: {{ .Environment.Values.namespace }}
     chart: bitnami/mongodb
@@ -22,3 +24,12 @@ releases:
       - mongodbRootPassword:
           existingSecret: mongodb
           key: mongodb-root-password
+
+  - name: ingress-controller
+    namespace: ingress-nginx
+    chart: ingress-nginx/ingress-nginx
+    version: 4.9.0
+    installed: true
+    createNamespace: true
+    values:
+      - values/nginx.yaml.gotmpl

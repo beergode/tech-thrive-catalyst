@@ -1,6 +1,7 @@
 package com.beergode.decisionmaker;
 
 import com.beergode.decisionmaker.common.DomainComponent;
+import javax.swing.text.html.parser.Entity;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;

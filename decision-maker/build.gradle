@@ -8,7 +8,7 @@ dependencies {
 }
 
 springBoot {
-	mainClass = 'com.beergode.decisionmaker.DecisionMakerApplication.java'
+	mainClass = 'com.beergode.decisionmaker.DecisionMakerApplication'
 }
 
 bootRun {
