@@ -3,22 +3,20 @@ kind: Ingress
 metadata:
   name: dcm-ingress
   namespace: public-dev
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   ingressClassName: nginx
   rules:
     - http:
         paths:
-          - path: /dcm/survey
-            pathType: Prefix
+          - path: /
+            pathType: ImplementationSpecific
             backend:
               service:
                 name: lite-bridge
                 port:
                   number: 80
-          - path: /ttc/decision
-            pathType: Prefix
+          - path: /api/decision-maker
+            pathType: ImplementationSpecific
             backend:
               service:
                 name: decision-maker

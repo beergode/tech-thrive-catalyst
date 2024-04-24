@@ -44,8 +44,8 @@ spec:
             - name: MONGODB_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "chart-template.fullname" . }}-mongodb-generated
-                  key: password
+                  name: {{ include "chart-template.fullname" . }}-mongodb
+                  key: mongodb-root-password
           ports:
             - name: http
               containerPort: 8080

@@ -22,7 +22,7 @@ releases:
     version: 15.1.2
     values:
       - mongodbRootPassword:
-          existingSecret: mongodb
+          existingSecret: decision-maker-mongodb
           key: mongodb-root-password
 
   - name: ingress-controller
