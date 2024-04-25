@@ -19,11 +19,9 @@ public class SurveyResponse {
     private String handlingKey;
     private String content;
     private String note;
-
+    private Integer countdownDurationSeconds;
     private Long createdAt;
-
     private Question question;
-
     private LocalDate closedAt;
     private SurveySetting setting;
     private Integer participantCount;
@@ -34,6 +32,7 @@ public class SurveyResponse {
                 .handlingKey(survey.getHandlingKey())
                 .content(survey.getContent())
                 .note(survey.getNote())
+                .countdownDurationSeconds(survey.getCountdownDurationSeconds())
                 .createdAt(survey.getCreatedLong())
                 .question(survey.getQuestion())
                 .closedAt(survey.getClosedAt())

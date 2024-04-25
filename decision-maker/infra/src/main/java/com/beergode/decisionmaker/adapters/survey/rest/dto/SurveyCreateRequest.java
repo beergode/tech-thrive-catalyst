@@ -17,6 +17,7 @@ public class SurveyCreateRequest {
     @NotNull
     private String content;
     private String note;
+    private Integer countdownDurationSeconds;
     @NotNull
     private QuestionCreateRequest question;
     private SurveySettingRequest setting;
@@ -24,11 +25,13 @@ public class SurveyCreateRequest {
     public SurveyCreate toUseCase() {
         SurveyCreate.Builder builder = surveyCreate()
                 .note(note)
+                .countdownDurationSeconds(countdownDurationSeconds)
                 .content(content)
                 .question(question.toUseCase());
         if (setting != null) {
             builder.setting(setting.toUseCase());
         }
 
-        return builder.build();    }
+        return builder.build();
+    }
 }
