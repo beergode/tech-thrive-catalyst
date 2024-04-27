@@ -21,6 +21,7 @@ public class SurveyCreate implements UseCase {
     private String handlingKey;
     private String content;
     private String note;
+    private Integer countdownDurationSeconds;
     private QuestionCreate question;
     private SurveySettingCreate setting;
 
@@ -28,6 +29,7 @@ public class SurveyCreate implements UseCase {
         this.id = UUID.randomUUID();
         this.handlingKey = generateKey();
         this.note = builder.note;
+        this.countdownDurationSeconds = builder.countdownDurationSeconds;
         this.content = builder.content;
         this.question = builder.question;
         this.setting = builder.setting;
@@ -47,11 +49,11 @@ public class SurveyCreate implements UseCase {
         }
     }
 
-    public String getStringId(){
+    public String getStringId() {
         return this.id.toString();
     }
 
-    public String getStringHandlingKey(){
+    public String getStringHandlingKey() {
         return this.handlingKey.toString();
     }
 

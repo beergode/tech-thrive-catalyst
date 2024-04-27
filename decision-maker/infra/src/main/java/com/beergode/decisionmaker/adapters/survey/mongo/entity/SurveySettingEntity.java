@@ -7,26 +7,21 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import static com.beergode.decisionmaker.survey.model.SurveySetting.surveySetting;
 
 @Getter
-public class SurveySettingField {
+@Document(collection = "surveySetting")
+public class SurveySettingEntity {
 
     private Integer participantLimit;
-    private String passcode;
-
-    public static SurveySettingField of(Integer participantLimit, String passcode) {
-        return new SurveySettingField(participantLimit, passcode);
+    public static SurveySettingEntity of(Integer participantLimit) {
+        return new SurveySettingEntity(participantLimit);
     }
 
     public SurveySetting toModel() {
         return surveySetting()
                 .participantLimit(participantLimit)
-                .passcode(passcode)
                 .build();
     }
-
-    private SurveySettingField() { /*Hide No Args Constructor*/}
-
-    private SurveySettingField(Integer participantLimit, String passcode) {
+    private SurveySettingEntity() { /*Hide No Args Constructor*/}
+    private SurveySettingEntity(Integer participantLimit) {
         this.participantLimit = participantLimit;
-        this.passcode = passcode;
     }
 }
