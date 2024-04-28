@@ -20,10 +20,6 @@ releases:
     namespace: {{ .Environment.Values.namespace }}
     chart: bitnami/mongodb
     version: 15.1.2
-    values:
-      - mongodbRootPassword:
-          existingSecret: decision-maker-mongodb
-          key: mongodb-root-password
 
   - name: ingress-controller
     namespace: ingress-nginx
