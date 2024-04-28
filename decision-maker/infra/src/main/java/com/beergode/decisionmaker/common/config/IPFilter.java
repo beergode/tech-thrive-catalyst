@@ -1,6 +1,8 @@
 package com.beergode.decisionmaker.common.config;
 
 import jakarta.servlet.http.HttpServletRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -15,6 +17,7 @@ import static org.springframework.util.CollectionUtils.isEmpty;
 @Component
 public class IPFilter {
 
+    private static final Logger log = LoggerFactory.getLogger(IPFilter.class);
     private final Map<String, List<SurveyFilter>> ipVoteRegistry = new ConcurrentHashMap<>();
 
     public boolean updateVote(HttpServletRequest httpServletRequest) {
@@ -49,7 +52,7 @@ public class IPFilter {
     public SurveyFilter getSurveyFilter(HttpServletRequest request, String surveyId) {
         String ip = request.getRemoteAddr();
         var surveyFilters = ipVoteRegistry.get(ip);
-
+        log.info("SurveyFilters: {}", ip);
         return isEmpty(surveyFilters) ? newDummySurveyFilter(surveyId) : surveyFilters
                 .stream()
                 .filter(surveyFilter -> surveyFilter.getSurveyId()
