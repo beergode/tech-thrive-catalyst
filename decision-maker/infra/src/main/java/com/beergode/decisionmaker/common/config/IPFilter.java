@@ -58,6 +58,6 @@ public class IPFilter {
                 .filter(surveyFilter -> surveyFilter.getSurveyId()
                         .equals(surveyId))
                 .findFirst()
-                .orElse(null);
+                .orElse(newDummySurveyFilter(surveyId));
     }
 }
