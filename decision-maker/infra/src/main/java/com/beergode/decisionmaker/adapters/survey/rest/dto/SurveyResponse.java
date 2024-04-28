@@ -25,6 +25,8 @@ public class SurveyResponse {
     private LocalDate closedAt;
     private SurveySetting setting;
     private Integer participantCount;
+    private boolean isOwner;
+    private boolean canVote;
 
     public static SurveyResponse from(Survey survey) {
         return SurveyResponse.builder()
@@ -38,6 +40,23 @@ public class SurveyResponse {
                 .closedAt(survey.getClosedAt())
                 .setting(survey.getSetting())
                 .participantCount(survey.getParticipantCount())
+                .build();
+    }
+
+    public static SurveyResponse from(Survey survey, boolean isOwner, boolean isVoted) {
+        return SurveyResponse.builder()
+                .id(survey.getId().toString())
+                .handlingKey(survey.getHandlingKey())
+                .content(survey.getContent())
+                .note(survey.getNote())
+                .countdownDurationSeconds(survey.getCountdownDurationSeconds())
+                .createdAt(survey.getCreatedLong())
+                .question(survey.getQuestion())
+                .closedAt(survey.getClosedAt())
+                .setting(survey.getSetting())
+                .participantCount(survey.getParticipantCount())
+                .isOwner(isOwner)
+                .canVote(isVoted)
                 .build();
     }
 }

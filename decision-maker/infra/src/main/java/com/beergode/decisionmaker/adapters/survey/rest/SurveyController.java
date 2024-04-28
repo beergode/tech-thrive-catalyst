@@ -4,6 +4,7 @@ import com.beergode.decisionmaker.adapters.survey.rest.dto.SurveyCreateRequest;
 import com.beergode.decisionmaker.adapters.survey.rest.dto.SurveyResponse;
 import com.beergode.decisionmaker.adapters.survey.rest.dto.VoteCountUpdateRequest;
 import com.beergode.decisionmaker.adapters.survey.rest.enums.CountdownDurationEnum;
+import com.beergode.decisionmaker.common.config.IPFilter;
 import com.beergode.decisionmaker.common.model.Page;
 import com.beergode.decisionmaker.common.rest.BaseController;
 import com.beergode.decisionmaker.common.rest.DataResponse;
@@ -14,6 +15,8 @@ import com.beergode.decisionmaker.survey.usecase.SurveyGet;
 import com.beergode.decisionmaker.survey.usecase.SurveyPaginate;
 import java.util.Arrays;
 import java.util.List;
+
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
@@ -28,6 +31,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import static com.beergode.decisionmaker.adapters.survey.rest.dto.SurveyResponse.from;
 import static com.beergode.decisionmaker.survey.usecase.SurveyFinalize.end;
 
 @RestController
@@ -37,12 +41,17 @@ import static com.beergode.decisionmaker.survey.usecase.SurveyFinalize.end;
 @Slf4j
 public class SurveyController extends BaseController {
 
+    private final IPFilter ipFilter;
+
     @GetMapping("/{handlingKey}")
     public Response<SurveyResponse> retrieve(
+            HttpServletRequest request,
             @PathVariable("handlingKey") String handlingKey) {
         var survey = publish(Survey.class, SurveyGet.from(handlingKey));
         log.debug("Survey is retrieved for handlingKey {}", handlingKey);
-        return respond(SurveyResponse.from(survey));
+        var surveyFilter = ipFilter.getSurveyFilter(request, survey.getId().toString());
+
+        return respond(from(survey, surveyFilter.isOwner(), surveyFilter.canVote()));
     }
 
     @GetMapping
@@ -61,15 +70,24 @@ public class SurveyController extends BaseController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Response<SurveyResponse> createSurvey(
+            HttpServletRequest request,
             @RequestBody SurveyCreateRequest surveyCreateRequest) {
         var survey = publish(Survey.class, surveyCreateRequest.toUseCase());
-        return respond(SurveyResponse.from(survey));
+        ipFilter.createItem(request, survey.getId().toString());
+        return respond(from(survey));
     }
 
     @PutMapping("/{id}")
     public Response<Void> voteCountUpdate(
+            HttpServletRequest request,
             @PathVariable("id") String id,
             @RequestBody VoteCountUpdateRequest voteCountUpdateRequest) {
+
+        boolean isAlreadyVoted = ipFilter.updateVote(request);
+        if (isAlreadyVoted) {
+            throw new AlreadyVotedException("409", "You have already voted!");
+        }
+
         publish(voteCountUpdateRequest.toUseCase(id));
         return null;
     }
@@ -79,7 +97,7 @@ public class SurveyController extends BaseController {
     public Response<SurveyResponse> finalize(@PathVariable("id") String id) {
         SurveyFinalize surveyFinalize = end().surveyId(id).build();
         var survey = publish(Survey.class, surveyFinalize);
-        return respond(SurveyResponse.from(survey));
+        return respond(from(survey));
     }
 
     @GetMapping("/countdownDurations")

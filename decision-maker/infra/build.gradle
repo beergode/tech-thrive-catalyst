@@ -9,6 +9,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 
 	implementation group: 'javax.xml.bind', name: 'jaxb-api'
+	implementation 'javax.servlet:javax.servlet-api:4.0.1'
 	implementation group: 'com.sun.xml.bind', name: 'jaxb-impl'
 	implementation group: 'com.sun.xml.bind', name: 'jaxb-core'
 	implementation group: 'javax.activation', name: 'activation'

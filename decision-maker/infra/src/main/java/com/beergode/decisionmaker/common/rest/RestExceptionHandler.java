@@ -1,5 +1,6 @@
 package com.beergode.decisionmaker.common.rest;
 
+import com.beergode.decisionmaker.adapters.survey.rest.AlreadyVotedException;
 import com.beergode.decisionmaker.common.exception.DecisionMakerBusinessException;
 import java.util.List;
 import java.util.Locale;
@@ -77,6 +78,12 @@ public class RestExceptionHandler extends BaseController {
         return createErrorResponseFromMessageSource("common.client.methodNotSupported", locale, methodNotSupportedException.getMethod());
     }
 
+    @ExceptionHandler(AlreadyVotedException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public Response<ErrorResponse> handleAlreadyVotedException(AlreadyVotedException ex) {
+        return createErrorResponseFromMessageSource(ex.getKey(), ex.getArgs());
+    }
+
     private Response<ErrorResponse> createFieldErrorResponse(BindingResult bindingResult, Locale locale) {
         List<String> requiredFieldErrorMessages = retrieveLocalizationMessage("common.client.requiredField", locale);
         String code = requiredFieldErrorMessages.get(0);
@@ -98,8 +105,16 @@ public class RestExceptionHandler extends BaseController {
         return respond(new ErrorResponse(messageList.get(0), messageList.get(1)));
     }
 
+    private Response<ErrorResponse> createErrorResponseFromMessageSource(String key, String... args) {
+        return respond(new ErrorResponse(key, args[0]));
+    }
+
     private List<String> retrieveLocalizationMessage(String key, Locale locale, String... args) {
         String message = messageSource.getMessage(key, args, locale);
+        return Pattern.compile(";").splitAsStream(message).collect(Collectors.toList());
+    }
+
+    private List<String> retrieveLocalizationMessage(String message, String... args) {;
         return Pattern.compile(";").splitAsStream(message).collect(Collectors.toList());
     }
 }
