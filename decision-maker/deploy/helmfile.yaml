@@ -10,11 +10,11 @@ repositories:
 
 ---
 releases:
-#  - name: decision-maker
-#    namespace: {{ .Environment.Values.namespace }}
-#    chart: ../helm
-#    values:
-#      - values/service.yaml.gotmpl
+  - name: decision-maker
+    namespace: {{ .Environment.Values.namespace }}
+    chart: ../helm
+    values:
+      - values/service.yaml.gotmpl
 
   - name: decision-maker-mongodb
     namespace: {{ .Environment.Values.namespace }}
