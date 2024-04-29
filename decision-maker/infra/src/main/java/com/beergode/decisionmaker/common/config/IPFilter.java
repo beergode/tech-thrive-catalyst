@@ -12,29 +12,46 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import static com.beergode.decisionmaker.common.config.SurveyFilter.newDummySurveyFilter;
 import static com.beergode.decisionmaker.common.config.SurveyFilter.newSurveyFilter;
+import static com.beergode.decisionmaker.common.config.SurveyFilter.newVotedSurveyFilter;
 import static org.springframework.util.CollectionUtils.isEmpty;
 
 @Component
 public class IPFilter {
 
     private static final Logger log = LoggerFactory.getLogger(IPFilter.class);
+    private static final boolean ALREADY_VOTED = true;
     private final Map<String, List<SurveyFilter>> ipVoteRegistry = new ConcurrentHashMap<>();
 
     public boolean updateVote(HttpServletRequest httpServletRequest) {
-        String path = httpServletRequest.getRequestURI();
-        String ip = httpServletRequest.getRemoteAddr();
-        String surveyId = path.substring(path.lastIndexOf('/') + 1);
+        var path = httpServletRequest.getRequestURI();
+        var ip = httpServletRequest.getRemoteAddr();
+        var surveyId = path.substring(path.lastIndexOf('/') + 1);
 
         var surveyFilters = ipVoteRegistry.get(ip);
-        return !isEmpty(surveyFilters) && surveyFilters
-                .stream()
+
+        // HAS NO SURVEY AT ALL
+        boolean hasCurrentSurvey = surveyFilters.stream()
+                .anyMatch(surveyFilter -> surveyFilter.getSurveyId().
+                        equals(surveyId));
+
+        if (isEmpty(surveyFilters) || !hasCurrentSurvey) {
+            ipVoteRegistry.put(ip, new ArrayList<>(List.of(newVotedSurveyFilter(surveyId, ip))));
+            return !ALREADY_VOTED;
+        }
+
+        // HAS THIS SURVEY AND ALREADY VOTED
+        if (surveyFilters.stream()
+                .anyMatch(surveyFilter -> surveyFilter.getSurveyId().equals(surveyId) && surveyFilter.isVoted())) {
+            return ALREADY_VOTED;
+        }
+        // HAS THIS SURVEY BUT HAVE NOT VOTED -> The user is the owner of the survey
+        surveyFilters.stream()
                 .filter(surveyFilter -> surveyFilter.getSurveyId()
-                        .equals(surveyId) && !surveyFilter.isVoted())
+                        .equals(surveyId))
                 .findFirst()
-                .map(survey -> {
-                    survey.setVoted(true);
-                    return survey.canVote();
-                }).orElse(true);
+                .ifPresent(survey -> survey.setVoted(true));
+        return !ALREADY_VOTED;
+
     }
 
     public void createItem(HttpServletRequest httpServletRequest, String surveyId) {
@@ -52,7 +69,6 @@ public class IPFilter {
     public SurveyFilter getSurveyFilter(HttpServletRequest request, String surveyId) {
         String ip = request.getRemoteAddr();
         var surveyFilters = ipVoteRegistry.get(ip);
-        log.info("SurveyFilters: {}", ip);
         return isEmpty(surveyFilters) ? newDummySurveyFilter(surveyId) : surveyFilters
                 .stream()
                 .filter(surveyFilter -> surveyFilter.getSurveyId()

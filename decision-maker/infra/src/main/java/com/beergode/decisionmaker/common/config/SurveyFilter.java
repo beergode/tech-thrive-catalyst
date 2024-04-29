@@ -4,7 +4,6 @@ import java.util.UUID;
 
 public class SurveyFilter {
 
-    private String ownerId;
     private String surveyId;
     private String userRemoteAddr;
     private boolean isVoted;
@@ -18,8 +17,7 @@ public class SurveyFilter {
         return isOwner;
     }
 
-    private SurveyFilter(String ownerId, String surveyId, String userRemoteAddr, boolean isVoted, boolean isOwner) {
-        this.ownerId = ownerId;
+    private SurveyFilter(String surveyId, String userRemoteAddr, boolean isVoted, boolean isOwner) {
         this.surveyId = surveyId;
         this.userRemoteAddr = userRemoteAddr;
         this.isVoted = isVoted;
@@ -27,11 +25,15 @@ public class SurveyFilter {
     }
 
     public static SurveyFilter newSurveyFilter(String surveyId, String userRemoteAddr) {
-        return new SurveyFilter(UUID.randomUUID().toString(), surveyId, userRemoteAddr, false, true);
+        return new SurveyFilter(surveyId, userRemoteAddr, false, true);
+    }
+
+    public static SurveyFilter newVotedSurveyFilter(String surveyId, String userRemoteAddr) {
+        return new SurveyFilter(surveyId, userRemoteAddr, true, false);
     }
 
     public static SurveyFilter newDummySurveyFilter(String surveyId) {
-        return new SurveyFilter(null, surveyId, null, false, false);
+        return new SurveyFilter(surveyId, null, false, false);
     }
 
     public boolean canVote() {

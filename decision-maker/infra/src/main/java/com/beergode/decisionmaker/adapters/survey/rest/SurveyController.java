@@ -87,8 +87,8 @@ public class SurveyController extends BaseController {
         if (isAlreadyVoted) {
             throw new AlreadyVotedException("409", "You have already voted!");
         }
-
         publish(voteCountUpdateRequest.toUseCase(id));
+
         return null;
     }
 
