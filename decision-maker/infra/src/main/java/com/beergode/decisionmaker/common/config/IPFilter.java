@@ -18,7 +18,6 @@ import static org.springframework.util.CollectionUtils.isEmpty;
 @Component
 public class IPFilter {
 
-    private static final Logger log = LoggerFactory.getLogger(IPFilter.class);
     private static final boolean ALREADY_VOTED = true;
     private final Map<String, List<SurveyFilter>> ipVoteRegistry = new ConcurrentHashMap<>();
 
@@ -27,31 +26,24 @@ public class IPFilter {
         var ip = httpServletRequest.getRemoteAddr();
         var surveyId = path.substring(path.lastIndexOf('/') + 1);
 
-        var surveyFilters = ipVoteRegistry.get(ip);
+        var surveyFilters = ipVoteRegistry.getOrDefault(ip, new ArrayList<>());
 
-        // HAS NO SURVEY AT ALL
-        boolean hasCurrentSurvey = surveyFilters.stream()
-                .anyMatch(surveyFilter -> surveyFilter.getSurveyId().
-                        equals(surveyId));
+        var currentSurveyFilter = surveyFilters.stream()
+                .filter(surveyFilter -> surveyFilter.getSurveyId().equals(surveyId))
+                .findFirst();
 
-        if (isEmpty(surveyFilters) || !hasCurrentSurvey) {
-            ipVoteRegistry.put(ip, new ArrayList<>(List.of(newVotedSurveyFilter(surveyId, ip))));
+        if (currentSurveyFilter.isEmpty()) {
+            surveyFilters.add(newVotedSurveyFilter(surveyId, ip));
+            ipVoteRegistry.put(ip, surveyFilters);
             return !ALREADY_VOTED;
         }
 
-        // HAS THIS SURVEY AND ALREADY VOTED
-        if (surveyFilters.stream()
-                .anyMatch(surveyFilter -> surveyFilter.getSurveyId().equals(surveyId) && surveyFilter.isVoted())) {
+        if (currentSurveyFilter.get().isVoted()) {
             return ALREADY_VOTED;
         }
-        // HAS THIS SURVEY BUT HAVE NOT VOTED -> The user is the owner of the survey
-        surveyFilters.stream()
-                .filter(surveyFilter -> surveyFilter.getSurveyId()
-                        .equals(surveyId))
-                .findFirst()
-                .ifPresent(survey -> survey.setVoted(true));
-        return !ALREADY_VOTED;
 
+        currentSurveyFilter.get().setVoted(true);
+        return !ALREADY_VOTED;
     }
 
     public void createItem(HttpServletRequest httpServletRequest, String surveyId) {
