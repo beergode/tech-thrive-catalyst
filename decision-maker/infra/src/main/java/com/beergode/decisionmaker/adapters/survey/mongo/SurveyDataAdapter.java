@@ -99,7 +99,7 @@ public class SurveyDataAdapter implements SurveyPort {
 
     private void scheduleClose(Survey survey) {
         Integer countdownDurationSeconds = survey.getCountdownDurationSeconds();
-        if (countdownDurationSeconds != null) {
+        if (countdownDurationSeconds != 0) {
             // Schedule the closing of the survey after countdownDurationSeconds
             taskScheduler.schedule(
                     () -> {
