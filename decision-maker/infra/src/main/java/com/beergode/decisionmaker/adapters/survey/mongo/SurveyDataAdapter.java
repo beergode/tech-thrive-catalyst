@@ -6,13 +6,11 @@ import com.beergode.decisionmaker.adapters.survey.mongo.entity.SurveyDocument;
 import com.beergode.decisionmaker.adapters.survey.mongo.entity.SurveySettingEntity;
 import com.beergode.decisionmaker.adapters.survey.mongo.repository.SurveyMongoRepository;
 import com.beergode.decisionmaker.common.model.Page;
-import com.beergode.decisionmaker.configuration.schedule.SingleTrigger;
 import com.beergode.decisionmaker.survey.model.Survey;
 import com.beergode.decisionmaker.survey.port.SurveyPort;
 import com.beergode.decisionmaker.survey.usecase.SurveyPaginate;
 import com.beergode.decisionmaker.survey.usecase.create.SurveyCreate;
 import com.beergode.decisionmaker.survey.usecase.update.SurveyUpdate;
-import java.time.Instant;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.scheduling.TaskScheduler;
@@ -46,8 +44,6 @@ public class SurveyDataAdapter implements SurveyPort {
 
         Survey survey = surveyMongoRepository.save(surveyEntity)
                 .toModel();
-
-        scheduleClose(survey);
 
         return survey;
     }
@@ -95,20 +91,6 @@ public class SurveyDataAdapter implements SurveyPort {
     @Override
     public Survey retrieveByHandlingKey(String handlingKey) {
         return surveyMongoRepository.findByHandlingKey(handlingKey).orElseThrow(null).toModel();
-    }
-
-    private void scheduleClose(Survey survey) {
-        Integer countdownDurationSeconds = survey.getCountdownDurationSeconds();
-        if (countdownDurationSeconds != null && countdownDurationSeconds != 0) {
-            // Schedule the closing of the survey after countdownDurationSeconds
-            taskScheduler.schedule(
-                    () -> {
-                        survey.close();
-                        update(survey.toUpdate());
-                    },
-                    new SingleTrigger(Instant.now().plusSeconds(countdownDurationSeconds))
-            );
-        }
     }
 
 }

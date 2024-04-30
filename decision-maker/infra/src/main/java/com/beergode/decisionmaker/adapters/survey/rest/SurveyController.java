@@ -3,7 +3,6 @@ package com.beergode.decisionmaker.adapters.survey.rest;
 import com.beergode.decisionmaker.adapters.survey.rest.dto.SurveyCreateRequest;
 import com.beergode.decisionmaker.adapters.survey.rest.dto.SurveyResponse;
 import com.beergode.decisionmaker.adapters.survey.rest.dto.VoteCountUpdateRequest;
-import com.beergode.decisionmaker.adapters.survey.rest.enums.CountdownDurationEnum;
 import com.beergode.decisionmaker.common.config.IPFilter;
 import com.beergode.decisionmaker.common.model.Page;
 import com.beergode.decisionmaker.common.rest.BaseController;
@@ -13,10 +12,8 @@ import com.beergode.decisionmaker.survey.model.Survey;
 import com.beergode.decisionmaker.survey.usecase.SurveyFinalize;
 import com.beergode.decisionmaker.survey.usecase.SurveyGet;
 import com.beergode.decisionmaker.survey.usecase.SurveyPaginate;
-import java.util.Arrays;
-import java.util.List;
-
 import jakarta.servlet.http.HttpServletRequest;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
@@ -98,13 +95,6 @@ public class SurveyController extends BaseController {
         SurveyFinalize surveyFinalize = end().surveyId(id).build();
         var survey = publish(Survey.class, surveyFinalize);
         return respond(from(survey));
-    }
-
-    @GetMapping("/countdownDurations")
-    public Response<DataResponse<Integer>> getCountdownDurations() {
-        return respond(Arrays.stream(CountdownDurationEnum.values())
-                .map(CountdownDurationEnum::getSeconds)
-                .toList());
     }
 
     @GetMapping("/test")
