@@ -19,10 +19,12 @@ public class QuestionCreateRequest {
 
     private String text;
     private List<AnswerCreateRequest> answers;
+    private boolean isMultipleChoice;
 
     public QuestionCreate toUseCase() {
         return questionCreate()
                 .text(text)
+                .isMultipleChoice(isMultipleChoice)
                 .answers(answers.stream()
                         .map(AnswerCreateRequest::toUseCase)
                         .toList())

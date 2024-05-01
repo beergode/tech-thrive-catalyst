@@ -18,7 +18,7 @@ class SurveyCreateTest {
         var surveyCreate = surveyCreate()
                 .question(questionCreate()
                         .answers(List.of(answerCreate()
-                                        .text("Test text")
+                                .text("Test text")
                                 .build()))
                         .build())
                 .build();
@@ -28,31 +28,33 @@ class SurveyCreateTest {
     }
 
     @Test
-    void should_not_allow_creating_survey_with_null_answers() {
+    void should_not_allow_creating_survey_with_null_answers_for_multiple_choice_question() {
         assertThatIllegalArgumentException()
                 .isThrownBy(() -> surveyCreate()
                         .question(questionCreate()
+                                .isMultipleChoice(true)
                                 .answers(null)
                                 .build())
                         .build())
-                .withMessage("Answers cannot be null! or empty");
+                .withMessage("Answers cannot be null or empty for a multiple-choice question!");
     }
 
     @Test
-    void should_not_allow_creating_survey_with_empty_answers() {
+    void should_not_allow_creating_survey_with_empty_answers_for_multiple_choice_question() {
         assertThatIllegalArgumentException()
                 .isThrownBy(() -> surveyCreate()
                         .question(questionCreate()
+                                .isMultipleChoice(true)
                                 .answers(List.of())
                                 .build())
                         .build())
-                .withMessage("Answers cannot be null! or empty");
+                .withMessage("Answers cannot be null or empty for a multiple-choice question!");
     }
 
     @Test
     void should_not_allow_creating_survey_answer_without_text() {
         assertThatIllegalArgumentException()
-                .isThrownBy( () -> surveyCreate()
+                .isThrownBy(() -> surveyCreate()
                         .question(questionCreate()
                                 .answers(List.of(answerCreate()
                                         .text(null)
@@ -65,13 +67,13 @@ class SurveyCreateTest {
     void should_allow_adding_note_when_creating_survey() {
         //given
         var surveyCreate = surveyCreate()
-            .note("Test note")
-            .question(questionCreate()
-                .answers(List.of(answerCreate()
-                    .text("Test text")
-                    .build()))
-                .build())
-            .build();
+                .note("Test note")
+                .question(questionCreate()
+                        .answers(List.of(answerCreate()
+                                .text("Test text")
+                                .build()))
+                        .build())
+                .build();
 
         //then
         assertThat(surveyCreate).isNotNull();

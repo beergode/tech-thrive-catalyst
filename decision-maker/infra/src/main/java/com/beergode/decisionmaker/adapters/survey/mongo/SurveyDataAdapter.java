@@ -11,29 +11,36 @@ import com.beergode.decisionmaker.survey.port.SurveyPort;
 import com.beergode.decisionmaker.survey.usecase.SurveyPaginate;
 import com.beergode.decisionmaker.survey.usecase.create.SurveyCreate;
 import com.beergode.decisionmaker.survey.usecase.update.SurveyUpdate;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.scheduling.TaskScheduler;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class SurveyDataAdapter implements SurveyPort {
     private final SurveyMongoRepository surveyMongoRepository;
-    private final TaskScheduler taskScheduler;
 
     @Override
     public Survey create(SurveyCreate surveyCreate) {
         var question = surveyCreate.getQuestion();
         var surveySetting = surveyCreate.getSetting();
-        var answers = question.getAnswers()
-                .stream()
-                .map(answerCreate -> AnswerField.of(answerCreate.getStringId(), answerCreate.getText()))
-                .toList();
-        var questionEntity = QuestionField.of(question.getStringId(), question.getText(), answers);
+
+        List<AnswerField> answers = null;
+        if (question.isMultipleChoice()) {
+            answers = question.getAnswers()
+                    .stream()
+                    .map(answerCreate -> AnswerField.of(answerCreate.getStringId(), answerCreate.getText()))
+                    .toList();
+        }
+
+        var questionEntity = QuestionField.of(question.getStringId(), question.getText(), answers,
+                question.isMultipleChoice());
+
         var surveySettingEntity = surveySetting == null
                 ? null
                 : SurveySettingEntity.of(surveySetting.getParticipantLimit());
+
         var surveyEntity = SurveyDocument.of(surveyCreate.getStringId(),
                 surveyCreate.getContent(),
                 surveyCreate.getNote(),
