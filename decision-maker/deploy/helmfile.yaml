@@ -24,7 +24,6 @@ releases:
     values:
       - auth:
           rootPassword: root
-          databases: thrive
           persistence:
             enabled: false
             storageClass: longhorn
