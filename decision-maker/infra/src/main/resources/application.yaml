@@ -1,8 +1,29 @@
+server:
+  shutdown: graceful
+  tomcat:
+    connection-timeout: 2s
+    keep-alive-timeout: 15s
+    threads:
+      max: 50
+      min-spare: 5
 spring:
   application:
     name: DecisionMaker
+  lifecycle:
+    timeout-per-shutdown-phase: 15s
   data:
     mongodb:
       uri: mongodb://localhost:27018/thrive
       auto-index-creation: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/DecisionMaker
 
+logging:
+  pattern:
+    level: "%5p [${spring.application.name},%X{trace_id},%X{span_id}]"
+
+info:
+  system: Decision Maker

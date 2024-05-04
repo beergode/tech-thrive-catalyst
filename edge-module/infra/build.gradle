@@ -1,0 +1,26 @@
+configurations {
+    developmentOnly
+}
+dependencies {
+    annotationProcessor group: 'org.springframework.boot', name:'spring-boot-configuration-processor'
+
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-redis-reactive'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-oauth2-client'
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-circuitbreaker-reactor-resilience4j'
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-config'
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-gateway'
+    implementation group: 'org.springframework.session', name: 'spring-session-data-redis'
+
+    runtimeOnly group: 'io.github.resilience4j', name: 'resilience4j-micrometer'
+    runtimeOnly group: 'io.micrometer', name: 'micrometer-registry-prometheus'
+//    runtimeOnly group: 'io.opentelemetry.javaagent', name: 'opentelemetry-javaagent' // add version ${otelVersion}
+
+
+    // Only on Apple Silicon. Why it's necessary: https://github.com/netty/netty/issues/11020
+    // runtimeOnly 'io.netty:netty-resolver-dns-native-macos:4.1.101.Final:osx-aarch_64'
+    testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test'
+    testImplementation group: 'org.springframework.security', name: 'spring-security-test'
+    testImplementation group: 'io.projectreactor', name: 'reactor-test'
+    testImplementation group: 'org.testcontainers', name: 'junit-jupiter'
+}

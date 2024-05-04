@@ -24,22 +24,21 @@ public class SurveyCreateUseCaseHandler extends ObservableUseCasePublisher
     @Override
     public Survey handle(SurveyCreate useCase) {
         Survey survey = surveyPort.create(useCase);
-        scheduleClose(survey);
+        var countdownDurationSeconds = survey.getCountdownDurationSeconds();
+        if (countdownDurationSeconds != null && countdownDurationSeconds != 0) {
+            scheduleClose(survey);
+        }
         return survey;
     }
 
     private void scheduleClose(Survey survey) {
-        Integer countdownDurationSeconds = survey.getCountdownDurationSeconds();
-        if (countdownDurationSeconds != null && countdownDurationSeconds != 0) {
-            Timer timer = new Timer();
-            timer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    survey.close();
-                    surveyPort.update(survey.toUpdate());
-                }
-            }, countdownDurationSeconds * 1000L);
-        }
+        var timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                survey.close();
+                surveyPort.update(survey.toUpdate());
+            }
+        }, survey.getCountdownDurationSeconds() * 1000L);
     }
-
 }

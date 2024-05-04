@@ -12,6 +12,7 @@ repositories:
 releases:
   - name: decision-maker
     namespace: {{ .Environment.Values.namespace }}
+    needs: [decision-maker-mongodb]
     chart: ../helm
     values:
       - values/service.yaml.gotmpl
@@ -21,9 +22,15 @@ releases:
     chart: bitnami/mongodb
     version: 15.1.2
     values:
-      - mongodbRootPassword:
-          existingSecret: mongodb
-          key: mongodb-root-password
+      - auth:
+          rootPassword: root
+          usernames: root
+          passwords: test
+          databases: thrive
+          persistence:
+            enabled: false
+            storageClass: longhorn
+            size: 1Gi
 
   - name: ingress-controller
     namespace: ingress-nginx

@@ -7,12 +7,11 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import static com.beergode.decisionmaker.survey.model.SurveySetting.surveySetting;
 
 @Getter
-@Document(collection = "surveySetting")
-public class SurveySettingEntity {
+public class SurveySettingField {
 
     private Integer participantLimit;
-    public static SurveySettingEntity of(Integer participantLimit) {
-        return new SurveySettingEntity(participantLimit);
+    public static SurveySettingField of(Integer participantLimit) {
+        return new SurveySettingField(participantLimit);
     }
 
     public SurveySetting toModel() {
@@ -20,8 +19,8 @@ public class SurveySettingEntity {
                 .participantLimit(participantLimit)
                 .build();
     }
-    private SurveySettingEntity() { /*Hide No Args Constructor*/}
-    private SurveySettingEntity(Integer participantLimit) {
+    private SurveySettingField() { /*Hide No Args Constructor*/}
+    private SurveySettingField(Integer participantLimit) {
         this.participantLimit = participantLimit;
     }
 }

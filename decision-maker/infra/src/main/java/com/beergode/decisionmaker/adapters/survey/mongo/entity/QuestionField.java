@@ -13,18 +13,17 @@ import static com.beergode.decisionmaker.survey.model.Question.question;
 
 @Getter
 public class QuestionField extends AbstractType {
-    @NonNull
     private String text;
     @Field("answers")
     private List<AnswerField> answers;
     private boolean isMultipleChoice;
 
-    public static QuestionField of(String id, String text, List<AnswerField> answers) {
-        return new QuestionField(id, text, answers, true);
-    }
-
     public static QuestionField of(String id, String text, List<AnswerField> answers, boolean isMultipleChoice) {
         return new QuestionField(id, text, answers, isMultipleChoice);
+    }
+
+    public static QuestionField of(String id, String text, List<AnswerField> answers) {
+        return of(id, text, answers, true);
     }
 
     public Question toModel() {

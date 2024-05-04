@@ -3,7 +3,7 @@ package com.beergode.decisionmaker.adapters.survey.mongo;
 import com.beergode.decisionmaker.adapters.survey.mongo.entity.AnswerField;
 import com.beergode.decisionmaker.adapters.survey.mongo.entity.QuestionField;
 import com.beergode.decisionmaker.adapters.survey.mongo.entity.SurveyDocument;
-import com.beergode.decisionmaker.adapters.survey.mongo.entity.SurveySettingEntity;
+import com.beergode.decisionmaker.adapters.survey.mongo.entity.SurveySettingField;
 import com.beergode.decisionmaker.adapters.survey.mongo.repository.SurveyMongoRepository;
 import com.beergode.decisionmaker.common.model.Page;
 import com.beergode.decisionmaker.survey.model.Survey;
@@ -12,6 +12,7 @@ import com.beergode.decisionmaker.survey.usecase.SurveyPaginate;
 import com.beergode.decisionmaker.survey.usecase.create.SurveyCreate;
 import com.beergode.decisionmaker.survey.usecase.update.SurveyUpdate;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -25,34 +26,27 @@ public class SurveyDataAdapter implements SurveyPort {
     public Survey create(SurveyCreate surveyCreate) {
         var question = surveyCreate.getQuestion();
         var surveySetting = surveyCreate.getSetting();
-
-        List<AnswerField> answers = null;
-        if (question.isMultipleChoice()) {
-            answers = question.getAnswers()
-                    .stream()
-                    .map(answerCreate -> AnswerField.of(answerCreate.getStringId(), answerCreate.getText()))
-                    .toList();
-        }
-
-        var questionEntity = QuestionField.of(question.getStringId(), question.getText(), answers,
+        List<AnswerField> answers = !question.isMultipleChoice()
+                ? List.of()
+                : question.getAnswers()
+                        .stream()
+                        .map(answerCreate -> AnswerField.of(answerCreate.getStringId(), answerCreate.getText()))
+                        .toList();
+        var questionField = QuestionField.of(question.getStringId(), question.getText(), answers,
                 question.isMultipleChoice());
-
-        var surveySettingEntity = surveySetting == null
-                ? null
-                : SurveySettingEntity.of(surveySetting.getParticipantLimit());
-
-        var surveyEntity = SurveyDocument.of(surveyCreate.getStringId(),
+        var surveySettingField = Optional.ofNullable(surveySetting)
+                .map(setting -> SurveySettingField.of(setting.getParticipantLimit()))
+                .orElse(null);
+        var surveyDocument = SurveyDocument.of(surveyCreate.getStringId(),
                 surveyCreate.getContent(),
                 surveyCreate.getNote(),
                 surveyCreate.getCountdownDurationSeconds(),
-                questionEntity,
-                surveySettingEntity,
+                questionField,
+                surveySettingField,
                 surveyCreate.getStringHandlingKey());
 
-        Survey survey = surveyMongoRepository.save(surveyEntity)
+        return surveyMongoRepository.save(surveyDocument)
                 .toModel();
-
-        return survey;
     }
 
     @Override
@@ -66,7 +60,7 @@ public class SurveyDataAdapter implements SurveyPort {
                                 answerUpdate.getVoteCount()))
                 .toList();
         var questionEntity = QuestionField.of(question.getStringId(), question.getText(), answers);
-        var surveySettingEntity = SurveySettingEntity.of(surveySetting == null
+        var surveySettingEntity = SurveySettingField.of(surveySetting == null
                 ? null
                 : surveySetting.getParticipantLimit());
         var surveyEntity = SurveyDocument.of(surveyUpdate.getStringId(),
@@ -78,12 +72,15 @@ public class SurveyDataAdapter implements SurveyPort {
                 surveyUpdate.getParticipantCount(),
                 surveyUpdate.getHandlingKey());
 
-        return surveyMongoRepository.save(surveyEntity).toModel();
+        return surveyMongoRepository.save(surveyEntity)
+                .toModel();
     }
 
     @Override
     public Survey retrieve(String id) {
-        return surveyMongoRepository.findById(id).orElseThrow(null).toModel();
+        return surveyMongoRepository.findById(id)
+                .orElseThrow(null)
+                .toModel();
     }
 
     @Override
@@ -97,7 +94,9 @@ public class SurveyDataAdapter implements SurveyPort {
 
     @Override
     public Survey retrieveByHandlingKey(String handlingKey) {
-        return surveyMongoRepository.findByHandlingKey(handlingKey).orElseThrow(null).toModel();
+        return surveyMongoRepository.findByHandlingKey(handlingKey)
+                .orElseThrow(null)
+                .toModel();
     }
 
 }
