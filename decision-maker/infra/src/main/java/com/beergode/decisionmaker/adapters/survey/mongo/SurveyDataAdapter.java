@@ -17,10 +17,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import static java.util.Optional.ofNullable;
+
 @Service
-@RequiredArgsConstructor
 public class SurveyDataAdapter implements SurveyPort {
     private final SurveyMongoRepository surveyMongoRepository;
+
+    public SurveyDataAdapter(SurveyMongoRepository surveyMongoRepository) {
+        this.surveyMongoRepository = surveyMongoRepository;
+    }
 
     @Override
     public Survey create(SurveyCreate surveyCreate) {
@@ -34,7 +39,7 @@ public class SurveyDataAdapter implements SurveyPort {
                         .toList();
         var questionField = QuestionField.of(question.getStringId(), question.getText(), answers,
                 question.isMultipleChoice());
-        var surveySettingField = Optional.ofNullable(surveySetting)
+        var surveySettingField = ofNullable(surveySetting)
                 .map(setting -> SurveySettingField.of(setting.getParticipantLimit()))
                 .orElse(null);
         var surveyDocument = SurveyDocument.of(surveyCreate.getStringId(),
@@ -60,15 +65,15 @@ public class SurveyDataAdapter implements SurveyPort {
                                 answerUpdate.getVoteCount()))
                 .toList();
         var questionEntity = QuestionField.of(question.getStringId(), question.getText(), answers);
-        var surveySettingEntity = SurveySettingField.of(surveySetting == null
-                ? null
-                : surveySetting.getParticipantLimit());
+        var surveySettingField = ofNullable(surveySetting)
+                .map(setting -> SurveySettingField.of(setting.getParticipantLimit()))
+                .orElse(null);
         var surveyEntity = SurveyDocument.of(surveyUpdate.getStringId(),
                 surveyUpdate.getContent(),
                 surveyUpdate.getNote(),
                 questionEntity,
                 surveyUpdate.getClosedAt(),
-                surveySettingEntity,
+                surveySettingField,
                 surveyUpdate.getParticipantCount(),
                 surveyUpdate.getHandlingKey());
 

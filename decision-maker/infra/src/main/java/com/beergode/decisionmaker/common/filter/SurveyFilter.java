@@ -1,6 +1,4 @@
-package com.beergode.decisionmaker.common.config;
-
-import java.util.UUID;
+package com.beergode.decisionmaker.common.filter;
 
 public class SurveyFilter {
 

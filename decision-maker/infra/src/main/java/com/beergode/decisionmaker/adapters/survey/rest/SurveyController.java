@@ -3,7 +3,7 @@ package com.beergode.decisionmaker.adapters.survey.rest;
 import com.beergode.decisionmaker.adapters.survey.rest.dto.SurveyCreateRequest;
 import com.beergode.decisionmaker.adapters.survey.rest.dto.SurveyResponse;
 import com.beergode.decisionmaker.adapters.survey.rest.dto.VoteCountUpdateRequest;
-import com.beergode.decisionmaker.common.config.IPFilter;
+import com.beergode.decisionmaker.common.filter.IPFilter;
 import com.beergode.decisionmaker.common.model.Page;
 import com.beergode.decisionmaker.common.rest.BaseController;
 import com.beergode.decisionmaker.common.rest.DataResponse;
@@ -14,7 +14,6 @@ import com.beergode.decisionmaker.survey.usecase.SurveyGet;
 import com.beergode.decisionmaker.survey.usecase.SurveyPaginate;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -32,13 +31,15 @@ import static com.beergode.decisionmaker.adapters.survey.rest.dto.SurveyResponse
 import static com.beergode.decisionmaker.survey.usecase.SurveyFinalize.end;
 
 @RestController
-@RequiredArgsConstructor
 @RequestMapping("/api/decision-maker/surveys")
 @CrossOrigin
 @Slf4j
 public class SurveyController extends BaseController {
-
     private final IPFilter ipFilter;
+
+    public SurveyController(IPFilter ipFilter) {
+        this.ipFilter = ipFilter;
+    }
 
     @GetMapping("/{handlingKey}")
     public Response<SurveyResponse> retrieve(
