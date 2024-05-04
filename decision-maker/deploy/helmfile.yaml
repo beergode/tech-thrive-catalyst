@@ -24,8 +24,6 @@ releases:
     values:
       - auth:
           rootPassword: root
-          usernames: root
-          passwords: test
           databases: thrive
           persistence:
             enabled: false
