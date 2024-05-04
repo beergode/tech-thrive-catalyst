@@ -1,0 +1,22 @@
+description = 'Edge Module API'
+jar.archiveBaseName.set('edge-module')
+
+apply plugin: 'org.springframework.boot'
+
+dependencies {
+    implementation project('infra')
+}
+
+springBoot {
+    mainClass = 'com.beergode.edgemodule.EdgeApplication'
+}
+
+bootRun {
+    if (project.hasProperty('args')) {
+        args project.args.split(',')
+    }
+}
+
+build {
+    dependsOn 'infra:build'
+}
