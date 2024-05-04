@@ -15,7 +15,6 @@ import static org.springframework.util.CollectionUtils.isEmpty;
 
 @Component
 public class IPFilter {
-
     private static final boolean ALREADY_VOTED = true;
     private final Map<String, List<SurveyFilter>> ipVoteRegistry = new ConcurrentHashMap<>();
 
