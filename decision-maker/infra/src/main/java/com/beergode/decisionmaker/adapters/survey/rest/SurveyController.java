@@ -1,5 +1,6 @@
 package com.beergode.decisionmaker.adapters.survey.rest;
 
+import com.beergode.decisionmaker.adapters.survey.rest.dto.AddAnswerRequest;
 import com.beergode.decisionmaker.adapters.survey.rest.dto.SurveyCreateRequest;
 import com.beergode.decisionmaker.adapters.survey.rest.dto.SurveyResponse;
 import com.beergode.decisionmaker.adapters.survey.rest.dto.VoteCountUpdateRequest;
@@ -42,8 +43,7 @@ public class SurveyController extends BaseController {
     }
 
     @GetMapping("/{handlingKey}")
-    public Response<SurveyResponse> retrieve(
-            HttpServletRequest request,
+    public Response<SurveyResponse> retrieve(HttpServletRequest request,
             @PathVariable("handlingKey") String handlingKey) {
         var survey = publish(Survey.class, SurveyGet.from(handlingKey));
         log.debug("Survey is retrieved for handlingKey {}", handlingKey);
@@ -55,20 +55,17 @@ public class SurveyController extends BaseController {
     @GetMapping
     @SuppressWarnings("unchecked")
     public Response<DataResponse<SurveyResponse>> paginate(Pageable pageable) {
-        var surveyRequest = SurveyPaginate.builder()
-                .page(Page.of(pageable.getPageNumber(), pageable.getPageSize()))
+        var surveyRequest = SurveyPaginate.builder().page(Page.of(pageable.getPageNumber(), pageable.getPageSize()))
                 .build();
         var surveyPage = publish(Page.class, surveyRequest);
         var surveyResponses = toResponse(surveyPage.getItems());
 
-        return respond(surveyResponses, surveyPage.getPageNumber(),
-                surveyPage.getSize(), surveyPage.getTotalSize());
+        return respond(surveyResponses, surveyPage.getPageNumber(), surveyPage.getSize(), surveyPage.getTotalSize());
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Response<SurveyResponse> createSurvey(
-            HttpServletRequest request,
+    public Response<SurveyResponse> createSurvey(HttpServletRequest request,
             @RequestBody SurveyCreateRequest surveyCreateRequest) {
         var survey = publish(Survey.class, surveyCreateRequest.toUseCase());
         ipFilter.createItem(request, survey.getId().toString());
@@ -76,9 +73,7 @@ public class SurveyController extends BaseController {
     }
 
     @PutMapping("/{id}")
-    public Response<Void> voteCountUpdate(
-            HttpServletRequest request,
-            @PathVariable("id") String id,
+    public Response<Void> voteCountUpdate(HttpServletRequest request, @PathVariable("id") String id,
             @RequestBody VoteCountUpdateRequest voteCountUpdateRequest) {
 
         boolean isAlreadyVoted = ipFilter.updateVote(request);
@@ -95,6 +90,14 @@ public class SurveyController extends BaseController {
     public Response<SurveyResponse> finalize(@PathVariable("id") String id) {
         SurveyFinalize surveyFinalize = end().surveyId(id).build();
         var survey = publish(Survey.class, surveyFinalize);
+        return respond(from(survey));
+    }
+
+    @PutMapping("/{id}/answers")
+    public Response<SurveyResponse> addAnswer(HttpServletRequest request, @PathVariable("id") String id,
+            @RequestBody AddAnswerRequest addAnswerRequest) {
+        //todo: add check if a user already added an answer
+        var survey = publish(Survey.class, addAnswerRequest.toUseCase(id));
         return respond(from(survey));
     }
 
