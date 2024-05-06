@@ -25,7 +25,12 @@ public class AddAnswerUseCaseHandler extends ObservableUseCasePublisher
     @Override
     public Survey handle(AddAnswer useCase) {
         var survey = surveyPort.retrieve(useCase.getSurveyId());
-        survey.getQuestion().getAnswers().add(Answer.answer().text(useCase.getText()).build());
+        survey.getQuestion()
+                .getAnswers()
+                .add(Answer
+                        .answer()
+                        .text(useCase.getText())
+                        .build());
         return surveyPort.update(survey.toUpdate());
     }
 }

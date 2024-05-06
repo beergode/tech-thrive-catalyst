@@ -3,6 +3,7 @@ package com.beergode.decisionmaker.survey.model;
 import com.beergode.decisionmaker.survey.usecase.create.QuestionCreate;
 import com.beergode.decisionmaker.survey.usecase.update.QuestionUpdate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import lombok.Builder;
@@ -11,6 +12,7 @@ import lombok.Getter;
 
 import static com.beergode.decisionmaker.survey.usecase.create.QuestionCreate.questionCreate;
 import static com.beergode.decisionmaker.survey.usecase.update.QuestionUpdate.questionUpdate;
+import static java.util.stream.Collectors.toList;
 
 @Getter
 @EqualsAndHashCode
@@ -20,7 +22,7 @@ public class Question {
     private UUID id;
     private String text;
     private LocalDateTime createdAt;
-    private List<Answer> answers;
+    private List<Answer> answers = new ArrayList<>();
     private boolean isMultipleChoice;
 
     private Question(Builder builder) {
@@ -50,7 +52,7 @@ public class Question {
                 .isMultipleChoice(isMultipleChoice)
                 .answers(answers.stream()
                         .map(Answer::toUseCase)
-                        .toList())
+                        .collect(toList()))
                 .build();
     }
 

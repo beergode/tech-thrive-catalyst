@@ -5,11 +5,14 @@ import com.beergode.decisionmaker.survey.model.Question;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import lombok.Getter;
 import lombok.NonNull;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import static com.beergode.decisionmaker.survey.model.Question.question;
+import static java.util.Collections.emptyList;
+import static java.util.stream.Collectors.toList;
 
 @Getter
 public class QuestionField extends AbstractType {
@@ -34,8 +37,8 @@ public class QuestionField extends AbstractType {
                 .answers(answers != null
                         ? answers.stream()
                         .map(AnswerField::toModel)
-                        .toList()
-                        : Collections.emptyList())
+                        .collect(toList())
+                        : emptyList())
                 .build();
     }
 

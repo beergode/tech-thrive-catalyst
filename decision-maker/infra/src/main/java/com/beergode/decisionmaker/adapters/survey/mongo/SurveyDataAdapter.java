@@ -11,6 +11,7 @@ import com.beergode.decisionmaker.survey.port.SurveyPort;
 import com.beergode.decisionmaker.survey.usecase.SurveyPaginate;
 import com.beergode.decisionmaker.survey.usecase.create.SurveyCreate;
 import com.beergode.decisionmaker.survey.usecase.update.SurveyUpdate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +33,7 @@ public class SurveyDataAdapter implements SurveyPort {
         var question = surveyCreate.getQuestion();
         var surveySetting = surveyCreate.getSetting();
         List<AnswerField> answers = !question.isMultipleChoice()
-                ? List.of()
+                ? new ArrayList<>()
                 : question.getAnswers()
                         .stream()
                         .map(answerCreate -> AnswerField.of(answerCreate.getStringId(), answerCreate.getText()))
