@@ -61,7 +61,7 @@ public class Answer {
 
     public AnswerUpdate toUpdate() {
         return answerUpdate()
-                .id(this.id)
+                .id(this.id != null ? this.id : UUID.randomUUID())
                 .text(this.text)
                 .voteCount(this.voteCount)
                 .build();
