@@ -71,23 +71,9 @@ public class SurveyController extends BaseController {
         return respond(from(survey));
     }
 
-//    @PutMapping("/{id}")
-//    public Response<Void> voteCountUpdate(HttpServletRequest request, @PathVariable("id") String id,
-//            @RequestBody VoteCountUpdateRequest voteCountUpdateRequest) {
-//
-//        boolean isAlreadyVoted = ipFilter.updateVote(request);
-//        if (isAlreadyVoted) {
-//            throw new AlreadyVotedException("409", "You have already voted!");
-//        }
-//        publish(voteCountUpdateRequest.toUseCase(id));
-//
-//        return null;
-//    }
-
     @PutMapping("/{id}")
     public Response<Void> answer(HttpServletRequest request, @PathVariable("id") String id,
             @RequestBody AnswerRequest answerRequest) {
-
         boolean isAlreadyVoted = ipFilter.updateVote(request);
         if (isAlreadyVoted) {
             throw new AlreadyVotedException("409", "You have already voted!");
@@ -99,13 +85,6 @@ public class SurveyController extends BaseController {
         }
         return null;
     }
-
-    //    @PutMapping("/{id}/answers")
-    //    public Response<SurveyResponse> addAnswer(HttpServletRequest request, @PathVariable("id") String id,
-    //            @RequestBody AddAnswerRequest addAnswerRequest) {
-    //        var survey = publish(Survey.class, addAnswerRequest.toUseCase(id));
-    //        return respond(from(survey));
-    //    }
 
     @PostMapping("/{id}/finalize")
     @ResponseStatus(HttpStatus.CREATED)

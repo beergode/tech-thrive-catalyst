@@ -13,12 +13,12 @@ import static com.beergode.decisionmaker.survey.usecase.update.SurveySettingUpda
 public class SurveySetting {
 
     private Integer participantLimit;
-    private boolean isCustomInputAvailable;
+    private boolean isCustomInputEnabled;
 
     public SurveySettingUpdate toUpdate() {
         return surveySettingUpdate()
                 .participantLimit(this.participantLimit)
-                .isCustomInputAvailable(this.isCustomInputAvailable)
+                .isCustomInputEnabled(this.isCustomInputEnabled)
                 .build();
     }
     private SurveySetting(SurveySetting.Builder builder) {

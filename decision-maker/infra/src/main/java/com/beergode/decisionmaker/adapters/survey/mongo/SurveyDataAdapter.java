@@ -37,7 +37,7 @@ public class SurveyDataAdapter implements SurveyPort {
                         .toList();
         var questionField = QuestionField.of(question.getStringId(), question.getText(), answers);
         var surveySettingField = ofNullable(surveySetting)
-                .map(setting -> SurveySettingField.of(setting.getParticipantLimit(), setting.isCustomInputAvailable()))
+                .map(setting -> SurveySettingField.of(setting.getParticipantLimit(), setting.isCustomInputEnabled()))
                 .orElse(null);
         var surveyDocument = SurveyDocument.of(surveyCreate.getStringId(),
                 surveyCreate.getContent(),
@@ -59,11 +59,11 @@ public class SurveyDataAdapter implements SurveyPort {
                 .stream()
                 .map(answerUpdate ->
                         AnswerField.of(answerUpdate.getStringId(), answerUpdate.getText(),
-                                answerUpdate.getVoteCount(), answerUpdate.isCustom()))
+                                answerUpdate.getVoteCount()))
                 .toList();
         var questionField = QuestionField.of(question.getStringId(), question.getText(), answers);
         var surveySettingField = ofNullable(surveySetting)
-                .map(setting -> SurveySettingField.of(setting.getParticipantLimit(), setting.isCustomInputAvailable()))
+                .map(setting -> SurveySettingField.of(setting.getParticipantLimit(), setting.isCustomInputEnabled()))
                 .orElse(null);
         var surveyEntity = SurveyDocument.of(surveyUpdate.getStringId(),
                 surveyUpdate.getContent(),

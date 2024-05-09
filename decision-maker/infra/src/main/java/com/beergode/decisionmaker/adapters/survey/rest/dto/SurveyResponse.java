@@ -1,6 +1,5 @@
 package com.beergode.decisionmaker.adapters.survey.rest.dto;
 
-import com.beergode.decisionmaker.survey.model.Question;
 import com.beergode.decisionmaker.survey.model.Survey;
 import com.beergode.decisionmaker.survey.model.SurveySetting;
 import lombok.AllArgsConstructor;
@@ -21,7 +20,7 @@ public class SurveyResponse {
     private String note;
     private Integer countdownDurationSeconds;
     private Long createdAt;
-    private Question question;
+    private QuestionResponse question;
     private LocalDate closedAt;
     private SurveySetting setting;
     private Integer participantCount;
@@ -36,7 +35,7 @@ public class SurveyResponse {
                 .note(survey.getNote())
                 .countdownDurationSeconds(survey.getCountdownDurationSeconds())
                 .createdAt(survey.getCreatedLong())
-                .question(survey.getQuestion())
+                .question(QuestionResponse.from(survey.getQuestion()))
                 .closedAt(survey.getClosedAt())
                 .setting(survey.getSetting())
                 .participantCount(survey.getParticipantCount())
@@ -51,7 +50,7 @@ public class SurveyResponse {
                 .note(survey.getNote())
                 .countdownDurationSeconds(survey.getCountdownDurationSeconds())
                 .createdAt(survey.getCreatedLong())
-                .question(survey.getQuestion())
+                .question(QuestionResponse.from(survey.getQuestion()))
                 .closedAt(survey.getClosedAt())
                 .setting(survey.getSetting())
                 .participantCount(survey.getParticipantCount())

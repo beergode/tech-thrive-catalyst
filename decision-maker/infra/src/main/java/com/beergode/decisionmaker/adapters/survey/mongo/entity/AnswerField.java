@@ -11,14 +11,13 @@ import static com.beergode.decisionmaker.survey.model.Answer.answer;
 public class AnswerField extends AbstractType {
     private String text;
     private Long voteCount;
-    private boolean isCustom;
 
     public static AnswerField of(String id, String text) {
-        return of(id, text, null, false);
+        return of(id, text, 0L);
     }
 
-    public static AnswerField of(String id, String text, Long voteCount, boolean isCustom) {
-        return new AnswerField(id, text, voteCount, isCustom);
+    public static AnswerField of(String id, String text, Long voteCount) {
+        return new AnswerField(id, text, voteCount);
     }
 
     public Answer toModel() {
@@ -26,16 +25,14 @@ public class AnswerField extends AbstractType {
                 .id(UUID.fromString(super.getId()))
                 .text(text)
                 .voteCount(voteCount)
-                .isCustom((isCustom))
                 .build();
     }
 
     private AnswerField() { /*Hide No Args Constructor*/}
 
-    private AnswerField(String id, String text, Long voteCount, boolean isCustom) {
+    private AnswerField(String id, String text, Long voteCount) {
         this.id = id;
         this.text = text;
         this.voteCount = voteCount;
-        this.isCustom = isCustom;
     }
 }

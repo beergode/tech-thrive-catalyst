@@ -10,11 +10,11 @@ import lombok.Getter;
 public class SurveySettingCreate {
 
     private Integer participantLimit;
-    private boolean isCustomInputAvailable;
+    private boolean isCustomInputEnabled;
 
     private SurveySettingCreate(SurveySettingCreate.Builder builder) {
         this.participantLimit = builder.participantLimit;
-        this.isCustomInputAvailable = builder.isCustomInputAvailable;
+        this.isCustomInputEnabled = builder.isCustomInputEnabled;
     }
 
     public static SurveySettingCreate.Builder surveySettingCreate() {

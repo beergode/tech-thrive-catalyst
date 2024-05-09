@@ -28,18 +28,16 @@ public class AddAnswerUseCaseHandler extends ObservableUseCasePublisher
             log.error("Adding answer is closed for Survey {}", survey.getId());
             throw new IllegalStateException("Survey is closed");
         }
-        boolean customInputAvailable = survey.getSetting().isCustomInputAvailable();
-        if (!customInputAvailable) {
-            log.error("Custom input is not available for Survey {}", survey.getId());
-            throw new IllegalStateException("Custom input is not available!");
+        boolean customInputEnabled = survey.getSetting().isCustomInputEnabled();
+        if (!customInputEnabled) {
+            log.error("Custom input is not enabled for Survey {}", survey.getId());
+            throw new IllegalStateException("Custom input is not enabled!");
         }
         survey.getQuestion()
                 .getAnswers()
                 .add(Answer
                         .answer()
                         .text(useCase.getText())
-                        .voteCount(null)
-                        .isCustom(true)
                         .build());
         surveyPort.update(survey.toUpdate());
     }
