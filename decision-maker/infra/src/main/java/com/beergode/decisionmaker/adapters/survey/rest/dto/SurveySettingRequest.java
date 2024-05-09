@@ -16,11 +16,12 @@ public class SurveySettingRequest {
 
     private Integer participantLimit;
 
-    private boolean isCustomInputAvailable;
+    private boolean isCustomInputEnabled;
 
     public SurveySettingCreate toUseCase() {
         return surveySettingCreate()
                 .participantLimit(participantLimit)
+                .isCustomInputEnabled(isCustomInputEnabled)
                 .build();
     }
 }

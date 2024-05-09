@@ -23,6 +23,7 @@ public class SurveySetting {
     }
     private SurveySetting(SurveySetting.Builder builder) {
         this.participantLimit = builder.participantLimit;
+        this.isCustomInputEnabled = builder.isCustomInputEnabled;
     }
 
     public static SurveySetting.Builder surveySetting() {
