@@ -1,7 +1,6 @@
 package com.beergode.decisionmaker.adapters.survey.rest.dto;
 
 import com.beergode.decisionmaker.survey.model.Survey;
-import com.beergode.decisionmaker.survey.model.SurveySetting;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,7 +21,7 @@ public class SurveyResponse {
     private Long createdAt;
     private QuestionResponse question;
     private LocalDate closedAt;
-    private SurveySetting setting;
+    private SurveySettingResponse setting;
     private Integer participantCount;
     private boolean isOwner;
     private boolean canVote;
@@ -37,7 +36,7 @@ public class SurveyResponse {
                 .createdAt(survey.getCreatedLong())
                 .question(QuestionResponse.from(survey.getQuestion()))
                 .closedAt(survey.getClosedAt())
-                .setting(survey.getSetting())
+                .setting(SurveySettingResponse.from(survey.getSetting()))
                 .participantCount(survey.getParticipantCount())
                 .build();
     }
@@ -52,7 +51,7 @@ public class SurveyResponse {
                 .createdAt(survey.getCreatedLong())
                 .question(QuestionResponse.from(survey.getQuestion()))
                 .closedAt(survey.getClosedAt())
-                .setting(survey.getSetting())
+                .setting(SurveySettingResponse.from(survey.getSetting()))
                 .participantCount(survey.getParticipantCount())
                 .isOwner(isOwner)
                 .canVote(isVoted)
