@@ -16,6 +16,8 @@ public class SurveySettingRequest {
 
     private Integer participantLimit;
 
+    private boolean isCustomInputAvailable;
+
     public SurveySettingCreate toUseCase() {
         return surveySettingCreate()
                 .participantLimit(participantLimit)

@@ -17,11 +17,13 @@ public class AnswerCreate implements UseCase {
     private UUID id;
     private String text;
     private Long voteCount;
+    private boolean isCustom;
 
     private AnswerCreate(Builder builder) {
         this.id = UUID.randomUUID();
         this.text = validateText(builder);
         this.voteCount = 0L;
+        this.isCustom = builder.isCustom;
     }
 
     private static String validateText(Builder builder) {

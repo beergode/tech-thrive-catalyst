@@ -15,10 +15,12 @@ import static com.beergode.decisionmaker.survey.usecase.create.AnswerCreate.answ
 public class AnswerCreateRequest {
 
     private String text;
+    private boolean isCustom;
 
     public AnswerCreate toUseCase() {
         return answerCreate()
                 .text(text)
+                .isCustom(isCustom)
                 .build();
     }
 }

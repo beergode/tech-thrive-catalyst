@@ -18,6 +18,7 @@ public class Answer {
     private UUID id;
     private String text;
     private Long voteCount;
+    private boolean isCustom;
 
     private LocalDateTime createdAt;
 
@@ -25,6 +26,7 @@ public class Answer {
         this.id = builder.id;
         this.text = builder.text;
         this.voteCount = builder.voteCount;
+        this.isCustom = builder.isCustom;
     }
 
     public static Builder answer() {

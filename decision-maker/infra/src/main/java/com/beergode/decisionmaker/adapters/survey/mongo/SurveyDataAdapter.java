@@ -29,16 +29,15 @@ public class SurveyDataAdapter implements SurveyPort {
     public Survey create(SurveyCreate surveyCreate) {
         var question = surveyCreate.getQuestion();
         var surveySetting = surveyCreate.getSetting();
-        List<AnswerField> answers = !question.isMultipleChoice()
+        List<AnswerField> answers = question.getAnswers().isEmpty()
                 ? List.of()
                 : question.getAnswers()
                         .stream()
                         .map(answerCreate -> AnswerField.of(answerCreate.getStringId(), answerCreate.getText()))
                         .toList();
-        var questionField = QuestionField.of(question.getStringId(), question.getText(), answers,
-                question.isMultipleChoice());
+        var questionField = QuestionField.of(question.getStringId(), question.getText(), answers);
         var surveySettingField = ofNullable(surveySetting)
-                .map(setting -> SurveySettingField.of(setting.getParticipantLimit()))
+                .map(setting -> SurveySettingField.of(setting.getParticipantLimit(), setting.isCustomInputAvailable()))
                 .orElse(null);
         var surveyDocument = SurveyDocument.of(surveyCreate.getStringId(),
                 surveyCreate.getContent(),
@@ -60,16 +59,17 @@ public class SurveyDataAdapter implements SurveyPort {
                 .stream()
                 .map(answerUpdate ->
                         AnswerField.of(answerUpdate.getStringId(), answerUpdate.getText(),
-                                answerUpdate.getVoteCount()))
+                                answerUpdate.getVoteCount(), answerUpdate.isCustom()))
                 .toList();
-        var questionEntity = QuestionField.of(question.getStringId(), question.getText(), answers);
+        var questionField = QuestionField.of(question.getStringId(), question.getText(), answers);
         var surveySettingField = ofNullable(surveySetting)
-                .map(setting -> SurveySettingField.of(setting.getParticipantLimit()))
+                .map(setting -> SurveySettingField.of(setting.getParticipantLimit(), setting.isCustomInputAvailable()))
                 .orElse(null);
         var surveyEntity = SurveyDocument.of(surveyUpdate.getStringId(),
                 surveyUpdate.getContent(),
                 surveyUpdate.getNote(),
-                questionEntity,
+                surveyUpdate.getCountdownDurationSeconds(),
+                questionField,
                 surveyUpdate.getClosedAt(),
                 surveySettingField,
                 surveyUpdate.getParticipantCount(),

@@ -1,6 +1,6 @@
 package com.beergode.decisionmaker.adapters.survey.rest;
 
-import com.beergode.decisionmaker.adapters.survey.rest.dto.AddAnswerRequest;
+import com.beergode.decisionmaker.adapters.survey.rest.dto.AnswerRequest;
 import com.beergode.decisionmaker.adapters.survey.rest.dto.SurveyCreateRequest;
 import com.beergode.decisionmaker.adapters.survey.rest.dto.SurveyResponse;
 import com.beergode.decisionmaker.adapters.survey.rest.dto.VoteCountUpdateRequest;
@@ -48,7 +48,6 @@ public class SurveyController extends BaseController {
         var survey = publish(Survey.class, SurveyGet.from(handlingKey));
         log.debug("Survey is retrieved for handlingKey {}", handlingKey);
         var surveyFilter = ipFilter.getSurveyFilter(request, survey.getId().toString());
-
         return respond(from(survey, surveyFilter.isOwner(), surveyFilter.canVote()));
     }
 
@@ -72,32 +71,47 @@ public class SurveyController extends BaseController {
         return respond(from(survey));
     }
 
+//    @PutMapping("/{id}")
+//    public Response<Void> voteCountUpdate(HttpServletRequest request, @PathVariable("id") String id,
+//            @RequestBody VoteCountUpdateRequest voteCountUpdateRequest) {
+//
+//        boolean isAlreadyVoted = ipFilter.updateVote(request);
+//        if (isAlreadyVoted) {
+//            throw new AlreadyVotedException("409", "You have already voted!");
+//        }
+//        publish(voteCountUpdateRequest.toUseCase(id));
+//
+//        return null;
+//    }
+
     @PutMapping("/{id}")
-    public Response<Void> voteCountUpdate(HttpServletRequest request, @PathVariable("id") String id,
-            @RequestBody VoteCountUpdateRequest voteCountUpdateRequest) {
+    public Response<Void> answer(HttpServletRequest request, @PathVariable("id") String id,
+            @RequestBody AnswerRequest answerRequest) {
 
         boolean isAlreadyVoted = ipFilter.updateVote(request);
         if (isAlreadyVoted) {
             throw new AlreadyVotedException("409", "You have already voted!");
         }
-        publish(voteCountUpdateRequest.toUseCase(id));
-
+        if (answerRequest.getAnswerId() != null) {
+            publish(answerRequest.toSurveyVoteUseCase(id));
+        } else {
+            publish(answerRequest.toAddAnswerUseCase(id));
+        }
         return null;
     }
+
+    //    @PutMapping("/{id}/answers")
+    //    public Response<SurveyResponse> addAnswer(HttpServletRequest request, @PathVariable("id") String id,
+    //            @RequestBody AddAnswerRequest addAnswerRequest) {
+    //        var survey = publish(Survey.class, addAnswerRequest.toUseCase(id));
+    //        return respond(from(survey));
+    //    }
 
     @PostMapping("/{id}/finalize")
     @ResponseStatus(HttpStatus.CREATED)
     public Response<SurveyResponse> finalize(@PathVariable("id") String id) {
         SurveyFinalize surveyFinalize = end().surveyId(id).build();
         var survey = publish(Survey.class, surveyFinalize);
-        return respond(from(survey));
-    }
-
-    @PutMapping("/{id}/answers")
-    public Response<SurveyResponse> addAnswer(HttpServletRequest request, @PathVariable("id") String id,
-            @RequestBody AddAnswerRequest addAnswerRequest) {
-        //todo: add check if a user already added an answer
-        var survey = publish(Survey.class, addAnswerRequest.toUseCase(id));
         return respond(from(survey));
     }
 

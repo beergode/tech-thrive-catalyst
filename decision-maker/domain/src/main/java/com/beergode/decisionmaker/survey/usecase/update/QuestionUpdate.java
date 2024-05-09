@@ -14,13 +14,11 @@ public class QuestionUpdate implements UseCase {
     private UUID id;
     private String text;
     private List<AnswerUpdate> answers;
-    private boolean isMultipleChoice;
 
     private QuestionUpdate(Builder builder) {
         this.id = builder.id;
         this.text = builder.text;
         this.answers = builder.answers;
-        this.isMultipleChoice = builder.isMultipleChoice;
     }
 
     public static Builder questionUpdate() {

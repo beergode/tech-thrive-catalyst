@@ -10,8 +10,10 @@ import static com.beergode.decisionmaker.survey.model.SurveySetting.surveySettin
 public class SurveySettingField {
 
     private Integer participantLimit;
-    public static SurveySettingField of(Integer participantLimit) {
-        return new SurveySettingField(participantLimit);
+    private boolean isCustomInputAvailable;
+
+    public static SurveySettingField of(Integer participantLimit, boolean isCustomInputAvailable ) {
+        return new SurveySettingField(participantLimit, isCustomInputAvailable);
     }
 
     public SurveySetting toModel() {
@@ -20,7 +22,8 @@ public class SurveySettingField {
                 .build();
     }
     private SurveySettingField() { /*Hide No Args Constructor*/}
-    private SurveySettingField(Integer participantLimit) {
+    private SurveySettingField(Integer participantLimit, boolean isCustomInputAvailable) {
         this.participantLimit = participantLimit;
+        this.isCustomInputAvailable = isCustomInputAvailable;
     }
 }

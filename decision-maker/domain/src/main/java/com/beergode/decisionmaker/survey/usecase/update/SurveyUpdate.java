@@ -16,6 +16,7 @@ public class SurveyUpdate implements UseCase {
     private String handlingKey;
     private String content;
     private String note;
+    private Integer countdownDurationSeconds;
     private QuestionUpdate question;
     private LocalDate closedAt;
     private SurveySettingUpdate setting;
@@ -26,6 +27,7 @@ public class SurveyUpdate implements UseCase {
         this.handlingKey = builder.handlingKey;
         this.content = builder.content;
         this.note = builder.note;
+        this.countdownDurationSeconds = builder.countdownDurationSeconds;
         this.question = builder.question;
         this.closedAt = builder.closedAt;
         this.setting = builder.setting;

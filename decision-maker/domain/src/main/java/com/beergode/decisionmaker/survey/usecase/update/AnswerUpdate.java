@@ -14,11 +14,13 @@ public class AnswerUpdate {
     private UUID id;
     private String text;
     private Long voteCount;
+    private boolean isCustom;
 
     private AnswerUpdate(Builder builder) {
         this.id = builder.id;
         this.text = builder.text;
         this.voteCount = builder.voteCount;
+        this.isCustom = builder.isCustom;
     }
 
     public static Builder answerUpdate() {

@@ -22,14 +22,12 @@ public class Question {
     private UUID id;
     private String text;
     private LocalDateTime createdAt;
-    private List<Answer> answers = new ArrayList<>();
-    private boolean isMultipleChoice;
+    private List<Answer> answers;
 
     private Question(Builder builder) {
         this.id = builder.id;
         this.text = builder.text;
         this.answers = builder.answers;
-        this.isMultipleChoice = builder.isMultipleChoice;
     }
 
     public static Builder question() {
@@ -49,7 +47,6 @@ public class Question {
     public QuestionCreate toUseCase() {
         return questionCreate()
                 .text(text)
-                .isMultipleChoice(isMultipleChoice)
                 .answers(answers.stream()
                         .map(Answer::toUseCase)
                         .collect(toList()))

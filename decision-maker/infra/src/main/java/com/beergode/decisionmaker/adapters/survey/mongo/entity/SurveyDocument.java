@@ -34,14 +34,6 @@ public class SurveyDocument extends AbstractType {
     }
 
     public static SurveyDocument of(String id, String content,
-            String note, QuestionField question,
-            LocalDate closedAt, SurveySettingField setting, Integer participantCount,
-            String handlingKey) {
-        return new SurveyDocument(id, content, note, null, question, closedAt, setting, participantCount,
-                handlingKey);
-    }
-
-    public static SurveyDocument of(String id, String content,
             String note, Integer countdownDurationSeconds, QuestionField question,
             LocalDate closedAt, SurveySettingField setting, Integer participantCount,
             String handlingKey) {
