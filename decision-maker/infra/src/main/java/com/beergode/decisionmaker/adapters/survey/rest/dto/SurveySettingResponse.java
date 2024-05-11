@@ -15,7 +15,7 @@ public class SurveySettingResponse {
     private boolean isCustomInputEnabled;
 
     public static SurveySettingResponse from(SurveySetting setting) {
-        return SurveySettingResponse.builder()
+        return setting == null ? null : SurveySettingResponse.builder()
                 .participantLimit(setting.getParticipantLimit())
                 .isCustomInputEnabled(setting.isCustomInputEnabled())
                 .build();

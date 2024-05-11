@@ -42,7 +42,9 @@ public class Answer {
     }
 
     public void hideVoteCounts() {
-        this.voteCount = 0L;
+        if (!(this.voteCount == null)) {
+            this.voteCount = 0L;
+        }
     }
 
     public void incrementVoteCount() {
