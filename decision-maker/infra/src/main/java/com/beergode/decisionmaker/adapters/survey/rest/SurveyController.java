@@ -3,7 +3,6 @@ package com.beergode.decisionmaker.adapters.survey.rest;
 import com.beergode.decisionmaker.adapters.survey.rest.dto.AnswerRequest;
 import com.beergode.decisionmaker.adapters.survey.rest.dto.SurveyCreateRequest;
 import com.beergode.decisionmaker.adapters.survey.rest.dto.SurveyResponse;
-import com.beergode.decisionmaker.adapters.survey.rest.dto.VoteCountUpdateRequest;
 import com.beergode.decisionmaker.common.filter.IPFilter;
 import com.beergode.decisionmaker.common.model.Page;
 import com.beergode.decisionmaker.common.rest.BaseController;
