@@ -3,6 +3,7 @@ package com.beergode.decisionmaker.adapters.survey.rest;
 import com.beergode.decisionmaker.adapters.survey.rest.dto.AnswerRequest;
 import com.beergode.decisionmaker.adapters.survey.rest.dto.SurveyCreateRequest;
 import com.beergode.decisionmaker.adapters.survey.rest.dto.SurveyResponse;
+import com.beergode.decisionmaker.adapters.survey.rest.dto.SurveyRestartRequest;
 import com.beergode.decisionmaker.common.filter.IPFilter;
 import com.beergode.decisionmaker.common.model.Page;
 import com.beergode.decisionmaker.common.rest.BaseController;
@@ -83,6 +84,15 @@ public class SurveyController extends BaseController {
             publish(answerRequest.toAddAnswerUseCase(id));
         }
         return null;
+    }
+
+    @PutMapping("/{handlingKey}/restart")
+    public Response<SurveyResponse> restart(HttpServletRequest request,@PathVariable("handlingKey") String handlingKey,
+            @RequestBody SurveyRestartRequest restartRequest) {
+        //todo: delete the existing one and recreate with restartRequest
+        var survey = publish(Survey.class, restartRequest.toUseCase());
+        ipFilter.createItem(request, survey.getId().toString());
+        return respond(from(survey));
     }
 
     @PostMapping("/{id}/finalize")
