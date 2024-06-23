@@ -10,6 +10,7 @@ import com.beergode.decisionmaker.common.rest.BaseController;
 import com.beergode.decisionmaker.common.rest.DataResponse;
 import com.beergode.decisionmaker.common.rest.Response;
 import com.beergode.decisionmaker.survey.model.Survey;
+import com.beergode.decisionmaker.survey.usecase.SurveyDelete;
 import com.beergode.decisionmaker.survey.usecase.SurveyFinalize;
 import com.beergode.decisionmaker.survey.usecase.SurveyGet;
 import com.beergode.decisionmaker.survey.usecase.SurveyPaginate;
@@ -29,6 +30,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import static com.beergode.decisionmaker.adapters.survey.rest.dto.SurveyResponse.from;
+import static com.beergode.decisionmaker.survey.usecase.SurveyDelete.delete;
 import static com.beergode.decisionmaker.survey.usecase.SurveyFinalize.end;
 
 @RestController
@@ -89,9 +91,11 @@ public class SurveyController extends BaseController {
     @PutMapping("/{handlingKey}/restart")
     public Response<SurveyResponse> restart(HttpServletRequest request,@PathVariable("handlingKey") String handlingKey,
             @RequestBody SurveyRestartRequest restartRequest) {
-        //todo: delete the existing one and recreate with restartRequest
         var survey = publish(Survey.class, restartRequest.toUseCase());
         ipFilter.createItem(request, survey.getId().toString());
+        // deleting the old one
+        SurveyDelete surveyToBeDeleted = delete().handlingKey(handlingKey).build();
+        publish(surveyToBeDeleted);
         return respond(from(survey));
     }
 

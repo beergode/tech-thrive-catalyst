@@ -17,6 +17,7 @@ public class SurveyRestartRequest {
     @NotNull
     private String content;
     private String note;
+    private String handlingKey;
     private Integer countdownDurationSeconds;
     @NotNull
     private QuestionCreateRequest question;
@@ -25,6 +26,7 @@ public class SurveyRestartRequest {
     public SurveyCreate toUseCase() {
         SurveyCreate.Builder builder = surveyCreate()
                 .note(note)
+                .handlingKey(handlingKey)
                 .countdownDurationSeconds(countdownDurationSeconds)
                 .content(content)
                 .question(question.toUseCase());

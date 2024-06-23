@@ -41,4 +41,9 @@ public class SurveyFakeAdapter implements SurveyPort {
         throw new NotImplementedException();
     }
 
+    @Override
+    public void delete(String handlingKey) {
+        throw new NotImplementedException();
+    }
+
 }

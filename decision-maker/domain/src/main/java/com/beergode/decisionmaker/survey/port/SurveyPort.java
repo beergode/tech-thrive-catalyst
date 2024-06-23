@@ -16,4 +16,6 @@ public interface SurveyPort {
     Page<Survey> paginate(SurveyPaginate surveyPaginate);
 
     Survey retrieveByHandlingKey(String handlingKey);
+
+    void delete(String handlingKey);
 }

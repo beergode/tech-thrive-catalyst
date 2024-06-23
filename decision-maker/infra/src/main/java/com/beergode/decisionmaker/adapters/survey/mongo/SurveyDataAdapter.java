@@ -102,4 +102,9 @@ public class SurveyDataAdapter implements SurveyPort {
                 .toModel();
     }
 
+    @Override
+    public void delete(String handlingKey) {
+        surveyMongoRepository.deleteByHandlingKey(handlingKey);
+    }
+
 }
