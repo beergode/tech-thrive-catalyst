@@ -92,6 +92,7 @@ public class SurveyController extends BaseController {
     public Response<SurveyResponse> restart(HttpServletRequest request,@PathVariable("handlingKey") String handlingKey,
             @RequestBody SurveyRestartRequest restartRequest) {
         var survey = publish(Survey.class, restartRequest.toUseCase());
+        ipFilter.resetVoted(request, survey.getId().toString());
         return respond(from(survey));
     }
 

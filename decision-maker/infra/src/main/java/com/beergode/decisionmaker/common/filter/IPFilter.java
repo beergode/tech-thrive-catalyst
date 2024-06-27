@@ -61,4 +61,18 @@ public class IPFilter {
                 .findFirst()
                 .orElse(newDummySurveyFilter(surveyId));
     }
+
+
+    public void resetVoted(HttpServletRequest request, String surveyId) {
+        String ip = request.getRemoteAddr();
+        var surveyFilters = ipVoteRegistry.get(ip);
+
+        if (surveyFilters != null) {
+            surveyFilters.removeIf(filter -> filter.getSurveyId().equals(surveyId));
+        }
+
+        createItem(request, surveyId);
+    }
+
+
 }
