@@ -38,6 +38,12 @@ public class AnswerUpdate {
     }
 
     public String getStringId() {
-        return this.id.toString();
+        if (this.id != null) {
+            return this.id.toString();
+        } else {
+            UUID randomUUID = UUID.randomUUID();
+            return randomUUID.toString();
+        }
     }
+
 }

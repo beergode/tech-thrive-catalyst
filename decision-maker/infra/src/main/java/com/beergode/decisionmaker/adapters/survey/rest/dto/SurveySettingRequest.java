@@ -1,6 +1,7 @@
 package com.beergode.decisionmaker.adapters.survey.rest.dto;
 
 import com.beergode.decisionmaker.survey.usecase.create.SurveySettingCreate;
+import com.beergode.decisionmaker.survey.usecase.update.SurveySettingUpdate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,4 +25,13 @@ public class SurveySettingRequest {
                 .isCustomInputEnabled(isCustomInputEnabled)
                 .build();
     }
+
+
+    public SurveySettingUpdate toUpdateUseCase() {
+        return SurveySettingUpdate.surveySettingUpdate()
+                .participantLimit(participantLimit)
+                .isCustomInputEnabled(isCustomInputEnabled)
+                .build();
+    }
+
 }

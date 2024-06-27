@@ -92,10 +92,6 @@ public class SurveyController extends BaseController {
     public Response<SurveyResponse> restart(HttpServletRequest request,@PathVariable("handlingKey") String handlingKey,
             @RequestBody SurveyRestartRequest restartRequest) {
         var survey = publish(Survey.class, restartRequest.toUseCase());
-        ipFilter.createItem(request, survey.getId().toString());
-        // deleting the old one
-        SurveyDelete surveyToBeDeleted = delete().handlingKey(handlingKey).build();
-        publish(surveyToBeDeleted);
         return respond(from(survey));
     }
 

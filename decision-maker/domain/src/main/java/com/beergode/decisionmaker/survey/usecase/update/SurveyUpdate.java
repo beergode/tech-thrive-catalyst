@@ -1,12 +1,11 @@
 package com.beergode.decisionmaker.survey.usecase.update;
 
 import com.beergode.decisionmaker.common.model.UseCase;
+import java.time.LocalDate;
+import java.util.UUID;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-
-import java.time.LocalDate;
-import java.util.UUID;
 
 @Getter
 @EqualsAndHashCode
