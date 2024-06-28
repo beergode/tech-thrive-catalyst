@@ -4,7 +4,7 @@ metadata:
   name: dcm-ingress
   namespace: public-dev
   annotations:
-  cert-manager.io/cluster-issuer: letsencrypt-staging
+    cert-manager.io/cluster-issuer: letsencrypt-staging
 spec:
   ingressClassName: nginx
   rules:
