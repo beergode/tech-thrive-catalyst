@@ -23,7 +23,7 @@ spec:
               service:
                 name: decision-maker
                 port:
-                  number:
+                  number: 80
 
   tls:
     - hosts:
