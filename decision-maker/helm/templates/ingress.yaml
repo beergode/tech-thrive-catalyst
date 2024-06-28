@@ -3,6 +3,8 @@ kind: Ingress
 metadata:
   name: dcm-ingress
   namespace: public-dev
+  annotations:
+  cert-manager.io/cluster-issuer: letsencrypt-staging
 spec:
   ingressClassName: nginx
   rules:
@@ -21,4 +23,9 @@ spec:
               service:
                 name: decision-maker
                 port:
-                  number: 80
+                  number:
+
+  tls:
+    - hosts:
+      - survey.quantumlin.com
+      secretName: letsencrypt-staging-survey-quantumlin

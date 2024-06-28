@@ -37,3 +37,11 @@ releases:
     createNamespace: true
     values:
       - values/nginx.yaml.gotmpl
+
+  - name: cert-manager
+    namespace: cert-manager
+    createNamespace: true
+    chart: jetstack/cert-manager
+    set:
+      - name: installCRDs
+        value: true
