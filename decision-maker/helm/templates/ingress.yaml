@@ -6,21 +6,17 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: survey.quantumlin.com
-      http:
+    - http:
         paths:
           - path: /
-            pathType: Prefix
+            pathType: ImplementationSpecific
             backend:
               service:
                 name: lite-bridge
                 port:
                   number: 80
-    - host: api.quantumlin.com
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
+          - path: /api/decision-maker
+            pathType: ImplementationSpecific
             backend:
               service:
                 name: decision-maker
