@@ -1,8 +1,8 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: dcm-ingress
   namespace: public-dev
+  name: dcm-ingress
 spec:
   ingressClassName: nginx
   rules:
