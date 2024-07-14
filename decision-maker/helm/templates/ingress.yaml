@@ -3,20 +3,33 @@ kind: Ingress
 metadata:
   name: dcm-ingress
   namespace: public-dev
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-production
 spec:
   ingressClassName: nginx
+  tls:
+    - hosts:
+        - survey.quantumlin.com
+      secretName: letsencrypt-prod-survey-quantumlin
+    - hosts:
+        - api.quantumlin.com
+      secretName: letsencrypt-prod-api-quantumlin
   rules:
-    - http:
+    - host: survey.quantumlin.com
+      http:
         paths:
           - path: /
-            pathType: ImplementationSpecific
+            pathType: Prefix
             backend:
               service:
                 name: lite-bridge
                 port:
                   number: 80
-          - path: /api/decision-maker
-            pathType: ImplementationSpecific
+    - host: api.quantumlin.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
             backend:
               service:
                 name: decision-maker
