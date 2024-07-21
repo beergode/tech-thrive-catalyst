@@ -54,10 +54,6 @@ public class SurveyCreate implements UseCase {
         return this.id.toString();
     }
 
-    public String getStringHandlingKey() {
-        return this.handlingKey.toString();
-    }
-
     private static String generateKey() {
         StringBuilder keyBuilder = new StringBuilder(KEY_LENGTH);
         for (int i = 0; i < KEY_LENGTH; i++) {

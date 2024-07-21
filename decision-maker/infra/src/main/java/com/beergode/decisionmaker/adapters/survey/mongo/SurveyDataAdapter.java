@@ -43,7 +43,7 @@ public class SurveyDataAdapter implements SurveyPort {
                 surveyCreate.getCountdownDurationSeconds(),
                 questionFields,
                 surveySettingField,
-                surveyCreate.getStringHandlingKey());
+                surveyCreate.getHandlingKey());
 
         return surveyMongoRepository.save(surveyDocument)
                 .toModel();

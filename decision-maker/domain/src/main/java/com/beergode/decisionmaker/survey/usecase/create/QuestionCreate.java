@@ -20,7 +20,15 @@ public class QuestionCreate implements UseCase {
     private QuestionCreate(Builder builder) {
         this.id = UUID.randomUUID();
         this.text = builder.text;
-        this.answers = builder.answers;
+        this.answers = validateAnswers(builder);
+    }
+
+    private List<AnswerCreate> validateAnswers(Builder builder) {
+        var questionAnswers = builder.answers;
+        if (questionAnswers == null || questionAnswers.isEmpty()) {
+            throw new IllegalArgumentException("Answers cannot be null or empty for a multiple-choice question!");
+        }
+        return questionAnswers;
     }
 
     public static Builder questionCreate() {
