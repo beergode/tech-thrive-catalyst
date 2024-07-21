@@ -4,24 +4,24 @@ import com.beergode.decisionmaker.common.DomainComponent;
 import com.beergode.decisionmaker.common.usecase.ObservableUseCasePublisher;
 import com.beergode.decisionmaker.common.usecase.VoidUseCaseHandler;
 import com.beergode.decisionmaker.survey.port.SurveyPort;
-import com.beergode.decisionmaker.survey.usecase.SurveyVote;
+import com.beergode.decisionmaker.survey.usecase.vote.SurveyVotes;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @DomainComponent
 public class SurveyVoteUseCaseHandler extends ObservableUseCasePublisher
-    implements VoidUseCaseHandler<SurveyVote> {
+    implements VoidUseCaseHandler<SurveyVotes> {
 
   private final SurveyPort surveyPort;
 
   public SurveyVoteUseCaseHandler(SurveyPort surveyPort) {
     this.surveyPort = surveyPort;
-    register(SurveyVote.class, this);
+    register(SurveyVotes.class, this);
   }
 
   @Override
-  public void handle(SurveyVote useCase) {
-    var survey = surveyPort.retrieve(useCase.getSurveyId());
+  public void handle(SurveyVotes useCase) {
+    var survey = surveyPort.retrieve(useCase.surveyId());
     if (survey.isClosed()) {
       log.error("Voting is closed for Survey {}", survey.getId());
       throw new IllegalStateException("Survey is closed");

@@ -62,4 +62,11 @@ public class Question {
                         .toList())
                 .build();
     }
+
+    public void addAnswer(Answer answer) {
+        if (answers == null) {
+            answers = new ArrayList<>();
+        }
+        answers.add(answer);
+    }
 }

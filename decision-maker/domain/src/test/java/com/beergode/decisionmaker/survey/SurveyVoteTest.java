@@ -30,7 +30,7 @@ class SurveyVoteTest {
     private static SurveyCreate createDemoSurveyCreate() {
         return surveyCreate()
                 .content("Soccer match")
-                .question(questionCreate()
+                .questions(List.of(questionCreate()
                         .text("Will Real Madrid become champion this year?")
                         .answers(List.of(answerCreate()
                                         .text("Yes")
@@ -38,14 +38,14 @@ class SurveyVoteTest {
                                 answerCreate()
                                         .text("No")
                                         .build()))
-                        .build())
+                        .build()))
                 .build();
     }
 
     private Survey createDemoSurvey() {
         return survey()
                 .content("Soccer match")
-                .question(question()
+                .questions(List.of(question()
                         .text("Will Real Madrid become champion this year?")
                         .answers(List.of(answer()
                                         .text("Yes")
@@ -53,7 +53,7 @@ class SurveyVoteTest {
                                 answer()
                                         .text("No")
                                         .build()))
-                        .build())
+                        .build()))
                 .build();
     }
 }

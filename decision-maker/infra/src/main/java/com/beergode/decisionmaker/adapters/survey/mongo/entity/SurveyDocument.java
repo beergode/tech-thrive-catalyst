@@ -3,6 +3,7 @@ package com.beergode.decisionmaker.adapters.survey.mongo.entity;
 import com.beergode.decisionmaker.common.entity.AbstractType;
 import com.beergode.decisionmaker.survey.model.Survey;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 import lombok.Getter;
 import lombok.NonNull;
@@ -21,23 +22,23 @@ public class SurveyDocument extends AbstractType {
     private String note;
     private Integer countdownDurationSeconds;
     @NonNull
-    @Field("question")
-    private QuestionField question;
+    @Field("questions")
+    private List<QuestionField> questions;
     private LocalDate closedAt;
     @Field("setting")
     private SurveySettingField setting;
     private Integer participantCount;
 
     public static SurveyDocument of(String id, String content, String note, Integer countdownDurationSeconds,
-            QuestionField question, SurveySettingField setting, String handlingKey) {
-        return of(id, content, note, countdownDurationSeconds, question, null, setting, null, handlingKey);
+            List<QuestionField> questions, SurveySettingField setting, String handlingKey) {
+        return of(id, content, note, countdownDurationSeconds, questions, null, setting, null, handlingKey);
     }
 
     public static SurveyDocument of(String id, String content,
-            String note, Integer countdownDurationSeconds, QuestionField question,
+            String note, Integer countdownDurationSeconds, List<QuestionField> questions,
             LocalDate closedAt, SurveySettingField setting, Integer participantCount,
             String handlingKey) {
-        return new SurveyDocument(id, content, note, countdownDurationSeconds, question, closedAt, setting,
+        return new SurveyDocument(id, content, note, countdownDurationSeconds, questions, closedAt, setting,
                 participantCount,
                 handlingKey);
     }
@@ -48,7 +49,9 @@ public class SurveyDocument extends AbstractType {
                 .content(content)
                 .note(note)
                 .countdownDurationSeconds(countdownDurationSeconds)
-                .question(question.toModel())
+                .questions(questions.stream()
+                        .map(QuestionField::toModel)
+                        .toList())
                 .closedAt(closedAt)
                 .participantCount(participantCount);
         if (setting != null) {
@@ -62,7 +65,7 @@ public class SurveyDocument extends AbstractType {
     }
 
     private SurveyDocument(String id, @NonNull String content, String note, Integer countdownDurationSeconds,
-            QuestionField question,
+            List<QuestionField> questions,
             LocalDate closedAt, SurveySettingField setting, Integer participantCount,
             String handlingKey) {
         this.id = id;
@@ -70,7 +73,7 @@ public class SurveyDocument extends AbstractType {
         this.content = content;
         this.note = note;
         this.countdownDurationSeconds = countdownDurationSeconds;
-        this.question = question;
+        this.questions = questions;
         this.closedAt = closedAt;
         this.setting = setting;
         this.participantCount = participantCount;

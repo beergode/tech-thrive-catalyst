@@ -1,8 +1,8 @@
 package com.beergode.decisionmaker.adapters.survey.rest.dto;
 
 
-import com.beergode.decisionmaker.survey.usecase.AddAnswer;
-import com.beergode.decisionmaker.survey.usecase.SurveyVote;
+import com.beergode.decisionmaker.survey.usecase.answer.AddAnswer;
+import com.beergode.decisionmaker.survey.usecase.vote.SurveyVote;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,18 +19,10 @@ public class AnswerRequest {
     private String text;
 
     public AddAnswer toAddAnswerUseCase(String surveyId) {
-        return AddAnswer.builder()
-                .surveyId(surveyId)
-                .questionId(questionId)
-                .text(text)
-                .build();
+        return new AddAnswer(surveyId, questionId, text);
     }
 
-    public SurveyVote toSurveyVoteUseCase(String surveyId) {
-        return SurveyVote.builder()
-                .surveyId(surveyId)
-                .questionId(questionId)
-                .answerId(answerId)
-                .build();
+    public SurveyVote toSurveyVoteUseCase() {
+        return new SurveyVote(questionId, answerId);
     }
 }

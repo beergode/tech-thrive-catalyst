@@ -3,6 +3,7 @@ package com.beergode.decisionmaker.survey.usecase.create;
 import com.beergode.decisionmaker.common.model.UseCase;
 
 import java.security.SecureRandom;
+import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 import lombok.Builder;
@@ -22,7 +23,7 @@ public class SurveyCreate implements UseCase {
     private String content;
     private String note;
     private Integer countdownDurationSeconds;
-    private QuestionCreate question;
+    private List<QuestionCreate> questions;
     private SurveySettingCreate setting;
 
     private SurveyCreate(Builder builder) {
@@ -31,7 +32,7 @@ public class SurveyCreate implements UseCase {
         this.note = builder.note;
         this.countdownDurationSeconds = builder.countdownDurationSeconds;
         this.content = builder.content;
-        this.question = builder.question;
+        this.questions = builder.questions;
         this.setting = builder.setting;
     }
 

@@ -3,6 +3,7 @@ package com.beergode.decisionmaker.survey.usecase.update;
 import com.beergode.decisionmaker.common.model.UseCase;
 import java.time.LocalDate;
 import java.util.UUID;
+import java.util.List;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -16,7 +17,7 @@ public class SurveyUpdate implements UseCase {
     private String content;
     private String note;
     private Integer countdownDurationSeconds;
-    private QuestionUpdate question;
+    private List<QuestionUpdate> questions;
     private LocalDate closedAt;
     private SurveySettingUpdate setting;
     private Integer participantCount;
@@ -27,7 +28,7 @@ public class SurveyUpdate implements UseCase {
         this.content = builder.content;
         this.note = builder.note;
         this.countdownDurationSeconds = builder.countdownDurationSeconds;
-        this.question = builder.question;
+        this.questions = builder.questions;
         this.closedAt = builder.closedAt;
         this.setting = builder.setting;
         this.participantCount = builder.participantCount;

@@ -9,7 +9,9 @@ import com.beergode.decisionmaker.common.model.Page;
 import com.beergode.decisionmaker.survey.model.Survey;
 import com.beergode.decisionmaker.survey.port.SurveyPort;
 import com.beergode.decisionmaker.survey.usecase.SurveyPaginate;
+import com.beergode.decisionmaker.survey.usecase.create.QuestionCreate;
 import com.beergode.decisionmaker.survey.usecase.create.SurveyCreate;
+import com.beergode.decisionmaker.survey.usecase.update.QuestionUpdate;
 import com.beergode.decisionmaker.survey.usecase.update.SurveyUpdate;
 import java.util.List;
 import org.springframework.data.domain.PageRequest;
@@ -27,15 +29,11 @@ public class SurveyDataAdapter implements SurveyPort {
 
     @Override
     public Survey create(SurveyCreate surveyCreate) {
-        var question = surveyCreate.getQuestion();
+        var questionFields = surveyCreate.getQuestions()
+                .stream()
+                .map(this::extractQuestion)
+                .toList();
         var surveySetting = surveyCreate.getSetting();
-        List<AnswerField> answers = question.getAnswers().isEmpty()
-                ? List.of()
-                : question.getAnswers()
-                        .stream()
-                        .map(answerCreate -> AnswerField.of(answerCreate.getStringId(), answerCreate.getText()))
-                        .toList();
-        var questionField = QuestionField.of(question.getStringId(), question.getText(), answers);
         var surveySettingField = ofNullable(surveySetting)
                 .map(setting -> SurveySettingField.of(setting.getParticipantLimit(), setting.isCustomInputEnabled()))
                 .orElse(null);
@@ -43,7 +41,7 @@ public class SurveyDataAdapter implements SurveyPort {
                 surveyCreate.getContent(),
                 surveyCreate.getNote(),
                 surveyCreate.getCountdownDurationSeconds(),
-                questionField,
+                questionFields,
                 surveySettingField,
                 surveyCreate.getStringHandlingKey());
 
@@ -53,15 +51,11 @@ public class SurveyDataAdapter implements SurveyPort {
 
     @Override
     public Survey update(SurveyUpdate surveyUpdate) {
-        var question = surveyUpdate.getQuestion();
-        var surveySetting = surveyUpdate.getSetting();
-        var answers = question.getAnswers()
+        var questionFields = surveyUpdate.getQuestions()
                 .stream()
-                .map(answerUpdate ->
-                        AnswerField.of(answerUpdate.getStringId(), answerUpdate.getText(),
-                                answerUpdate.getVoteCount()))
+                .map(this::extractQuestion)
                 .toList();
-        var questionField = QuestionField.of(question.getStringId(), question.getText(), answers);
+        var surveySetting = surveyUpdate.getSetting();
         var surveySettingField = ofNullable(surveySetting)
                 .map(setting -> SurveySettingField.of(setting.getParticipantLimit(), setting.isCustomInputEnabled()))
                 .orElse(null);
@@ -69,7 +63,7 @@ public class SurveyDataAdapter implements SurveyPort {
                 surveyUpdate.getContent(),
                 surveyUpdate.getNote(),
                 surveyUpdate.getCountdownDurationSeconds(),
-                questionField,
+                questionFields,
                 surveyUpdate.getClosedAt(),
                 surveySettingField,
                 surveyUpdate.getParticipantCount(),
@@ -107,4 +101,24 @@ public class SurveyDataAdapter implements SurveyPort {
         surveyMongoRepository.deleteByHandlingKey(handlingKey);
     }
 
+    private QuestionField extractQuestion(QuestionCreate questionCreate) {
+        List<AnswerField> answers = questionCreate.getAnswers().isEmpty()
+                ? List.of()
+                : questionCreate.getAnswers()
+                        .stream()
+                        .map(answerCreate -> AnswerField.of(answerCreate.getStringId(), answerCreate.getText()))
+                        .toList();
+        return QuestionField.of(questionCreate.getStringId(), questionCreate.getText(), answers);
+    }
+
+
+    private QuestionField extractQuestion(QuestionUpdate questionUpdate) {
+        var answers = questionUpdate.getAnswers()
+                .stream()
+                .map(answerUpdate ->
+                        AnswerField.of(answerUpdate.getStringId(), answerUpdate.getText(),
+                                answerUpdate.getVoteCount()))
+                .toList();
+        return QuestionField.of(questionUpdate.getStringId(), questionUpdate.getText(), answers);
+    }
 }

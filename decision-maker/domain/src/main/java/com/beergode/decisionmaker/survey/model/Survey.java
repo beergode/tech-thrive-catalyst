@@ -1,7 +1,8 @@
 package com.beergode.decisionmaker.survey.model;
 
-import com.beergode.decisionmaker.survey.usecase.SurveyVote;
 import com.beergode.decisionmaker.survey.usecase.update.SurveyUpdate;
+import com.beergode.decisionmaker.survey.usecase.vote.SurveyVote;
+import com.beergode.decisionmaker.survey.usecase.vote.SurveyVotes;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -24,7 +25,7 @@ public class Survey {
     private Integer countdownDurationSeconds;
     private Instant createdAt;
     private LocalDate closedAt;
-    private Question question;
+    private List<Question> questions;
     private SurveySetting setting;
     private Integer participantCount;
 
@@ -34,7 +35,7 @@ public class Survey {
         this.content = builder.content;
         this.note = builder.note;
         this.countdownDurationSeconds = builder.countdownDurationSeconds;
-        this.question = builder.question;
+        this.questions = builder.questions;
         this.closedAt = builder.closedAt;
         this.setting = builder.setting;
         this.participantCount = builder.participantCount;
@@ -55,14 +56,24 @@ public class Survey {
     }
 
     public void hideVoteCounts() {
-        this.getAnswers().forEach(Answer::hideVoteCounts);
+        this.getAllAnswers().forEach(Answer::hideVoteCounts);
     }
 
-    public List<Answer> getAnswers() {
-        if (question == null) {
+    public List<Answer> getAllAnswers() {
+        if (questions.isEmpty()) {
             return List.of();
         }
-        return question.getAnswers();
+        return questions.stream()
+                .map(Question::getAnswers)
+                .flatMap(List::stream)
+                .toList();
+    }
+
+    public void addAnswer(Answer answer, String questionId) {
+        this.questions.stream()
+                .filter(question -> questionId.equals(question.getId().toString()))
+                .findFirst()
+                .ifPresent(question -> question.addAnswer(answer));
     }
 
     public SurveyUpdate toUpdate() {
@@ -71,7 +82,9 @@ public class Survey {
                 .handlingKey(this.handlingKey)
                 .content(this.content)
                 .note(this.note)
-                .question(this.question.toUpdate())
+                .questions(this.questions.stream()
+                        .map(Question::toUpdate)
+                        .toList())
                 .closedAt(this.closedAt)
                 .setting(this.setting == null ? null : this.setting.toUpdate())
                 .participantCount(this.participantCount)
@@ -90,16 +103,15 @@ public class Survey {
         return this.closedAt != null;
     }
 
-    public void incrementVoteCount(SurveyVote useCase) {
+    public void incrementVoteCount(SurveyVotes useCase) {
         this.incrementParticipantCount();
-        this.getAnswers()
+        this.getAllAnswers()
                 .stream()
-                .filter(answer -> answer.getStringId().equals(useCase.getAnswerId()))
-                .findFirst()
-                .map(answer -> {
-                    answer.incrementVoteCount();
-                    return answer;
-                });
+                .filter(answer -> useCase.surveyVotes()
+                        .stream()
+                        .map(SurveyVote::answerId)
+                        .anyMatch(answer.getStringId()::equals))
+                .forEach(Answer::incrementVoteCount);
 
         if (this.isReachedToParticipantLimit()) {
             log.info("Reached to maximum participant count for id {}. Survey is closed",

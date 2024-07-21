@@ -1,6 +1,6 @@
 package com.beergode.decisionmaker.adapters.survey.rest;
 
-import com.beergode.decisionmaker.adapters.survey.rest.dto.AnswerRequest;
+import com.beergode.decisionmaker.adapters.survey.rest.dto.AnswersRequest;
 import com.beergode.decisionmaker.adapters.survey.rest.dto.SurveyCreateRequest;
 import com.beergode.decisionmaker.adapters.survey.rest.dto.SurveyResponse;
 import com.beergode.decisionmaker.adapters.survey.rest.dto.SurveyRestartRequest;
@@ -10,7 +10,6 @@ import com.beergode.decisionmaker.common.rest.BaseController;
 import com.beergode.decisionmaker.common.rest.DataResponse;
 import com.beergode.decisionmaker.common.rest.Response;
 import com.beergode.decisionmaker.survey.model.Survey;
-import com.beergode.decisionmaker.survey.usecase.SurveyDelete;
 import com.beergode.decisionmaker.survey.usecase.SurveyFinalize;
 import com.beergode.decisionmaker.survey.usecase.SurveyGet;
 import com.beergode.decisionmaker.survey.usecase.SurveyPaginate;
@@ -30,7 +29,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import static com.beergode.decisionmaker.adapters.survey.rest.dto.SurveyResponse.from;
-import static com.beergode.decisionmaker.survey.usecase.SurveyDelete.delete;
 import static com.beergode.decisionmaker.survey.usecase.SurveyFinalize.end;
 
 @RestController
@@ -75,16 +73,13 @@ public class SurveyController extends BaseController {
 
     @PutMapping("/{id}")
     public Response<Void> answer(HttpServletRequest request, @PathVariable("id") String id,
-            @RequestBody AnswerRequest answerRequest) {
+            @RequestBody AnswersRequest answersRequest) {
         boolean isAlreadyVoted = ipFilter.updateVote(request);
         if (isAlreadyVoted) {
             throw new AlreadyVotedException("409", "You have already voted!");
         }
-        if (answerRequest.getAnswerId() != null) {
-            publish(answerRequest.toSurveyVoteUseCase(id));
-        } else {
-            publish(answerRequest.toAddAnswerUseCase(id));
-        }
+        resolve(id, answersRequest);
+
         return null;
     }
 
@@ -111,6 +106,15 @@ public class SurveyController extends BaseController {
 
     private List<SurveyResponse> toResponse(List<Survey> surveys) {
         return surveys.stream().map(SurveyResponse::from).toList();
+    }
+
+    private void resolve(String id, AnswersRequest answersRequest) {
+        if (answersRequest.getAddAnswers(id) != null && !answersRequest.getAddAnswers(id).addAnswers().isEmpty()) {
+            publish(answersRequest.getAddAnswers(id));
+        }
+        if (answersRequest.getSurveyVotes(id) != null && !answersRequest.getSurveyVotes(id).surveyVotes().isEmpty()) {
+            publish(answersRequest.getSurveyVotes(id));
+        }
     }
 
 }
