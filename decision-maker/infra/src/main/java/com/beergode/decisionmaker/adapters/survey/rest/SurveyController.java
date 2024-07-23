@@ -83,8 +83,8 @@ public class SurveyController extends BaseController {
         return null;
     }
 
-    @PutMapping("/{handlingKey}/restart")
-    public Response<SurveyResponse> restart(HttpServletRequest request,@PathVariable("handlingKey") String handlingKey,
+    @PutMapping("/restart")
+    public Response<SurveyResponse> restart(HttpServletRequest request,
             @RequestBody SurveyRestartRequest restartRequest) {
         var survey = publish(Survey.class, restartRequest.toUseCase());
         ipFilter.resetVoted(request, survey.getId().toString());

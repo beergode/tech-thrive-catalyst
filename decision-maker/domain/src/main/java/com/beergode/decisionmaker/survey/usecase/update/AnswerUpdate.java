@@ -1,12 +1,13 @@
 package com.beergode.decisionmaker.survey.usecase.update;
 
-import java.util.Optional;
 import java.util.UUID;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
+@Setter
 @EqualsAndHashCode
 @Builder(builderMethodName = "answerUpdate", builderClassName = "Builder")
 public class AnswerUpdate {

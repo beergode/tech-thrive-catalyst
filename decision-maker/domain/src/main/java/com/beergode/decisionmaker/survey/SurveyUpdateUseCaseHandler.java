@@ -23,6 +23,18 @@ public class SurveyUpdateUseCaseHandler extends ObservableUseCasePublisher
 
     @Override
     public Survey handle(SurveyUpdate useCase) {
+
+        useCase.getQuestions().forEach(question ->
+                question.getAnswers().forEach(answer -> {
+                    answer.setVoteCount(0L);
+                    answer.setCustom(false);
+                })
+        );
+
+        if (useCase.getSetting() != null) {
+            useCase.getSetting().setCustomInputEnabled(false);
+        }
+
         Survey survey = surveyPort.update(useCase);
         var countdownDurationSeconds = survey.getCountdownDurationSeconds();
         if (countdownDurationSeconds != null && countdownDurationSeconds != 0) {

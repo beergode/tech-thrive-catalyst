@@ -3,8 +3,10 @@ package com.beergode.decisionmaker.survey.usecase.update;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
+@Setter
 @EqualsAndHashCode
 @Builder(builderMethodName = "surveySettingCreate", builderClassName = "Builder")
 public class SurveySettingUpdate {
