@@ -3,6 +3,7 @@ package com.beergode.decisionmaker.survey;
 import com.beergode.decisionmaker.common.DomainComponent;
 import com.beergode.decisionmaker.common.usecase.ObservableUseCasePublisher;
 import com.beergode.decisionmaker.common.usecase.VoidUseCaseHandler;
+import com.beergode.decisionmaker.survey.model.Survey;
 import com.beergode.decisionmaker.survey.port.SurveyPort;
 import com.beergode.decisionmaker.survey.usecase.vote.SurveyVotes;
 import lombok.extern.slf4j.Slf4j;
@@ -21,12 +22,17 @@ public class SurveyVoteUseCaseHandler extends ObservableUseCasePublisher
 
   @Override
   public void handle(SurveyVotes useCase) {
-    var survey = surveyPort.retrieve(useCase.surveyId());
+    var survey = validate(useCase.surveyId());
+    survey.incrementVoteCount(useCase);
+    surveyPort.update(survey.toUpdate());
+  }
+
+  private Survey validate(String surveyId) {
+    var survey = surveyPort.retrieve(surveyId);
     if (survey.isClosed()) {
       log.error("Voting is closed for Survey {}", survey.getId());
       throw new IllegalStateException("Survey is closed");
     }
-    survey.incrementVoteCount(useCase);
-    surveyPort.update(survey.toUpdate());
+    return survey;
   }
 }

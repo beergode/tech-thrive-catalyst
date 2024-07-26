@@ -3,6 +3,8 @@ package com.beergode.decisionmaker.survey.model;
 import com.beergode.decisionmaker.survey.usecase.update.SurveyUpdate;
 import com.beergode.decisionmaker.survey.usecase.vote.SurveyVote;
 import com.beergode.decisionmaker.survey.usecase.vote.SurveyVotes;
+import java.util.Timer;
+import java.util.TimerTask;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -56,7 +58,8 @@ public class Survey {
     }
 
     public void hideVoteCounts() {
-        this.getAllAnswers().forEach(Answer::hideVoteCounts);
+        this.getAllAnswers()
+                .forEach(Answer::hideVoteCounts);
     }
 
     public List<Answer> getAllAnswers() {
@@ -103,6 +106,13 @@ public class Survey {
         return this.closedAt != null;
     }
 
+    public Survey checkCountDown(Runnable runnable) {
+        if (countdownDurationSeconds != null && countdownDurationSeconds == 0) {
+            scheduleClose(runnable);
+        }
+        return this;
+    }
+
     public void incrementVoteCount(SurveyVotes useCase) {
         this.incrementParticipantCount();
         this.getAllAnswers()
@@ -135,6 +145,17 @@ public class Survey {
         } else {
             return false;
         }
+    }
+
+    private void scheduleClose(Runnable action) {
+        new Timer()
+                .schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        close();
+                        action.run();
+                    }
+                }, getCountdownDurationSeconds() * 1000L);
     }
 
 }

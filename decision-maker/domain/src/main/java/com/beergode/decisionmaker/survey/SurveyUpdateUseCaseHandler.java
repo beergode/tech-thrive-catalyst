@@ -6,11 +6,7 @@ import com.beergode.decisionmaker.common.usecase.UseCaseHandler;
 import com.beergode.decisionmaker.survey.model.Survey;
 import com.beergode.decisionmaker.survey.port.SurveyPort;
 import com.beergode.decisionmaker.survey.usecase.update.SurveyUpdate;
-import groovy.util.logging.Slf4j;
-import java.util.Timer;
-import java.util.TimerTask;
 
-@Slf4j
 @DomainComponent
 public class SurveyUpdateUseCaseHandler extends ObservableUseCasePublisher
         implements UseCaseHandler<Survey, SurveyUpdate> {
@@ -35,22 +31,7 @@ public class SurveyUpdateUseCaseHandler extends ObservableUseCasePublisher
             useCase.getSetting().setCustomInputEnabled(false);
         }
 
-        Survey survey = surveyPort.update(useCase);
-        var countdownDurationSeconds = survey.getCountdownDurationSeconds();
-        if (countdownDurationSeconds != null && countdownDurationSeconds != 0) {
-            scheduleClose(survey);
-        }
-        return survey;
-    }
-
-    private void scheduleClose(Survey survey) {
-        var timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                survey.close();
-                surveyPort.update(survey.toUpdate());
-            }
-        }, survey.getCountdownDurationSeconds() * 1000L);
+        var survey = surveyPort.update(useCase);
+        return survey.checkCountDown(() -> surveyPort.update(survey.toUpdate()));
     }
 }

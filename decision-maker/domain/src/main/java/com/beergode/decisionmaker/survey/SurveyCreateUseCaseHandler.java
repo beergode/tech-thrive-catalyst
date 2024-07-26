@@ -7,10 +7,7 @@ import com.beergode.decisionmaker.survey.model.Survey;
 import com.beergode.decisionmaker.survey.port.SurveyPort;
 import com.beergode.decisionmaker.survey.usecase.create.SurveyCreate;
 import groovy.util.logging.Slf4j;
-import java.util.Timer;
-import java.util.TimerTask;
 
-@Slf4j
 @DomainComponent
 public class SurveyCreateUseCaseHandler extends ObservableUseCasePublisher
         implements UseCaseHandler<Survey, SurveyCreate> {
@@ -23,22 +20,7 @@ public class SurveyCreateUseCaseHandler extends ObservableUseCasePublisher
 
     @Override
     public Survey handle(SurveyCreate useCase) {
-        Survey survey = surveyPort.create(useCase);
-        var countdownDurationSeconds = survey.getCountdownDurationSeconds();
-        if (countdownDurationSeconds != null && countdownDurationSeconds != 0) {
-            scheduleClose(survey);
-        }
-        return survey;
-    }
-
-    private void scheduleClose(Survey survey) {
-        var timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                survey.close();
-                surveyPort.update(survey.toUpdate());
-            }
-        }, survey.getCountdownDurationSeconds() * 1000L);
+        var survey = surveyPort.create(useCase);
+        return survey.checkCountDown(() -> surveyPort.update(survey.toUpdate()));
     }
 }

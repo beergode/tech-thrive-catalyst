@@ -92,7 +92,6 @@ public class SurveyController extends BaseController {
     }
 
     @PostMapping("/{id}/finalize")
-    @ResponseStatus(HttpStatus.CREATED)
     public Response<SurveyResponse> finalize(@PathVariable("id") String id) {
         SurveyFinalize surveyFinalize = end().surveyId(id).build();
         var survey = publish(Survey.class, surveyFinalize);
