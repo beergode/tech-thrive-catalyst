@@ -1,11 +1,12 @@
 package com.beergode.decisionmaker.survey.usecase.create;
 
+import com.beergode.decisionmaker.survey.model.Answer;
+import com.google.common.annotations.VisibleForTesting;
 import java.util.Optional;
 import java.util.UUID;
 
 import com.beergode.decisionmaker.common.model.UseCase;
 import lombok.Builder;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
@@ -36,6 +37,15 @@ public class AnswerCreate implements UseCase {
 
     public static Builder answerCreate() {
         return new Builder();
+    }
+
+    @VisibleForTesting
+    public Answer toAnswer() {
+        return Answer.answer()
+                .id(id)
+                .text(text)
+                .voteCount(voteCount)
+                .build();
     }
 
     public static final class Builder {

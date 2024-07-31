@@ -1,7 +1,8 @@
 dependencies {
 	implementation group: 'org.jboss.spec.javax.transaction', name: 'jboss-transaction-api_1.2_spec', version: '1.1.1.Final'
-
 	implementation group: 'org.projectlombok', name: 'lombok'
+	implementation group: 'com.google.guava', name: 'guava'
+	testImplementation group: 'org.instancio', name: 'instancio-junit'
 	annotationProcessor("org.projectlombok:lombok")
 	testAnnotationProcessor("org.projectlombok:lombok")
 	testCompileOnly("org.projectlombok:lombok")

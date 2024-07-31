@@ -107,7 +107,7 @@ public class Survey {
     }
 
     public Survey checkCountDown(Runnable runnable) {
-        if (countdownDurationSeconds != null && countdownDurationSeconds == 0) {
+        if (countdownDurationSeconds != null && countdownDurationSeconds != 0) {
             scheduleClose(runnable);
         }
         return this;

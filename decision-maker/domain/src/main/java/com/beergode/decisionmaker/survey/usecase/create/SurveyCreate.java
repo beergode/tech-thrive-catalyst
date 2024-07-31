@@ -2,6 +2,8 @@ package com.beergode.decisionmaker.survey.usecase.create;
 
 import com.beergode.decisionmaker.common.model.UseCase;
 
+import com.beergode.decisionmaker.survey.model.Survey;
+import com.google.common.annotations.VisibleForTesting;
 import java.security.SecureRandom;
 import java.util.List;
 import java.util.Random;
@@ -9,6 +11,8 @@ import java.util.UUID;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+
+import static com.beergode.decisionmaker.survey.model.Survey.survey;
 
 @Getter
 @EqualsAndHashCode
@@ -52,6 +56,21 @@ public class SurveyCreate implements UseCase {
 
     public String getStringId() {
         return this.id.toString();
+    }
+
+    @VisibleForTesting
+    public Survey toSurvey() {
+        return survey()
+                .id(this.id)
+                .handlingKey(this.handlingKey)
+                .content(this.content)
+                .note(this.note)
+                .countdownDurationSeconds(this.countdownDurationSeconds)
+                .questions(this.questions.stream()
+                        .map(QuestionCreate::toQuestion)
+                        .toList())
+                .setting(setting.toSurveySetting())
+                .build();
     }
 
     private static String generateKey() {

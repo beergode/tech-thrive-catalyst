@@ -3,12 +3,12 @@ package com.beergode.decisionmaker.survey;
 import com.beergode.decisionmaker.common.DomainComponent;
 import com.beergode.decisionmaker.common.usecase.ObservableUseCasePublisher;
 import com.beergode.decisionmaker.common.usecase.VoidUseCaseHandler;
-import com.beergode.decisionmaker.survey.model.Answer;
 import com.beergode.decisionmaker.survey.model.Survey;
 import com.beergode.decisionmaker.survey.port.SurveyPort;
 import com.beergode.decisionmaker.survey.usecase.answer.AddAnswers;
 import lombok.extern.slf4j.Slf4j;
 
+import static com.beergode.decisionmaker.survey.model.Answer.answer;
 
 @Slf4j
 @DomainComponent
@@ -26,7 +26,7 @@ public class AddAnswerUseCaseHandler extends ObservableUseCasePublisher
     public void handle(AddAnswers useCase) {
         var survey = validate(useCase.surveyId());
         useCase.addAnswers().forEach(addAnswer -> {
-            var answer = Answer.answer()
+            var answer = answer()
                     .text(addAnswer.text())
                     .build();
             survey.addAnswer(answer, addAnswer.questionId());

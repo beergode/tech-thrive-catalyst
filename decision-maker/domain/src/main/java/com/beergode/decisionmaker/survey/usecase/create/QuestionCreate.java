@@ -1,6 +1,8 @@
 package com.beergode.decisionmaker.survey.usecase.create;
 
 import com.beergode.decisionmaker.common.model.UseCase;
+import com.beergode.decisionmaker.survey.model.Question;
+import com.google.common.annotations.VisibleForTesting;
 import java.util.List;
 import java.util.UUID;
 import lombok.Builder;
@@ -21,6 +23,17 @@ public class QuestionCreate implements UseCase {
         this.id = UUID.randomUUID();
         this.text = builder.text;
         this.answers = validateAnswers(builder);
+    }
+
+    @VisibleForTesting
+    public Question toQuestion() {
+        return Question.question()
+                .id(id)
+                .text(text)
+                .answers(answers.stream()
+                        .map(AnswerCreate::toAnswer)
+                        .toList())
+                .build();
     }
 
     private List<AnswerCreate> validateAnswers(Builder builder) {

@@ -6,7 +6,6 @@ import com.beergode.decisionmaker.common.usecase.UseCaseHandler;
 import com.beergode.decisionmaker.survey.model.Survey;
 import com.beergode.decisionmaker.survey.port.SurveyPort;
 import com.beergode.decisionmaker.survey.usecase.create.SurveyCreate;
-import groovy.util.logging.Slf4j;
 
 @DomainComponent
 public class SurveyCreateUseCaseHandler extends ObservableUseCasePublisher
