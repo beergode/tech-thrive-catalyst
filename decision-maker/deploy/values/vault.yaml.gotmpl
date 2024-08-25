@@ -4,6 +4,11 @@ server:
     replicas: 1
   extraEnvironmentVars:
     VAULT_LOG_LEVEL: "debug"
+    VAULT_ADDR: http://0.0.0.0:8200
+  listener:
+      - tcp:
+          address: "0.0.0.0:8200"
+          tls_disable: 1
 
 injector:
   enabled: true
