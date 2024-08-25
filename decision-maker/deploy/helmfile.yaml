@@ -9,6 +9,8 @@ repositories:
     url: https://kubernetes.github.io/ingress-nginx
   - name: jetstack
     url: https://charts.jetstack.io
+  - name: hashicorp
+    url: https://helm.releases.hashicorp.com
 
 ---
 releases:
@@ -47,3 +49,11 @@ releases:
     set:
       - name: installCRDs
         value: true
+
+  - name: vault
+    namespace: vault
+    createNamespace: true
+    chart: hashicorp/vault
+    version: 1.17.3
+    values:
+      - values/vault.yaml.gotmpl

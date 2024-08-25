@@ -1,0 +1,12 @@
+server:
+  ha:
+    enabled: true
+    replicas: 1
+  extraEnvironmentVars:
+    VAULT_LOG_LEVEL: "debug"
+
+injector:
+  enabled: true
+
+ui:
+  enabled: true
