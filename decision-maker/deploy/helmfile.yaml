@@ -57,3 +57,12 @@ releases:
     version: 0.28.1
     values:
       - values/vault.yaml.gotmpl
+
+  - name: external-secrets
+    namespace: external-secrets
+    chart: external-secrets/external-secrets
+    version: 0.10.0
+    createNamespace: true
+    set:
+      - name: installCRDs
+        value: true
