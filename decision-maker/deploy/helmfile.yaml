@@ -54,6 +54,6 @@ releases:
     namespace: vault
     createNamespace: true
     chart: hashicorp/vault
-    version: 1.17.3
+    version: 0.28.1
     values:
       - values/vault.yaml.gotmpl
