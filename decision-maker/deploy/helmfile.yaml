@@ -11,6 +11,8 @@ repositories:
     url: https://charts.jetstack.io
   - name: hashicorp
     url: https://helm.releases.hashicorp.com
+  - name: external-secrets
+    url: https://charts.external-secrets.io
 
 ---
 releases:
