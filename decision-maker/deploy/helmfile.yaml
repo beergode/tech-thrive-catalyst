@@ -56,8 +56,6 @@ releases:
     createNamespace: true
     chart: hashicorp/vault
     version: 0.28.1
-    values:
-      - values/vault.yaml.gotmpl
 
   - name: external-secrets
     namespace: external-secrets
