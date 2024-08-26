@@ -1,7 +1,6 @@
 bases:
   - values/helmfile-defaults.yaml
 
-
 repositories:
   - name: bitnami
     url: https://charts.bitnami.com/bitnami
