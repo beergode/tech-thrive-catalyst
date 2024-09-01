@@ -49,6 +49,7 @@ jobs:
       repository_name: ${{ github.repository }}
     needs: buildAndPublishImage
 
+
   deploymentTrigger:
     if: ${{ github.ref == 'refs/heads/main' }}
     uses: beergode/shared-pipeline-templates/.github/workflows/.deployDO.yml@main
