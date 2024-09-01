@@ -3,7 +3,13 @@ name: tech-thrive-catalyst
 on:
   push:
     paths:
-      - decision-maker/**
+      - decision-maker/domain/**
+      - decision-maker/infra/**
+      - decision-maker/build.gradle
+      - decision-maker/Dockerfile
+      - build.gradle
+      - gradle/**
+      - settings.gradle
       - .github/workflows/decision-maker.yml
     branches:
       - main
